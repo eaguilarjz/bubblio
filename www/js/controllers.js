@@ -1,14 +1,15 @@
 /* global angular, document, window */
 angular.module('starter.controllers', ['ngOpenFB'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, ngFB) {
+.controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, $state, $ionicHistory, ngFB) {
 
 $scope.fbLogin = function () {
 	    ngFB.login({scope: 'email'}).then(
     function (response) {
         if (response.status === 'connected') {
             console.log('Facebook login succeeded');
-            //$scope.closeLogin();
+             $ionicHistory.nextViewOptions({disableBack: true});
+             $state.go('app.dashboard', {}, {reload : true}); //redirect to dashboard
         } else {
             console.log('Facebook login failed');
         }
@@ -154,6 +155,7 @@ ionicMaterialInk.displayEffect();
 			    selector: '.animate-fade-slide-in .item'
 		});
 	}, 200);
+	ionicMaterialInk.displayEffect()
 	
 })
 	
