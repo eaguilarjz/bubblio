@@ -1,27 +1,39 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ngOpenFB'])
 
-.run(function($ionicPlatform, ngFB) {
-    $ionicPlatform.ready(function() {
-	    
-	    //Initialize OpenFB. AppID is registered under norencet FB account
-	    ngFB.init({appId: '184619491871652'});
-	    
-        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-        // for form inputs)
-        if (window.cordova && window.cordova.plugins.Keyboard) {
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-        }
-        if (window.StatusBar) {
-            // org.apache.cordova.statusbar required
-            StatusBar.styleDefault();
-        }
-    });
+.run(function($ionicPlatform) {
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if(window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    }
+    if(window.StatusBar) {
+      StatusBar.styleDefault();
+    }
+ 
+    
+    //Parse Initialization
+    Parse.initialize("yMlvcsS2rf3ktzvqMcCJcBP8JHS2I5D5YJYV3KUz", "htSsI0RdkOzBaLOKEjjnQVavjgCXzYN5Jm0opecR");
+
+	//Parse-Facebook Initialization
+    if(!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())){
+		window.fbAsyncInit = function() {
+	      Parse.FacebookUtils.init({
+	          appId      : '184619491871652', 
+	          version    : 'v2.3',
+	          xfbml      : true
+	      });
+  	};
+ 
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			 if (d.getElementById(id)) {return;}
+		     js = d.createElement(s); js.id = id;
+		     js.src = "//connect.facebook.net/en_US/sdk.js";
+		     fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	}
+});
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -44,7 +56,17 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
       }
     })
     
-    .state('app.dashboard', {
+    .state('app.signup', {
+      url: '/signup',
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/signup.html',
+		      controller: 'LoginCtrl'
+	      }
+      }
+    })
+    
+	.state('app.dashboard', {
       url: '/dashboard',
       views: {
 	      'menuContent': {
@@ -52,7 +74,7 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
 		      controller: 'DashboardCtrl'
 	      },
 	      'fabContent': {
-                template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded 								button-energized-900 flap"><i class="icon ion-paper-airplane"></i></button>',
+                template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded 								button-energized-900 							flap"><i class="icon ion-paper-airplane"></i></button>',
                 controller: function ($timeout) {
                     $timeout(function () {
                         document.getElementById('fab-activity').classList.toggle('on');
@@ -62,57 +84,6 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
       }
     })
     
-    .state('app.lists', {
-        url: '/lists',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/lists.html',
-                controller: 'ListsCtrl'
-            }
-        }
-    })
-
-    .state('app.ink', {
-        url: '/ink',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/ink.html',
-                controller: 'InkCtrl'
-            }
-        }
-    })
-
-    .state('app.motion', {
-        url: '/motion',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/motion.html',
-                controller: 'MotionCtrl'
-            }
-        }
-    })
-
-    .state('app.components', {
-        url: '/components',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/components.html',
-                controller: 'ComponentsCtrl'
-            }
-        }
-    })
-
-    .state('app.extensions', {
-        url: '/extensions',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/extensions.html',
-                controller: 'ExtensionsCtrl'
-            }
-        }
-    })
-    ;
-
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/login');
 });

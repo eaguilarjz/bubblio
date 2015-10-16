@@ -3,3 +3,29 @@
 .bar-assertive {
 	background-color: #3395e1 !important;
 }
+
+#login {
+	background-image: -webkit-gradient(
+	linear,
+	left top,
+	left bottom,
+	color-stop(0, #B5E4FF),
+	color-stop(1, #0671AF)
+	);
+	background-image: -o-linear-gradient(bottom, #B5E4FF 0%, #0671AF 100%);
+	background-image: -moz-linear-gradient(bottom, #B5E4FF 0%, #0671AF 100%);
+	background-image: -webkit-linear-gradient(bottom, #B5E4FF 0%, #0671AF 100%);
+	background-image: -ms-linear-gradient(bottom, #B5E4FF 0%, #0671AF 100%);
+	background-image: linear-gradient(to bottom, #B5E4FF 0%, #0671AF 100%);
+}
+
+#login_logo {
+	display: inline-block;
+	margin: 20px;
+}
+
+#login_logo img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}

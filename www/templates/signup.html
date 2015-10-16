@@ -1,0 +1,29 @@
+<ion-view view-title="SignIn">
+        <ion-content>
+          <div class="list">
+	        
+	        <div class="padding">
+			    <form>
+				    <label class="item item-input item-floating-label">
+		              <span class="input-label">E-mail</span>
+		              <input type="text" placeholder="E-mail" ng-model="data.email">
+		            </label>
+		            <label class="item item-input item-floating-label">
+		              <span class="input-label">Password</span>
+		              <input type="password" placeholder="Password" ng-model="data.password">
+		            </label>
+		            <input type="hidden" ng-model="data.username" value="#">
+		           		            
+		             <button class="button button-block button-balanced ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="signup()">
+					 	Submit
+					 </button>
+          
+
+		        </form>
+          
+ 
+          	        </div>
+          </div>
+     
+        </ion-content>
+      </ion-view>

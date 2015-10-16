@@ -3,34 +3,6 @@ angular.module('starter.controllers', ['ngOpenFB'])
 
 .controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, $state, $ionicHistory, ngFB) {
 
-$scope.fbLogin = function () {
-	    ngFB.login({scope: 'email'}).then(
-    function (response) {
-        if (response.status === 'connected') {
-            console.log('Facebook login succeeded');
-             $ionicHistory.nextViewOptions({disableBack: true});
-             $state.go('app.dashboard', {}, {reload : true}); //redirect to dashboard
-        } else {
-            console.log('Facebook login failed');
-        }
-    });
-};
-
-ngFB.api({
-		path: '/me',
-		params: {fields: 'id,name'}
-		}).then(
-		function (user) {
-		    $scope.user = user;
-		},
-		function (error) {
-		    console.log('Facebook error: ' + error.error_description);
-})	
-
-
-// Form data for the login modal
-$scope.loginData = {};
-
 var navIcons = document.getElementsByClassName('ion-navicon');
 for (var i = 0; i < navIcons.length; i++) {
 navIcons[i].addEventListener('click', function() {
@@ -137,10 +109,77 @@ $scope.popover.remove();
 })
 
 //Login Controller
-.controller('LoginCtrl', function($scope, $stateParams, $location, ionicMaterialInk) {
-ionicMaterialInk.displayEffect();
+.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, ionicMaterialInk) {
 
+	$scope.data = {};
+	
+		
+	$scope.goto = function(location) {
+		$ionicHistory.nextViewOptions({
+			  disableAnimate: true,
+			  disableBack: true
+		});
+		$state.go(location);	
+	};
+	
+	$scope.signup = function(){  
+	 
+	 
+	 
+	  //Create a new user on Parse
+	  var user = new Parse.User();
+	  user.set("username", $scope.data.email);
+	  user.set("password", $scope.data.password);
+	  user.set("email", $scope.data.email);
+	
+	  console.log($scope.data.email);
+	  
+	  user.signUp(null, {
+	    success: function(user) {
+	      // Hooray! Let them use the app now.
+	      alert("success!");
+	    },
+	    error: function(user, error) {
+	      // Show the error message somewhere and let the user try again.
+	      alert("Error: " + error.code + " " + error.message);
+	  }
+  });
+ 
+};
+ 
+ $scope.login = function(){
+	 Parse.User.logIn($scope.data.username, $scope.data.password, {
+	    success: function(user) {
+	      // Do stuff after successful login.
+	      console.log(user);
+	      goto("app.dashboard")
+	    },
+	    error: function(user, error) {
+	      // The login failed. Check error to see why.
+	      alert("error!");
+	    }
+  });
+  };	
+  
+  $scope.loginFB = function(){
+  	Parse.FacebookUtils.logIn(null, {
+  success: function(user) {
+    console.log(user);
+    if (!user.existed()) {
+      alert("User signed up and logged in through Facebook!");
+    } else {
+      alert("User logged in through Facebook!");
+    }
+  },
+  error: function(user, error) {
+    alert("User cancelled the Facebook login or did not fully authorize.");
+  }
+});
+ }	
+    
+ionicMaterialInk.displayEffect();
 })
+
 
 //Dashboard Controller
 .controller('DashboardCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion, ngFB) {
@@ -157,11 +196,6 @@ ionicMaterialInk.displayEffect();
 	}, 200);
 	ionicMaterialInk.displayEffect()
 	
-})
-	
-//User Controller
-.controller('UserCtrl', function($scope, ngFB) {
-		
 })
 
 .controller('InkCtrl', function($scope, $stateParams, ionicMaterialInk) {
