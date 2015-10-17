@@ -1,4 +1,13 @@
-/* Empty. Add your own CSS if you like */
+* {
+	font-family: "Varela Round" !important;
+}
+
+.menu .bar.bar-header.expanded {
+    background-image: url('../img/bg.png');
+    background-size: 120%;
+    background-position: 0%;
+    transition: all .5s ease-in-out;
+}
 
 .bar-assertive {
 	background-color: #3395e1 !important;
@@ -20,12 +29,52 @@
 }
 
 #login_logo {
-	display: inline-block;
-	margin: 20px;
+	display: block;
+    margin: 0 auto;
 }
 
 #login_logo img {
 	display: block;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0 auto;
+	width: 20%;
 }
+
+.bar {
+	box-shadow: none;
+}
+
+#dashboard {
+	top: 45px;
+}
+
+#dashboard div.item.item-avatar.item-text-wrap.in.done {
+	height: 33.33%;
+	padding: 0px;
+}
+
+
+#dashboard .card {
+	box-shadow: none;
+}
+
+#dashboard .card.stable-bg.ink.ink-dark {
+	margin: 0px;
+	margin-bottom: 0px;
+}
+
+#dashboard .card-item.item {
+	padding: 0px;
+}
+
+#wash_and_fold {
+	background-image: url("../img/wash_and_fold.png");
+}
+
+#dry_clean {
+	background-image: url("../img/dry_clean.png");
+}
+
+#wash_and_press {
+	background-image: url("../img/wash_and_press.png");
+}
+

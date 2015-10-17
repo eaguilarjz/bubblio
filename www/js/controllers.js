@@ -1,7 +1,68 @@
 /* global angular, document, window */
-angular.module('starter.controllers', ['ngOpenFB'])
+angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, $state, $ionicHistory, ngFB) {
+.controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup) {
+
+$scope.logout = function() {
+	Parse.User.logOut();
+	$state.go("app.login");
+  }
+
+$scope.forgotPassword = function() {
+
+$scope.data = {}
+
+var forgotPasswordPopup = $ionicPopup.show({
+    template: '<input type="text" ng-model="data.email">',
+    title: 'Forgot Password',
+    subTitle: 'Please enter your e-mail address',
+    scope: $scope,
+    buttons: [
+      { text: 'Cancel' },
+      {
+        text: '<b>Submit</b>',
+        type: 'button-positive',
+        onTap: function(e) {
+          if ($scope.data.email) {
+            Parse.User.requestPasswordReset($scope.data.email, {
+			success: function() {
+				$ionicPopup.alert({
+			     title: 'Password request change',
+			     template: 'Please check your e-mail'
+			   });			  
+			 
+			},
+			error: function(error) {
+				alert("Error: " + error.code + " " + error.message);
+				e.preventDefault();
+		    }
+		    });
+
+       
+            e.preventDefault();
+          } else {
+            $ionicPopup.alert({
+			     title: 'Excuse me...',
+			     template: 'Please check your e-mail'
+			   });			
+			    e.preventDefault();
+
+          }
+        }
+      }
+    ]
+  }); 
+}
+
+
+
+$scope.goTo = function(location) {
+	$ionicHistory.nextViewOptions({
+			  disableAnimate: true,
+			  disableBack: true
+		});
+		$state.go(location);	
+}
 
 var navIcons = document.getElementsByClassName('ion-navicon');
 for (var i = 0; i < navIcons.length; i++) {
@@ -9,12 +70,6 @@ navIcons[i].addEventListener('click', function() {
     this.classList.toggle('active');
 });
 }
-
-var fab = document.getElementById('fab');
-fab.addEventListener('click', function() {
-return window && window.alert ? window.alert('you clicked the FAB!') : undefined;
-});
-
 
 ////////////////////////////////////////
 // Layout Methods
@@ -106,88 +161,126 @@ $scope.popover.hide();
 $scope.$on('$destroy', function() {
 $scope.popover.remove();
 });
+
 })
 
 //Login Controller
-.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, ionicMaterialInk) {
+.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk) {
 
 	$scope.data = {};
 	
-		
-	$scope.goto = function(location) {
-		$ionicHistory.nextViewOptions({
-			  disableAnimate: true,
-			  disableBack: true
-		});
-		$state.go(location);	
-	};
-	
+
 	$scope.signup = function(){  
 	 
-	 
-	 
+	  $scope.loading = $ionicLoading.show({
+            content: 'Logging in',
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 0
+        });
+        
 	  //Create a new user on Parse
 	  var user = new Parse.User();
 	  user.set("username", $scope.data.email);
 	  user.set("password", $scope.data.password);
 	  user.set("email", $scope.data.email);
+	  user.set("firstName", $scope.data.firstname);
+	  user.set("lastName", $scope.data.lastname);
 	
-	  console.log($scope.data.email);
-	  
 	  user.signUp(null, {
-	    success: function(user) {
-	      // Hooray! Let them use the app now.
-	      alert("success!");
+		    success: function(user) {
+			    
+			  //prevent back button
+		      $ionicHistory.nextViewOptions({
+				  disableAnimate: true,
+				  disableBack: true
+			});
+			
+            $ionicLoading.hide();                 
+		
+			$scope.showAlert = function() {
+			   var alertPopup = $ionicPopup.alert({
+			     title: 'Welcome to bubbl.io!',
+			     template: 'Usser successfully created'
+			   });
+			   alertPopup.then(function(res) {
+			     console.log('User successfully created' + " " + Parse.User.current());
+			   });
+			 };
+			 
+			//go to login window
+			$state.go("app.login");
 	    },
 	    error: function(user, error) {
-	      // Show the error message somewhere and let the user try again.
-	      alert("Error: " + error.code + " " + error.message);
+		    
+		  $ionicLoading.hide();
+	      //show error
+	      var alertPopup = $ionicPopup.alert({
+			     title: 'Error',
+			     template: error.message
+			   });
+			   alertPopup.then(function(res) {
+			     console.log(error.code + " " + error.message);
+			   });
 	  }
   });
  
 };
  
  $scope.login = function(){
+	 
+	  $scope.loading = $ionicLoading.show({
+            content: 'Logging in',
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 5000
+        });
+        
 	 Parse.User.logIn($scope.data.username, $scope.data.password, {
 	    success: function(user) {
-	      // Do stuff after successful login.
-	      console.log(user);
-	      goto("app.dashboard")
+		    $ionicLoading.hide();
+	    //login successful
+	    	$state.go("app.dashboard");
 	    },
 	    error: function(user, error) {
-	      // The login failed. Check error to see why.
-	      alert("error!");
+		    $ionicLoading.hide();
+	      //show error
+	      var alertPopup = $ionicPopup.alert({
+			     title: 'Error',
+			     template: error.message
+			   });
+			   alertPopup.then(function(res) {
+			     console.log(error.code + " " + error.message);
+			   });
 	    }
   });
   };	
   
   $scope.loginFB = function(){
-  	Parse.FacebookUtils.logIn(null, {
-  success: function(user) {
-    console.log(user);
-    if (!user.existed()) {
-      alert("User signed up and logged in through Facebook!");
-    } else {
-      alert("User logged in through Facebook!");
-    }
-  },
-  error: function(user, error) {
-    alert("User cancelled the Facebook login or did not fully authorize.");
-  }
-});
- }	
-    
+	  Parse.FacebookUtils.logIn(null, {
+	  success: function(user) {
+	    console.log(user);
+	    if (!user.existed()) {
+	      alert("User signed up and logged in through Facebook!");
+	    } else {
+	      alert("User logged in through Facebook!");
+	    }
+	  },
+	  error: function(user, error) {
+	    alert("User cancelled the Facebook login or did not fully authorize.");
+	  }
+	});
+	
+	 }
+ 
 ionicMaterialInk.displayEffect();
 })
 
 
 //Dashboard Controller
 .controller('DashboardCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion, ngFB) {
-	$scope.$parent.showHeader();
-	$scope.$parent.clearFabs();
-	$scope.isExpanded = true;
-	$scope.$parent.setExpanded(true);
-	$scope.$parent.setHeaderFab('right');
 	
 	$timeout(function() {
 			ionicMaterialMotion.fadeSlideIn({

@@ -1,9 +1,17 @@
-<ion-view view-title="SignIn">
+<ion-view view-title="Sign-up">
         <ion-content>
           <div class="list">
 	        
 	        <div class="padding">
 			    <form>
+				    <label class="item item-input item-floating-label">
+		              <span class="input-label">First Name</span>
+		              <input type="text" placeholder="First Name" ng-model="data.firstname">
+		            </label>
+		            <label class="item item-input item-floating-label">
+		              <span class="input-label">Last Name</span>
+		              <input type="text" placeholder="Last Name" ng-model="data.lastname">
+		            </label>
 				    <label class="item item-input item-floating-label">
 		              <span class="input-label">E-mail</span>
 		              <input type="text" placeholder="E-mail" ng-model="data.email">

@@ -36,6 +36,8 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
 });
 })
 
+
+
 .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
 
@@ -74,7 +76,7 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
 		      controller: 'DashboardCtrl'
 	      },
 	      'fabContent': {
-                template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded 								button-energized-900 							flap"><i class="icon ion-paper-airplane"></i></button>',
+                template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded button-energized-900 							flap"><i class="icon ion-paper-airplane"></i></button>',
                 controller: function ($timeout) {
                     $timeout(function () {
                         document.getElementById('fab-activity').classList.toggle('on');
