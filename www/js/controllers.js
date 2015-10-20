@@ -29,8 +29,8 @@ var forgotPasswordPopup = $ionicPopup.show({
 				$ionicPopup.alert({
 			     title: 'Password request change',
 			     template: 'Please check your e-mail'
-			   });			  
-			 
+			   });
+
 			},
 			error: function(error) {
 				alert("Error: " + error.code + " " + error.message);
@@ -38,20 +38,20 @@ var forgotPasswordPopup = $ionicPopup.show({
 		    }
 		    });
 
-       
+
             e.preventDefault();
           } else {
             $ionicPopup.alert({
 			     title: 'Excuse me...',
 			     template: 'Please check your e-mail'
-			   });			
+			   });
 			    e.preventDefault();
 
           }
         }
       }
     ]
-  }); 
+  });
 }
 
 
@@ -61,7 +61,7 @@ $scope.goTo = function(location) {
 			  disableAnimate: true,
 			  disableBack: true
 		});
-		$state.go(location);	
+		$state.go(location);
 }
 
 var navIcons = document.getElementsByClassName('ion-navicon');
@@ -168,10 +168,10 @@ $scope.popover.remove();
 .controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk) {
 
 	$scope.data = {};
-	
 
-	$scope.signup = function(){  
-	 
+
+	$scope.signup = function(){
+
 	  $scope.loading = $ionicLoading.show({
             content: 'Logging in',
             animation: 'fade-in',
@@ -179,7 +179,7 @@ $scope.popover.remove();
             maxWidth: 200,
             showDelay: 0
         });
-        
+
 	  //Create a new user on Parse
 	  var user = new Parse.User();
 	  user.set("username", $scope.data.email);
@@ -187,18 +187,18 @@ $scope.popover.remove();
 	  user.set("email", $scope.data.email);
 	  user.set("firstName", $scope.data.firstname);
 	  user.set("lastName", $scope.data.lastname);
-	
+
 	  user.signUp(null, {
 		    success: function(user) {
-			    
+
 			  //prevent back button
 		      $ionicHistory.nextViewOptions({
 				  disableAnimate: true,
 				  disableBack: true
 			});
-			
-            $ionicLoading.hide();                 
-		
+
+            $ionicLoading.hide();
+
 			$scope.showAlert = function() {
 			   var alertPopup = $ionicPopup.alert({
 			     title: 'Welcome to bubbl.io!',
@@ -208,12 +208,12 @@ $scope.popover.remove();
 			     console.log('User successfully created' + " " + Parse.User.current());
 			   });
 			 };
-			 
+
 			//go to login window
 			$state.go("app.login");
 	    },
 	    error: function(user, error) {
-		    
+
 		  $ionicLoading.hide();
 	      //show error
 	      var alertPopup = $ionicPopup.alert({
@@ -225,11 +225,11 @@ $scope.popover.remove();
 			   });
 	  }
   });
- 
+
 };
- 
+
  $scope.login = function(){
-	 
+
 	  $scope.loading = $ionicLoading.show({
             content: 'Logging in',
             animation: 'fade-in',
@@ -237,7 +237,7 @@ $scope.popover.remove();
             maxWidth: 200,
             showDelay: 5000
         });
-        
+
 	 Parse.User.logIn($scope.data.username, $scope.data.password, {
 	    success: function(user) {
 		    $ionicLoading.hide();
@@ -256,8 +256,8 @@ $scope.popover.remove();
 			   });
 	    }
   });
-  };	
-  
+  };
+
   $scope.loginFB = function(){
 	  Parse.FacebookUtils.logIn(null, {
 	  success: function(user) {
@@ -272,23 +272,35 @@ $scope.popover.remove();
 	    alert("User cancelled the Facebook login or did not fully authorize.");
 	  }
 	});
-	
+
 	 }
- 
+
 ionicMaterialInk.displayEffect();
 })
 
 
 //Dashboard Controller
 .controller('DashboardCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion, ngFB) {
-	
+
 	$timeout(function() {
 			ionicMaterialMotion.fadeSlideIn({
 			    selector: '.animate-fade-slide-in .item'
 		});
 	}, 200);
 	ionicMaterialInk.displayEffect()
-	
+
+})
+
+//OrderController
+.controller('OrderCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion, ngFB) {
+
+	$timeout(function() {
+			ionicMaterialMotion.fadeSlideIn({
+			    selector: '.animate-fade-slide-in .item'
+		});
+	}, 200);
+	ionicMaterialInk.displayEffect()
+
 })
 
 .controller('InkCtrl', function($scope, $stateParams, ionicMaterialInk) {

@@ -76,7 +76,7 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
 		      controller: 'DashboardCtrl'
 	      },
 	      'fabContent': {
-                template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded button-energized-900 							flap"><i class="icon ion-paper-airplane"></i></button>',
+                template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded button-energized-900 															flap"><i class="icon ion-paper-airplane"></i></button>',
                 controller: function ($timeout) {
                     $timeout(function () {
                         document.getElementById('fab-activity').classList.toggle('on');
@@ -84,6 +84,35 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
                 }
             }
       }
+    })
+    
+    .state('app.profile', {
+      url: '/profile',
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/profile.html',
+		      controller: 'DashboardCtrl'
+	      },
+	      'fabContent': {
+                template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded button-energized-900 															flap"><i class="icon ion-paper-airplane"></i></button>',
+                controller: function ($timeout) {
+                    $timeout(function () {
+                        document.getElementById('fab-activity').classList.toggle('on');
+                    }, 200);
+                }
+            }
+      }
+    })
+
+    
+    .state('app.new-order', {
+	    url: '/new-order',
+	    views: {
+		    'menuContent': {
+			    templateUrl: 'templates/new_order.html',
+			    controller: 'OrderCtrl'
+		    }
+	    }
     })
     
     // if none of the above states are matched, use this as the fallback
