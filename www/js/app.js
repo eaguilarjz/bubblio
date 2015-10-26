@@ -1,4 +1,6 @@
-angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ngOpenFB'])
+angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource'])
+
+.constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -18,24 +20,23 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
 	//Parse-Facebook Initialization
     if(!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())){
 		window.fbAsyncInit = function() {
-	      Parse.FacebookUtils.init({
+	       Parse.FacebookUtils.init({
 	          appId      : '184619491871652', 
 	          version    : 'v2.3',
 	          xfbml      : true
-	      });
-  	};
+	       });
+  	   };
  
-		(function(d, s, id){
-			var js, fjs = d.getElementsByTagName(s)[0];
-			 if (d.getElementById(id)) {return;}
-		     js = d.createElement(s); js.id = id;
-		     js.src = "//connect.facebook.net/en_US/sdk.js";
-		     fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-	}
-});
+  		(function(d, s, id){
+  			var js, fjs = d.getElementsByTagName(s)[0];
+  			 if (d.getElementById(id)) {return;}
+  		     js = d.createElement(s); js.id = id;
+  		     js.src = "//connect.facebook.net/en_US/sdk.js";
+  		     fjs.parentNode.insertBefore(js, fjs);
+  		}(document, 'script', 'facebook-jssdk'));
+	  }
+  });
 })
-
 
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -104,16 +105,44 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
       }
     })
 
-    
-    .state('app.new-order', {
-	    url: '/new-order',
-	    views: {
-		    'menuContent': {
-			    templateUrl: 'templates/new_order.html',
-			    controller: 'OrderCtrl'
-		    }
-	    }
+  .state('app.search', {
+    url: '/search',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/search.html',
+        controller: 'SearchCtrl'
+      }
+    }
+  })
+
+  .state('app.confirmation', {
+      url: '/confirmation',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/confirmation.html',
+          controller: 'ConfirmationCtrl'
+        }
+      }
     })
+    .state('app.laundromats', {
+      url: '/laundromats/:serviceId/:latitude/:longitude/:pickupDate/:deliveryDate',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/laundromats.html',
+          controller: 'LaundromatsCtrl'
+        }
+      }
+    })
+
+  .state('app.site', {
+    url: '/laundromats/:siteId/:serviceId/:pickupDate/:deliveryDate',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/laundromat.html',
+        controller: 'LaundromatCtrl'
+      }
+    }
+  });
     
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/login');
