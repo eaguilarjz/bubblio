@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ngOpenFB'])
+angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -11,7 +11,6 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
       StatusBar.styleDefault();
     }
  
-    
     //Parse Initialization
     Parse.initialize("yMlvcsS2rf3ktzvqMcCJcBP8JHS2I5D5YJYV3KUz", "htSsI0RdkOzBaLOKEjjnQVavjgCXzYN5Jm0opecR");
 
@@ -45,7 +44,7 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
         url: '/app',
         abstract: true,
         templateUrl: 'templates/menu.html',
-        controller: 'AppCtrl'
+        controller: 'MenuCtrl'
     })
     
     .state('app.login', {
@@ -103,13 +102,22 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
             }
       }
     })
-
     
     .state('app.new-order', {
 	    url: '/new-order',
 	    views: {
 		    'menuContent': {
 			    templateUrl: 'templates/new_order.html',
+			    controller: 'OrderCtrl'
+		    }
+	    }
+    })
+    
+     .state('app.view-map', {
+	    url: '/view-map',
+	    views: {
+		    'menuContent': {
+			    templateUrl: 'templates/view_map.html',
 			    controller: 'OrderCtrl'
 		    }
 	    }
