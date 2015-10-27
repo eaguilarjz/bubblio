@@ -1,0 +1,21 @@
+<ion-view view-title="Laundromats">
+  <ion-content>
+      <ion-list>
+          <ion-item ng-repeat="laundromat in laundromats" href="#/app/laundromats/{{laundromat.site_id}}/{{serviceId}}/{{pickupDate}}/{{deliveryDate}}">
+            <div class="row">
+                <div class="col col-20">
+                    <img ng-src="{{laundromat.image_location}}" width="50" height="50">
+                </div>
+                <div class="col col-70">
+                    <b>{{laundromat.name}}</b><br>
+                    {{laundromat.address}}<br>
+                    <img ng-repeat="star in laundromat.stars" ng-src="{{star.url}}">
+                </div>
+                <div class="col-10">
+                    <em>{{laundromat.quotation_price | currency}}/{{laundromat.quotation_uom}}</em>
+                </div>
+            </div>
+          </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>

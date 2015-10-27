@@ -1,0 +1,23 @@
+<ion-view view-title="New Bubble">
+  <ion-content>
+    <label class="item item-input item-select">
+        <div class="input-label">
+          Service
+        </div>
+        <select ng-model="searchParams.service">
+          <option ng-repeat="service in services" ng-selected="service.service_id === searchParams.service" value="{{service.service_id}}">{{service.name}}</option>
+        </select>
+    </label>
+    <label class="item item-input">
+        <span class="input-label">Pickup</span>
+        <input type="datetime-local" ng-model="searchParams.pickupDate">
+    </label>
+    <label class="item item-input">
+        <span class="input-label">Delivery</span>
+        <input type="datetime-local" ng-model="searchParams.deliveryDate">
+    </label>
+    <a href="#/app/laundromats/{{searchParams.service}}/{{currentLocation.latitude}}/{{currentLocation.longitude}}/{{searchParams.pickupDate | date:'yyyyMMddHHmmss'}}/{{searchParams.deliveryDate | date:'yyyyMMddHHmmss'}}" class="button button-full button-positive">
+        Search
+    </a>
+  </ion-content>
+</ion-view>

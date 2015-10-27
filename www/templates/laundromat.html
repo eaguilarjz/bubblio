@@ -1,0 +1,108 @@
+<ion-view view-title="Laundromat Details">
+    <ion-content>
+        <div class="row">
+            <div class="col col-30">
+                <img ng-src="{{laundromat.image_location}}" width="125" height="125">
+            </div>
+            <div class="col col-70">
+                <h4>{{laundromat.name}}</h4>
+                {{laundromat.address}}<br>
+                <img ng-repeat="star in laundromat.stars" ng-src="{{star.url}}"><br>
+                <h4>{{laundromat.quotation_price | currency}}/{{laundromat.quotation_uom}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-100">
+                <h4>Description</h4>
+                {{laundromat.description}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-100">
+                <h4>Request {{laundromat.service_name}}</h4>
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">Quantity ({{laundromat.quotation_uom}})</span>
+                        <input type="tel" ng-model="quantity"><br>
+                    </label>
+                    <label class="item">
+                        <p>Estimated Fare: <span>&nbsp;&nbsp;&nbsp;{{ calculateFare(quantity) | currency}}</span></p>
+                    </label>
+                    <label class="item">
+                        <button class="button button-block button-positive" ng-click="newOrder(quantity)">Hire</button>
+                    </label>
+                </div>
+            </div>  
+        </div>
+        
+
+        <div class="row">
+            <div class="col col-100">
+                <h4>Reviews</h4>
+                <div class="card" ng-repeat="review in reviews">
+                    <div class="item item-divider">
+                        {{review.title}}
+                    </div>
+                    <div class="item item-text-wrap">
+                        <img ng-repeat="star in review.stars" ng-src="{{star.url}}"> {{review.date | date:'shortDate'}}
+                        {{review.comments}}
+                    </div>
+                    <div class="item item-divider">
+                        By {{review.author}}
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </ion-content>
+
+    <!-- Modal view -->
+    <script id="new-order.html" type="text/ng-template">
+      <ion-modal-view>
+        <!-- Modal header bar -->
+        <ion-header-bar class="bar-secondary bar-positive">
+            <h1 class="title">Confirm Order</h1>
+        </ion-header-bar>
+        <ion-content>
+            <div class="card">
+                <div class="item item-divider">
+                    Order Details
+                </div>
+                <div class="item item-text-wrap">
+                    <b>Laundry:</b> {{laundromat.name}}<br>                   
+                    <b>Service:</b> {{laundromat.service_name}}<br> 
+                    <b>Quantity:</b> {{requestedQuantity}} {{laundromat.quotation_uom}}<br> 
+                    <b>Pickup Date:</b> {{pickupDate | date:'MMM dd, yyyy hh:mma'}}<br>
+                    <b>Delivery Date:</b> {{deliveryDate | date:'MMM dd, yyyy hh:mma'}}<br>
+                    <b>Estimated Fare:</b> {{calculateFare(requestedQuantity) | currency}}<br>
+                </div>
+            </div>
+            <div class="card">
+                <div class="item item-divider">
+                    Customer
+                </div>
+                <div class="item item-text-wrap">
+                    <b>Name:</b> {{customer.customer_name}}<br>                   
+                    <b>E-mail:</b> {{customer.email_address}}<br> 
+                    <b>Address:</b><br> 
+                    <div class="list">
+                        <label class="item item-radio" ng-repeat="address in addresses">
+                            <input type="radio" name="group" ng-model="address_id" value="{{address.address_id}}" ng-checked="$index === 0">
+                            <div class="item-content">
+                                {{address.address}}<br>
+                                {{address.city}}, {{address.state_name}}<br>
+                                {{address.zip_code}}, {{address.country_name}}
+                            </div>
+                            <i class="radio-icon ion-checkmark"></i>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col"><button class="button button-block button-positive" ng-click="closeNewOrder()">Cancel</button></div>
+                <div class="col"><button class="button button-block button-positive" ng-click="placeNewOrder()">Place Order</button></div>
+            </div>
+        </ion-content>
+      </ion-modal-view>
+    </script>
+
+</ion-view>
