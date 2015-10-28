@@ -3,11 +3,6 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup) {
 
-$scope.logout = function() {
-	Parse.User.logOut();
-	$state.go("app.login");
-  }
-
 $scope.forgotPassword = function() {
 
 $scope.data = {}
@@ -52,16 +47,6 @@ var forgotPasswordPopup = $ionicPopup.show({
       }
     ]
   });
-}
-
-
-
-$scope.goTo = function(location) {
-	$ionicHistory.nextViewOptions({
-			  disableAnimate: true,
-			  disableBack: true
-		});
-		$state.go(location);
 }
 
 var navIcons = document.getElementsByClassName('ion-navicon');
@@ -169,7 +154,6 @@ $scope.popover.remove();
 
 	$scope.data = {};
 
-
 	$scope.signup = function(){
 
 	  $scope.loading = $ionicLoading.show({
@@ -210,7 +194,7 @@ $scope.popover.remove();
 			 };
 
 			//go to login window
-			$state.go("app.login");
+			$state.goTo("app.login");
 	    },
 	    error: function(user, error) {
 
@@ -230,7 +214,7 @@ $scope.popover.remove();
 
  $scope.login = function(){
 
-	  $scope.loading = $ionicLoading.show({
+	 $scope.loading = $ionicLoading.show({
             content: 'Logging in',
             animation: 'fade-in',
             showBackdrop: true,
@@ -242,7 +226,11 @@ $scope.popover.remove();
 	    success: function(user) {
 		    $ionicLoading.hide();
 	    //login successful
-	    	$state.go("app.dashboard");
+	    	$ionicHistory.nextViewOptions({
+			  disableAnimate: true,
+			  disableBack: true
+			});
+			$state.go("app.dashboard");
 	    },
 	    error: function(user, error) {
 		    $ionicLoading.hide();
@@ -278,9 +266,27 @@ $scope.popover.remove();
 ionicMaterialInk.displayEffect();
 })
 
+//Menu Controller
+.controller('MenuCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup) {
+
+$scope.logout = function() {
+	Parse.User.logOut();
+	$state.go("app.login");
+}
+/*
+	var currentUser = Parse.User.current();
+	if (currentUser) {
+		$scope.user = Parse.User.current();
+	} else {
+		alert("User is not logged in.");
+	}
+*/
+
+})
+
 
 //Dashboard Controller
-.controller('DashboardCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion, ngFB) {
+.controller('DashboardCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion) {
 
 	$timeout(function() {
 			ionicMaterialMotion.fadeSlideIn({
@@ -292,7 +298,31 @@ ionicMaterialInk.displayEffect();
 })
 
 //OrderController
-.controller('OrderCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion, ngFB) {
+.controller('OrderCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion) {
+
+	 google.maps.event.addDomListener(window, 'load', function() {
+        var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
+ 
+        var mapOptions = {
+            center: myLatlng,
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+ 
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+ 
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+            var myLocation = new google.maps.Marker({
+                position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+                map: map,
+                title: "My Location"
+            });
+        });
+ 
+        $scope.map = map;
+    });
+	
 
 	$timeout(function() {
 			ionicMaterialMotion.fadeSlideIn({
