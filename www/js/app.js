@@ -4,10 +4,10 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
 
 .constant('shopSettings',{
 
-	payPalSandboxId :'AVPYiriMnFyIB83gr855qNIzmlgXME9_JI4Rkk2eY84ahjFTAWe4lgSPWF4Atd3i4X7nJ62awHTtHmIL',
+	payPalSandboxId :'Aan6bXOH_c9sGD60f--U_-KuikjH96jlLXZUERxtK_opXjNEcvBJrFctKTH3fUjUV3zmMfvXA3mSiIPd',
 	payPalProductionId : '',
-	payPalEnv: '', // for testing production for production
-	payPalShopName : 'MyShopName',
+	payPalEnv: 'PayPalEnvironmentSandbox', // for testing production for production
+	payPalShopName : 'Bubblio',
 	payPalMerchantPrivacyPolicyURL : '',
 	payPalMerchantUserAgreementURL : ''
 

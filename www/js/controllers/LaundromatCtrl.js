@@ -1,5 +1,5 @@
-angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, 
-                                                                 $ionicModal, Laundromats, Rating, Reviews, Datetime, Customers, Addresses) {
+angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, $ionicModal,
+                                                                 Laundromats, Rating, Reviews, Datetime, Customers, Addresses) {
     // Get the laundromat list
     Laundromats.get({
         site_id: $stateParams.siteId,
