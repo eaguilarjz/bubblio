@@ -21,4 +21,5 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
     $scope.serviceId = $stateParams.serviceId;
     $scope.pickupDate = $stateParams.pickupDate;
     $scope.deliveryDate = $stateParams.deliveryDate;
-})
+    
+   })

@@ -1,5 +1,6 @@
 angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, 
-                                                                 $ionicModal, Laundromats, Rating, Reviews, Datetime, Customers, Addresses) {
+                                                                 $ionicModal, $http, $window, Laundromats, Rating, Reviews, Datetime, Customers, Addresses) {
+	                                                                 
     // Get the laundromat list
     Laundromats.get({
         site_id: $stateParams.siteId,
@@ -76,6 +77,9 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
-        $state.go('app.confirmation');
+
+        //$window.location.href = "http://www.google.com";		        
+                
+        //$state.go('app.confirmation');
     };
 });

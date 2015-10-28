@@ -99,7 +99,17 @@
             </div>
             <div class="row">
                 <div class="col"><button class="button button-block button-positive" ng-click="closeNewOrder()">Cancel</button></div>
-                <div class="col"><button class="button button-block button-positive" ng-click="placeNewOrder()">Place Order</button></div>
+                <div class="col">
+	                <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+					<input type="hidden" name="cmd" value="_xclick">
+					<input type="hidden" name="business" value="norencet-facilitator@gmail.com">
+					<input type="hidden" name="item_name" value="Item Name">
+					<input type="hidden" name="currency_code" value="USD">
+					<input type="hidden" name="amount" value="5.00">
+					<input type="hidden" name="return" value="http://localhost:8100/#/app/confirmation">
+	                <button class="button button-block button-positive" ng-click="placeNewOrder()">Place Order</button>
+	                </form>
+	            </div>
             </div>
         </ion-content>
       </ion-modal-view>

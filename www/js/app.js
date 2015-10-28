@@ -2,10 +2,20 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
 
 .constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
 
+.constant('shopSettings',{
+
+	payPalSandboxId :'AVPYiriMnFyIB83gr855qNIzmlgXME9_JI4Rkk2eY84ahjFTAWe4lgSPWF4Atd3i4X7nJ62awHTtHmIL',
+	payPalProductionId : '',
+	payPalEnv: '', // for testing production for production
+	payPalShopName : 'MyShopName',
+	payPalMerchantPrivacyPolicyURL : '',
+	payPalMerchantUserAgreementURL : ''
+
+})
+
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
+   
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
@@ -13,7 +23,6 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
       StatusBar.styleDefault();
     }
  
-    
     //Parse Initialization
     Parse.initialize("yMlvcsS2rf3ktzvqMcCJcBP8JHS2I5D5YJYV3KUz", "htSsI0RdkOzBaLOKEjjnQVavjgCXzYN5Jm0opecR");
 
@@ -37,7 +46,6 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
 	  }
   });
 })
-
 
 .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
