@@ -36,19 +36,43 @@
 #login_logo img {
 	display: block;
 	margin: 0 auto;
-	width: 20%;
+	width: 60%;
 }
 
 .bar {
 	box-shadow: none;
 }
 
-#dashboard {
-	top: 45px;
-}
+
+	#dashboard {
+		width: 100% !important;
+		height: 100vh;
+		margin: 0;
+	}
+	#dashboard .item-container {
+		width: 100%;
+		height:100vh;
+		bottom: 0;
+		top: 0;
+	}
+	#dashboard .item-container > .item {
+		height: 32%;
+	}
+	#dashboard .item-container > .item > div {
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		display: table;
+	}
+	#dashboard .item-container > .item > div h1 {
+		margin-top: 50px;
+		text-align: center;
+		text-shadow: 2px 2px #000000;
+		color: #ffffff;
+		
+	}
 
 #dashboard div.item.item-avatar.item-text-wrap.in.done {
-	height: 33.33%;
 	padding: 0px;
 }
 
@@ -68,13 +92,19 @@
 
 #wash_and_fold {
 	background-image: url("../img/wash_and_fold.png");
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 #dry_clean {
 	background-image: url("../img/dry_clean.png");
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 #wash_and_press {
 	background-image: url("../img/wash_and_press.png");
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 

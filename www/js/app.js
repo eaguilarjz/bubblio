@@ -2,18 +2,11 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
 
 .constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
 
-.constant('shopSettings',{
-
-	payPalSandboxId :'Aan6bXOH_c9sGD60f--U_-KuikjH96jlLXZUERxtK_opXjNEcvBJrFctKTH3fUjUV3zmMfvXA3mSiIPd',
-	payPalProductionId : '',
-	payPalEnv: 'PayPalEnvironmentSandbox', // for testing production for production
-	payPalShopName : 'Bubblio',
-	payPalMerchantPrivacyPolicyURL : '',
-	payPalMerchantUserAgreementURL : ''
-
-})
-
 .run(function($ionicPlatform) {
+	
+   //Parse Initialization
+   Parse.initialize("yMlvcsS2rf3ktzvqMcCJcBP8JHS2I5D5YJYV3KUz", "htSsI0RdkOzBaLOKEjjnQVavjgCXzYN5Jm0opecR");
+
   $ionicPlatform.ready(function() {
    
     if(window.cordova && window.cordova.plugins.Keyboard) {
@@ -23,8 +16,6 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
       StatusBar.styleDefault();
     }
  
-    //Parse Initialization
-    Parse.initialize("yMlvcsS2rf3ktzvqMcCJcBP8JHS2I5D5YJYV3KUz", "htSsI0RdkOzBaLOKEjjnQVavjgCXzYN5Jm0opecR");
 
 	//Parse-Facebook Initialization
     if(!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())){
@@ -47,18 +38,18 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
-    $stateProvider
-
-    .state('app', {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+    
+    $stateProvider.state('app', {
         url: '/app',
         abstract: true,
         templateUrl: 'templates/menu.html',
-        controller: 'AppCtrl'
+        controller: 'MenuCtrl'
     })
     
     .state('app.login', {
       url: '/login',
+      cache: false,
       views: {
 	      'menuContent': {
 		      templateUrl: 'templates/login.html',
@@ -79,38 +70,22 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
     
 	.state('app.dashboard', {
       url: '/dashboard',
+      cache: false,
       views: {
 	      'menuContent': {
 		      templateUrl: 'templates/dashboard.html',
 		      controller: 'DashboardCtrl'
-	      },
-	      'fabContent': {
-                template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded button-energized-900 															flap"><i class="icon ion-paper-airplane"></i></button>',
-                controller: function ($timeout) {
-                    $timeout(function () {
-                        document.getElementById('fab-activity').classList.toggle('on');
-                    }, 200);
-                }
-            }
-      }
-    })
+	      }
+	    }
+	})
     
     .state('app.profile', {
       url: '/profile',
       views: {
 	      'menuContent': {
 		      templateUrl: 'templates/profile.html',
-		      controller: 'DashboardCtrl'
-	      },
-	      'fabContent': {
-                template: '<button id="fab-activity" class="button button-fab button-fab-top-right expanded button-energized-900 															flap"><i class="icon ion-paper-airplane"></i></button>',
-                controller: function ($timeout) {
-                    $timeout(function () {
-                        document.getElementById('fab-activity').classList.toggle('on');
-                    }, 200);
-                }
-            }
-      }
+		      controller: 'ProfileCtrl'
+	      }}
     })
 
   .state('app.search', {

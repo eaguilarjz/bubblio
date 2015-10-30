@@ -1,5 +1,6 @@
 <ion-view view-title="Laundromat Details">
     <ion-content>
+
         <div class="row">
             <div class="col col-30">
                 <img ng-src="{{laundromat.image_location}}" width="125" height="125">
@@ -99,10 +100,20 @@
             </div>
             <div class="row">
                 <div class="col"><button class="button button-block button-positive" ng-click="closeNewOrder()">Cancel</button></div>
-                <div class="col"><button class="button button-block button-positive" ng-click="placeNewOrder()">Place Order</button></div>
+                <div class="col">
+	                <button class="button button-block button-positive" ng-click="placeNewOrder()">Place Order</button>
+	            </div>
             </div>
         </ion-content>
       </ion-modal-view>
     </script>
+    
+    
+    
+  
+
 
 </ion-view>
+
+
+
