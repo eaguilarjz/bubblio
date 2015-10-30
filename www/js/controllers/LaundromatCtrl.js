@@ -1,4 +1,4 @@
-angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, $ionicModal,
+angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, $ionicModal, Orders
                                                                  Laundromats, Rating, Reviews, Datetime, Customers, Addresses) {
     // Get the laundromat list
     Laundromats.get({
@@ -72,6 +72,19 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
     
     // Place a new order
     $scope.placeNewOrder = function() {
+        // TODO: Add a new order to the database
+        Orders.save({
+            customer_id: ,
+            address_id: ,
+            requested_pickup: ,
+            requested_delivery: ,
+            site_id: ,
+            service_id: ,
+            requested_quantity: ,
+            requested_uom_code: ,
+            requested_unit_price: 
+        });
+        
         $scope.orderModal.hide();
         $ionicHistory.nextViewOptions({
             disableBack: true
