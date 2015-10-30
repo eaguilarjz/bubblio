@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, 
                                                                  $ionicModal, $http, $window, Laundromats, Rating, Reviews, Datetime, Customers, Addresses) {
 	                                                                 
-=======
-angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, $ionicModal,
-                                                                 Laundromats, Rating, Reviews, Datetime, Customers, Addresses) {
->>>>>>> 7f41bb9249c5064b648a52768ca40bc7d19d68a1
     // Get the laundromat list
     Laundromats.get({
         site_id: $stateParams.siteId,

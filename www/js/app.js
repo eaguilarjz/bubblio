@@ -2,20 +2,6 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
 
 .constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
 
-<<<<<<< HEAD
-=======
-.constant('shopSettings',{
-
-	payPalSandboxId :'Aan6bXOH_c9sGD60f--U_-KuikjH96jlLXZUERxtK_opXjNEcvBJrFctKTH3fUjUV3zmMfvXA3mSiIPd',
-	payPalProductionId : '',
-	payPalEnv: 'PayPalEnvironmentSandbox', // for testing production for production
-	payPalShopName : 'Bubblio',
-	payPalMerchantPrivacyPolicyURL : '',
-	payPalMerchantUserAgreementURL : ''
-
-})
-
->>>>>>> 7f41bb9249c5064b648a52768ca40bc7d19d68a1
 .run(function($ionicPlatform) {
 	
    //Parse Initialization
