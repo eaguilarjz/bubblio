@@ -1,4 +1,4 @@
-angular.module('starter').controller('SearchCtrl', function($scope, Geolocation, Services) {
+angular.module('starter').controller('SearchCtrl', function($scope, $stateParams, Geolocation, Services) {
    
     // Get the current location
     $scope.currentLocation = Geolocation.get();
@@ -9,7 +9,7 @@ angular.module('starter').controller('SearchCtrl', function($scope, Geolocation,
     });
     
     $scope.searchParams = {
-        service: 1,
+        service: $stateParams.serviceId,
         pickupDate: new Date(2015, 9, 26, 8, 0, 0, 0),
         deliveryDate: new Date(2015, 9, 29, 20, 0, 0, 0)
     };

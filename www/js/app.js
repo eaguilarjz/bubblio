@@ -89,7 +89,7 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
     })
 
   .state('app.search', {
-    url: '/search',
+    url: '/search/:serviceId',
     views: {
       'menuContent': {
         templateUrl: 'templates/search.html',

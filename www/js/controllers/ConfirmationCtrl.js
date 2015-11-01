@@ -3,6 +3,6 @@ angular.module('starter').controller('ConfirmationCtrl', function($scope, $ionic
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
-        $state.go('app.search');
+        $state.go('app.dashboard');
     }
 });
