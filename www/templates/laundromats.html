@@ -1,21 +1,36 @@
-<ion-view view-title="Laundromats">
-  <ion-content>
-      <ion-list>
-          <ion-item ng-repeat="laundromat in laundromats" href="#/app/laundromats/{{laundromat.site_id}}/{{serviceId}}/{{pickupDate}}/{{deliveryDate}}">
-            <div class="row">
-                <div class="col col-20">
-                    <img ng-src="{{laundromat.image_location}}" width="50" height="50">
-                </div>
-                <div class="col col-70">
-                    <b>{{laundromat.name}}</b><br>
-                    {{laundromat.address}}<br>
-                    <img ng-repeat="star in laundromat.stars" ng-src="{{star.url}}">
-                </div>
-                <div class="col-10">
-                    <em>{{laundromat.quotation_price | currency}}/{{laundromat.quotation_uom}}</em>
-                </div>
-            </div>
-          </ion-item>
-      </ion-list>
-  </ion-content>
+<ion-view title="Laundromats">
+    <ion-pane>
+        <ion-tabs class="tabs-positive">
+            <ion-tab title="List">
+                <ion-view view-title="List">
+                    <ion-content>
+                      <ion-list>
+                          <ion-item ng-repeat="laundromat in laundromats" href="#/app/laundromats/{{laundromat.site_id}}/{{serviceId}}/{{pickupDate}}/{{deliveryDate}}">
+                            <div class="row">
+                                <div class="col col-20">
+                                    <img ng-src="{{laundromat.image_location}}" width="50" height="50">
+                                </div>
+                                <div class="col col-70">
+                                    <b>{{laundromat.name}}</b><br>
+                                    {{laundromat.address}}<br>
+                                    <img ng-repeat="star in laundromat.stars" ng-src="{{star.url}}">
+                                </div>
+                                <div class="col-10">
+                                    <em>{{laundromat.quotation_price | currency}}/{{laundromat.quotation_uom}}</em>
+                                </div>
+                            </div>
+                          </ion-item>
+                      </ion-list>
+                    </ion-content>
+                </ion-view>
+            </ion-tab>
+            <ion-tab title="Map">
+                <ion-view view-title="Map">
+                    <ion-content>
+                        <h1>TODO: Place the map here...</h1>
+                    </ion-content>
+                </ion-view>
+            </ion-tab>
+        </ion-tabs>
+    </ion-pane>
 </ion-view>
