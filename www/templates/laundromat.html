@@ -40,6 +40,11 @@
         <div class="row">
             <div class="col col-100">
                 <h4>Reviews</h4>
+                customer_id: {{customer.customer_id}}
+                address_id: {{address_id}}
+                requested_quantity: {{quantity}}
+                requested_uom_code: {{laundromat.quotation_uom}}
+                requested_unit_price: {{laundromat.quotation_price}} 
                 <div class="card" ng-repeat="review in reviews">
                     <div class="item item-divider">
                         {{review.title}}

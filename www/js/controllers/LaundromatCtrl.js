@@ -1,4 +1,4 @@
-angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, $ionicModal, $http, $window, 
+angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, $ionicModal, // $http, $window, 
                                                                  Orders, Laundromats, Rating, Reviews, Datetime, Customers, Addresses) {
     // Get the laundromat list
     Laundromats.get({
@@ -70,36 +70,41 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
         $scope.orderModal.hide();
     };
     
+    /*
+    $scope.insertValues = {
+            customer_id: $scope.customer.customer_id,
+            address_id: $scope.address_id,
+            requested_pickup: Datetime.toDate($stateParams.pickupDate),
+            requested_delivery: Datetime.toDate($stateParams.deliveryDate),
+            site_id: $stateParams.siteId,
+            service_id: $scope.serviceId,
+            requested_quantity: $scope.quantity,
+            requested_uom_code: $scope.laundromat.quotation_uom,
+            requested_unit_price: $scope.laundromat.quotation_price 
+    };
+    */
+    
     // Place a new order
     $scope.placeNewOrder = function() {
         // TODO: Add a new order to the database
-        Orders.save({
-            customer_id: ,
-            address_id: ,
-            requested_pickup: ,
-            requested_delivery: ,
-            site_id: ,
-            service_id: ,
-            requested_quantity: ,
-            requested_uom_code: ,
-            requested_unit_price: 
-        });
         
         $scope.orderModal.hide();
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
         
+        /*
         var clientToken = "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiI0NDE0MWZhYzI5ODE0YTlmZDY2ZWE5NTk3MzgxMDcwZmI3MWQ4MzM0MGJkNDMzMWI0ZDU0ZmU5OGRiYTBkYzI1fGNyZWF0ZWRfYXQ9MjAxNS0xMC0yOFQyMDo1Nzo0MC44ODgxOTkyOTErMDAwMFx1MDAyNm1lcmNoYW50X2lkPTM0OHBrOWNnZjNiZ3l3MmJcdTAwMjZwdWJsaWNfa2V5PTJuMjQ3ZHY4OWJxOXZtcHIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiZW52aXJvbm1lbnQiOiJzYW5kYm94IiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzLzM0OHBrOWNnZjNiZ3l3MmIvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIn0sInRocmVlRFNlY3VyZUVuYWJsZWQiOnRydWUsInRocmVlRFNlY3VyZSI6eyJsb29rdXBVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi90aHJlZV9kX3NlY3VyZS9sb29rdXAifSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQzIiwiYmlsbGluZ0FncmVlbWVudHNFbmFibGVkIjp0cnVlLCJtZXJjaGFudEFjY291bnRJZCI6ImFjbWV3aWRnZXRzbHRkc2FuZGJveCIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJjb2luYmFzZUVuYWJsZWQiOmZhbHNlLCJtZXJjaGFudElkIjoiMzQ4cGs5Y2dmM2JneXcyYiIsInZlbm1vIjoib2ZmIn0=";
 
 braintree.setup(clientToken, "dropin", {
   container: "payment-form"
 });
+*/
 
 
 
         //$window.location.href = "http://www.google.com";		        
                 
-        //$state.go('app.confirmation');
+        $state.go('app.confirmation');
     };
 });
