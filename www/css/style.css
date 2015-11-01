@@ -2,6 +2,12 @@
 	font-family: "Varela Round" !important;
 }
 
+/*Style Overrides*/
+.button {
+	font-size: 12px;
+	text-transform: none;
+}
+
 .menu .bar.bar-header.expanded {
     background-image: url('../img/bg.png');
     background-size: 120%;
@@ -37,6 +43,16 @@
 	display: block;
 	margin: 0 auto;
 	width: 60%;
+}
+
+.forgot-password, .sign-up {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+.sign-up {
+	text-align: right;
+	display: inherit;
 }
 
 .bar {

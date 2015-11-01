@@ -8,49 +8,13 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 			$rootScope.current_email = user.get('email');
 		})
 	}
+	
+	console.log(Parse.User.current().getUsername());
 
 
 }).controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup) {
 	
-	$scope.forgotPassword = function() {
-		$scope.data = {}
-		var forgotPasswordPopup = $ionicPopup.show({
-			template: '<input type="text" ng-model="data.email">',
-			title: 'Forgot Password',
-			subTitle: 'Please enter your e-mail address',
-			scope: $scope,
-			buttons: [{
-				text: 'Cancel'
-			}, {
-				text: '<b>Submit</b>',
-				type: 'button-positive',
-				onTap: function(e) {
-					if ($scope.data.email) {
-						Parse.User.requestPasswordReset($scope.data.email, {
-							success: function() {
-								$ionicPopup.alert({
-									title: 'Password request change',
-									template: 'Please check your e-mail'
-								});
-							},
-							error: function(error) {
-								alert("Error: " + error.code + " " + error.message);
-								e.preventDefault();
-							}
-						});
-						e.preventDefault();
-					} else {
-						$ionicPopup.alert({
-							title: 'Excuse me...',
-							template: 'Please check your e-mail'
-						});
-						e.preventDefault();
-					}
-				}
-			}]
-		});
-	}
-	
+		
 	$scope.isExpanded = false;
     $scope.hasHeaderFabLeft = false;
     $scope.hasHeaderFabRight = false;
@@ -170,7 +134,7 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 	$scope.loginFB = function() {
 		Parse.FacebookUtils.logIn(null, {
 			success: function(user) {
-				console.log(user);
+				
 				if (!user.existed()) {
 					$ionicLoading.hide();
 					//login successful
@@ -178,7 +142,14 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 						disableAnimate: true,
 						disableBack: true
 					});
-					//CurrentUser.getInfo();
+					CurrentUser.getInfo();
+					
+					//facebook query
+					var currentUser = Parse.User.current();
+					currentUser.set("firstname", $scope.data.firstname);
+					currentUser.set("lastname", $scope.data.lastname);
+					currentUser.save();
+
 					$state.go("app.dashboard", {cache: false});
 				} else {
 					$ionicLoading.hide();
@@ -196,6 +167,45 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 			}
 		});
 	}
+	$scope.forgotPassword = function() {
+		$scope.data = {}
+		var forgotPasswordPopup = $ionicPopup.show({
+			template: '<input type="text" ng-model="data.email">',
+			title: 'Forgot Password',
+			subTitle: 'Please enter your e-mail address',
+			scope: $scope,
+			buttons: [{
+				text: 'Cancel'
+			}, {
+				text: '<b>Submit</b>',
+				type: 'button-positive',
+				onTap: function(e) {
+					if ($scope.data.email) {
+						Parse.User.requestPasswordReset($scope.data.email, {
+							success: function() {
+								$ionicPopup.alert({
+									title: 'Password request change',
+									template: 'Please check your e-mail'
+								});
+							},
+							error: function(error) {
+								alert("Error: " + error.code + " " + error.message);
+								e.preventDefault();
+							}
+						});
+						e.preventDefault();
+					} else {
+						$ionicPopup.alert({
+							title: 'Excuse me...',
+							template: 'Please check your e-mail'
+						});
+						e.preventDefault();
+					}
+				}
+			}]
+		});
+	}
+
 	ionicMaterialInk.displayEffect();
 })
 
@@ -209,7 +219,7 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 		Parse.User.logOut();
 		$rootScope.showMenuIcon = false;
 		console.log("Logged-out");
-		$state.go("app.login");
+		//$state.go("app.login");
 	}
 	
 	$scope.logout = function() {
@@ -343,162 +353,4 @@ $scope.saveInfo = function() {
 		}, 500);
 	};
 	$scope.blinds();
-}).controller('SetupCtrl', function($scope, $stateParams) {
-/* ionicMaterialMotion.pushDown({
-selector: '.push-down'
-});
-*/
-}).controller('ExtensionsCtrl', function($scope, $stateParams, $ionicActionSheet, $timeout, $ionicLoading, $ionicModal, $ionicPopup, ionicMaterialInk) {
-	// Triggered on a button click, or some other target
-	$scope.actionSheet = function() {
-		// Show the action sheet
-		var hideSheet = $ionicActionSheet.show({
-			buttons: [{
-				text: '<b>Share</b> This'
-			}, {
-				text: 'Move'
-			}],
-			destructiveText: 'Delete',
-			titleText: 'Modify your album',
-			cancelText: 'Cancel',
-			cancel: function() {
-				// add cancel code..
-			},
-			buttonClicked: function(index) {
-				return true;
-			}
-		});
-		// For example's sake, hide the sheet after two seconds
-		$timeout(function() {
-			hideSheet();
-		}, 2000);
-	};
-	$scope.loading = function() {
-		$ionicLoading.show({
-			template: '<div class="loader"><svg class="circular"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div>'
-		});
-		// For example's sake, hide the sheet after two seconds
-		$timeout(function() {
-			$ionicLoading.hide();
-		}, 2000);
-	};
-	$ionicModal.fromTemplateUrl('my-modal.html', {
-		scope: $scope,
-		animation: 'slide-in-up'
-	}).then(function(modal) {
-		$scope.modal = modal;
-	});
-	$scope.openModal = function() {
-		$scope.modal.show();
-		$timeout(function() {
-			$scope.modal.hide();
-		}, 2000);
-	};
-	// Cleanup the modal when we're done with it
-	$scope.$on('$destroy', function() {
-		$scope.modal.remove();
-	});
-	// Popover
-	$scope.popover = function() {
-		$scope.$parent.popover.show();
-		$timeout(function() {
-			$scope.$parent.popover.hide();
-		}, 2000);
-	};
-	// Confirm
-	$scope.showPopup = function() {
-		var alertPopup = $ionicPopup.alert({
-			title: 'You are now my subscribed to Cat Facts',
-			template: 'You will meow receive fun daily facts about CATS!'
-		});
-		$timeout(function() {
-			ionicMaterialInk.displayEffect();
-		}, 0);
-	};
-	// Toggle Code Wrapper
-	var code = document.getElementsByClassName('code-wrapper');
-	for (var i = 0; i < code.length; i++) {
-		code[i].addEventListener('click', function() {
-			this.classList.toggle('active');
-		});
-	}
-}).controller('MotionCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk) {
-	var fab = document.getElementById('fab');
-	$scope.moveFab = function(dir) {
-		fab.style.display = 'none';
-		fab.className = fab.className.replace('button-fab-top-left', '');
-		fab.className = fab.className.replace('button-fab-top-right', '');
-		fab.className = fab.className.replace('button-fab-bottom-left', '');
-		fab.className = fab.className.replace('button-fab-bottom-right', '');
-		fab.className += ' button-fab-' + dir;
-		$timeout(function() {
-			fab.style.display = 'block';
-		}, 100);
-	};
-	$scope.motionFab = function(type) {
-		var shouldAnimate = false;
-		var classes = type instanceof Array ? type : [type];
-
-		function toggleMotionClass(theClass) {
-			$timeout(function() {
-				fab.classList.toggle(theClass);
-			}, 300);
-		}
-		for (var i = 0; i < classes.length; i++) {
-			fab.classList.toggle(classes[i]);
-			shouldAnimate = fab.classList.contains(classes[i]);
-			if (shouldAnimate) {
-				(toggleMotionClass)(classes[i]);
-			}
-		}
-	};
-	var reset = function() {
-			var inClass = document.querySelectorAll('.in');
-			for (var i = 0; i < inClass.length; i++) {
-				inClass[i].classList.remove('in');
-				inClass[i].removeAttribute('style');
-			}
-			var done = document.querySelectorAll('.done');
-			for (var j = 0; j < done.length; j++) {
-				done[j].classList.remove('done');
-				done[j].removeAttribute('style');
-			}
-			var ionList = document.getElementsByTagName('ion-list');
-			for (var k = 0; k < ionList.length; k++) {
-				var toRemove = ionList[k].className;
-				if (/animate-/.test(toRemove)) {
-					ionList[k].className = ionList[k].className.replace(/(?:^|\s)animate-\S*(?:$|\s)/, '');
-				}
-			}
-		};
-	$scope.ripple = function() {
-		reset();
-		document.getElementsByTagName('ion-list')[0].className += ' animate-ripple';
-		setTimeout(function() {
-			ionicMaterialMotion.ripple();
-		}, 500);
-	};
-	$scope.fadeSlideInRight = function() {
-		reset();
-		document.getElementsByTagName('ion-list')[0].className += ' animate-fade-slide-in-right';
-		setTimeout(function() {
-			ionicMaterialMotion.fadeSlideInRight();
-		}, 500);
-	};
-	$scope.fadeSlideIn = function() {
-		reset();
-		document.getElementsByTagName('ion-list')[0].className += ' animate-fade-slide-in';
-		setTimeout(function() {
-			ionicMaterialMotion.fadeSlideIn();
-		}, 500);
-	};
-	$scope.blinds = function() {
-		reset();
-		document.getElementsByTagName('ion-list')[0].className += ' animate-blinds';
-		setTimeout(function() {
-			ionicMaterialMotion.blinds();
-		}, 500);
-	};
-	$scope.blinds();
-	ionicMaterialInk.displayEffect();
-});
+})
