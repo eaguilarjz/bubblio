@@ -1,8 +1,8 @@
 angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource'])
 
-// .constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
+.constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
 
-.constant('RESTFUL_URL', 'http://localhost:3000/api')
+// .constant('RESTFUL_URL', 'http://localhost:3000/api')
 
 .run(function($ionicPlatform) {
 	
