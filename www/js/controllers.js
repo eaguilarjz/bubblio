@@ -9,7 +9,10 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 		})
 	}
 	
+/*
 	console.log(Parse.User.current().getUsername());
+	
+*/
 
 
 }).controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup) {
@@ -145,10 +148,7 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 					CurrentUser.getInfo();
 					
 					//facebook query
-					var currentUser = Parse.User.current();
-					currentUser.set("firstname", $scope.data.firstname);
-					currentUser.set("lastname", $scope.data.lastname);
-					currentUser.save();
+					
 
 					$state.go("app.dashboard", {cache: false});
 				} else {
