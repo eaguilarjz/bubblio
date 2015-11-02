@@ -1,14 +1,14 @@
 /* global angular, document, window */
 angular.module('starter.controllers', []).service('CurrentUser', function($rootScope, $ionicSideMenuDelegate, $state) {
 	
-	this.getInfo = function() {
+	return {getInfo: function() {
 		Parse.User.current().fetch().then(function(user) {
 			$rootScope.current_first_name = user.get('firstname');
 			$rootScope.current_last_name = user.get('lastname');
 			$rootScope.current_email = user.get('email');
             $rootScope.current_user_id = user.get('userId');
 		});
-	}
+	}};
 	
 	// console.log(Parse.User.current().getUsername());
 
