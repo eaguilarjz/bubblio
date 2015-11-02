@@ -26,11 +26,15 @@
             </ion-tab>
             <ion-tab title="Map">
                 <ion-view view-title="Map">
-                    <ion-content>
-                        <p ng-repeat="laundromat in laundromats">
-                            <div id = "map" zoom= "11" titleValue ="HelloWorld"  map>
-                            </div>
-                        </p>
+                   <h3> Hello World </h3>
+   <div>
+     <!-- <id="map">-->
+     <p ng-repeat="laundromat in laundromats">
+     <!--{{laundromat.latitude}},{{laundromat.longitude}}-->
+
+    <div id = "map" zoom= "11" titleValue ="HelloWorld"  map>
+    </div>
+  </p>
                 </ion-view>
             </ion-tab>
         </ion-tabs>

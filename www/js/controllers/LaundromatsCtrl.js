@@ -25,8 +25,8 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
     $scope.currentLongitude = $stateParams.longitude;
     
 
-   })
-    directive('map', function($stateParams, $ionicLoading, $compile, Laundromats, Rating, Services) {
+})
+    .directive('map', function($stateParams, $ionicLoading, $compile, Laundromats, Rating, Services) {
     return {
        scope: true,
         link:function(scope, element, attrs){
