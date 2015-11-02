@@ -27,8 +27,10 @@
             <ion-tab title="Map">
                 <ion-view view-title="Map">
                     <ion-content>
-                        <h1>TODO: Place the map here...</h1>
-                    </ion-content>
+                        <p ng-repeat="laundromat in laundromats">
+                            <div id = "map" zoom= "11" titleValue ="HelloWorld"  map>
+                            </div>
+                        </p>
                 </ion-view>
             </ion-tab>
         </ion-tabs>
