@@ -6,10 +6,11 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 			$rootScope.current_first_name = user.get('firstname');
 			$rootScope.current_last_name = user.get('lastname');
 			$rootScope.current_email = user.get('email');
-		})
+            $rootScope.current_user_id = user.get('userId');
+		});
 	}
 	
-	console.log(Parse.User.current().getUsername());
+	// console.log(Parse.User.current().getUsername());
 
 
 }).controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup) {
@@ -47,7 +48,7 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 })
 
 //Login Controller
-.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk, $rootScope, CurrentUser) {
+.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk, $rootScope, CurrentUser, Users) {
 	$scope.data = {};
 	$scope.signup = function() {
 		$scope.loading = $ionicLoading.show({
@@ -57,45 +58,54 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 			maxWidth: 200,
 			showDelay: 0
 		});
-		//Create a new user on Parse
-		var user = new Parse.User();
-		user.set("username", $scope.data.email);
-		user.set("password", $scope.data.password);
-		user.set("email", $scope.data.email);
-		user.set("firstName", $scope.data.firstname);
-		user.set("lastName", $scope.data.lastname);
-		user.signUp(null, {
-			success: function(user) {
-				//prevent back button
-				$ionicHistory.nextViewOptions({
-					disableAnimate: true,
-					disableBack: true
-				});
-				$ionicLoading.hide();
-				$scope.showAlert = function() {
-					var alertPopup = $ionicPopup.alert({
-						title: 'Welcome to bubbl.io!',
-						template: 'User successfully created'
-					});
-					alertPopup.then(function(res) {
-						console.log('User successfully created' + " " + Parse.User.current());
-					});
-				};
-				//go to login window
-				$state.go("app.login", {cache: false});
-			},
-			error: function(user, error) {
-				$ionicLoading.hide();
-				//show error
-				var alertPopup = $ionicPopup.alert({
-					title: 'Error',
-					template: error.message
-				});
-				alertPopup.then(function(res) {
-					console.log(error.code + " " + error.message);
-				});
-			}
-		});
+        //Create a new user on MySQL
+        Users.save({
+            email_address: $scope.data.email,
+            password: $scope.data.password,
+            first_name: $scope.data.firstname,
+            last_name: $scope.data.lastname
+        }, function(data) {
+            //Create a new user on Parse
+            var user = new Parse.User();
+            user.set("username", $scope.data.email);
+            user.set("password", $scope.data.password);
+            user.set("email", $scope.data.email);
+            user.set("firstname", $scope.data.firstname);
+            user.set("lastname", $scope.data.lastname);
+            user.set("userId", data.UserId);
+            user.signUp(null, {
+                success: function(user) {
+                    //prevent back button
+                    $ionicHistory.nextViewOptions({
+                        disableAnimate: true,
+                        disableBack: true
+                    });
+                    $ionicLoading.hide();
+                    $scope.showAlert = function() {
+                        var alertPopup = $ionicPopup.alert({
+                            title: 'Welcome to bubbl.io!',
+                            template: 'User successfully created'
+                        });
+                        alertPopup.then(function(res) {
+                            console.log('User successfully created' + " " + Parse.User.current());
+                        });
+                    };
+                    //go to login window
+                    $state.go("app.login", {cache: false});
+                },
+                error: function(user, error) {
+                    $ionicLoading.hide();
+                    //show error
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Error',
+                        template: error.message
+                    });
+                    alertPopup.then(function(res) {
+                        console.log(error.code + " " + error.message);
+                    });
+                }
+            });
+        });
 	};
 	$scope.login = function() {
 		$scope.loading = $ionicLoading.show({
@@ -239,23 +249,6 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
         }, 30);
 	}
 })
-
-//ProfileController
-.controller('ProfileCtrl', function($scope, $stateParams, $timeout, ionicMaterialMotion, ionicMaterialInk, $rootScope, CurrentUser) {
-
-console.log($rootScope.current_first_name);
-
-$scope.data = {};
-
-$scope.saveInfo = function() {
-		var currentUser = Parse.User.current();
-		currentUser.set("firstname", $scope.data.firstname);
-		currentUser.set("lastname", $scope.data.lastname);
-		return currentUser.save();
-}
-	
-})
-
 
 //Dashboard Controller
 .controller('DashboardCtrl', function($scope, $stateParams, $timeout, ionicMaterialInk, ionicMaterialMotion) {

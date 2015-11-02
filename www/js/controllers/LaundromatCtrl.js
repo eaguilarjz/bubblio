@@ -75,7 +75,6 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
     // Place a new order
     $scope.placeNewOrder = function() {
         // TODO: Add a new order to the database
-        var result = false;
         var orderData = {
             customer_id: $scope.customer.customer_id,
             address_id: $scope.address_id,
@@ -90,20 +89,14 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
             actual_uom_code: $scope.laundromat.invoice_uid,
             actual_unit_price: $scope.laundromat.invoice_price
         };
-        $scope.testData = orderData;
         
         Orders.save(orderData, function(data) {
-            result = data;
-        });
-        
-        if (result == 'false') {
             $scope.orderModal.hide();
             $ionicHistory.nextViewOptions({
                 disableBack: true
             });
             $state.go('app.confirmation');
-        }
-        
+        });
     };
         
         /*
