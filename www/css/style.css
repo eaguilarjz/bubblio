@@ -123,4 +123,10 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-
+#map{
+	width:100%;
+	height:86%;
+	position: absolute;
+	top: 44px;
+	left: 0px;
+}
