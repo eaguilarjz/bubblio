@@ -31,7 +31,16 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
        scope: true,
         link:function(scope, element, attrs){
 
-            var zValue = 13;
+        var zValue = 15;
+    
+        var pinColor = "3ddb3f";
+        var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_xpin_letter&chld=pin_star|A|" + pinColor,
+        new google.maps.Size(21, 34),
+        new google.maps.Point(0,0),
+        new google.maps.Point(10, 34));
+
+        map = new google.maps.Map(element[0],
+            mapOptions);
 
             var myLatlng = new google.maps.LatLng($stateParams.latitude,$stateParams.longitude),
             mapOptions = {
@@ -46,10 +55,10 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
             marker = new google.maps.Marker({
                 position: myLatlng,
                 map: map,
+                icon: pinImage
             });
-            marker.addListener('click', function() {
                 infowindow.open(map, marker);
-            });
+             
 
             var info = new google.maps.InfoWindow;
 
@@ -64,7 +73,8 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
 
                 google.maps.event.addListener(markers, 'click', (function(markers, i) {
                     return function() {
-                    info.setContent(scope.laundromats[i].name+ "\n price: " + scope.laundromats[i].quotation_price+"\t score:"+scope.laundromats[i].avg_score);
+                    info.setContent("<a href='#/app/laundromats/"+ scope.laundromats[i].site_id +"/"+ $stateParams.serviceId +"/"+ $stateParams.pickupDate +"/"+ $stateParams.deliveryDate+"'>"+
+                        scope.laundromats[i].name+"</a><br/>" +"Price: " + scope.laundromats[i].quotation_price +"/lb" + " Score: "+scope.laundromats[i].avg_score);
                     info.open(map, markers);
                     }
                 })(markers, i));
