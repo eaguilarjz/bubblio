@@ -1,23 +1,53 @@
 /* global angular, document, window */
 angular.module('starter.controllers', []).service('CurrentUser', function($rootScope, $ionicSideMenuDelegate, $state) {
 	
-	return {getInfo: function() {
+	return {
+		getInfo: function() {
 		Parse.User.current().fetch().then(function(user) {
 			$rootScope.current_first_name = user.get('firstname');
 			$rootScope.current_last_name = user.get('lastname');
 			$rootScope.current_email = user.get('email');
             $rootScope.current_user_id = user.get('userId');
+            
+            
+        //fetch FB user details
+		if (Parse.FacebookUtils.isLinked(Parse.User.current()) == true) {
+
+			FB.api('/me', function(response) {
+				$rootScope.current_first_name = response.name;
+				$rootScope.current_email = response.email;
+			});
+			console.log("logged-in with facebook");
+		} else {
+			console.log("not logged-in with facebook");
+		}
+		
+        //register device token
+        var push = new Ionic.Push({ "debug": true });
+		push.register(function(token) {
+			
+			if (token.token != user.get('deviceToken')) {
+				var currentUser = Parse.User.current();
+				currentUser.set("deviceToken", token.token);
+				return currentUser.save();
+				$rootScope.current_user_id = token.token;
+			} else {
+				console.log("did not save deviceToken, same");
+			}
+		});
+		
+		
+
 		});
 	}};
+})
 
-
-}).controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup) {
-	
-		
+.controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup) {
+			
 	$scope.isExpanded = false;
     $scope.hasHeaderFabLeft = false;
     $scope.hasHeaderFabRight = false;
-	
+    
 	//Layout Functions
 	$scope.hideNavBar = function() {
         document.getElementsByTagName('ion-nav-bar')[0].style.display = 'none';
@@ -26,7 +56,6 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 	$scope.showNavBar = function() {
         document.getElementsByTagName('ion-nav-bar')[0].style.display = 'block';
     };
-
 
 	$scope.hasHeader = function() {
         var content = document.getElementsByTagName('ion-content');
@@ -121,10 +150,11 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 					disableAnimate: true,
 					disableBack: true
 				});
-				
-				CurrentUser.getInfo(); //get user info
+				    
+     			CurrentUser.getInfo(); //get user info
 				$rootScope.showMenuIcon = true; //show hamburger icon
-				$state.go("app.dashboard", {cache: false});
+				$state.go("app.dashboard", {cache: false}); 
+				
 			},
 			error: function(user, error) {
 				$ionicLoading.hide();
@@ -140,6 +170,7 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 		});
 	};
 	$scope.loginFB = function() {
+		
 		Parse.FacebookUtils.logIn(null, {
 			success: function(user) {
 				
@@ -150,11 +181,8 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 						disableAnimate: true,
 						disableBack: true
 					});
-					CurrentUser.getInfo();
-					
-					//facebook query
-					
-
+					CurrentUser.getInfo(); //get user info
+					$rootScope.showMenuIcon = true; //show hamburger icon
 					$state.go("app.dashboard", {cache: false});
 				} else {
 					$ionicLoading.hide();
@@ -163,9 +191,13 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 						disableAnimate: true,
 						disableBack: true
 					});
-					//CurrentUser.getInfo();
+					CurrentUser.getInfo();
+					$rootScope.showMenuIcon = true; //show hamburger icon
 					$state.go("app.dashboard", {cache: false});
 				}
+				
+				//facebook query
+					
 			},
 			error: function(user, error) {
 				alert("User cancelled the Facebook login or did not fully authorize.");
@@ -217,14 +249,16 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 //Menu Controller
 .controller('MenuCtrl', function($scope, $ionicModal, $ionicLoading, $ionicHistory, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup, $rootScope, CurrentUser) {
 		
-	if (Parse.User.current()) {
+	//check if there is a logged-in user
+	if (Parse.User.current() != null) {
 		CurrentUser.getInfo();
 		$rootScope.showMenuIcon = true;
+		$rootScope.toggleDrag = true;		
 	} else {
 		Parse.User.logOut();
 		$rootScope.showMenuIcon = false;
+		$rootScope.toggleDrag = false;
 		console.log("Logged-out");
-		//$state.go("app.login");
 	}
 	
 	$scope.logout = function() {
@@ -234,13 +268,13 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 		});
 		Parse.User.logOut();
 		
-		 $timeout(function () {
+		$timeout(function () {
         $ionicLoading.hide();
         $ionicHistory.clearCache();
         $ionicHistory.clearHistory();
         $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
         $rootScope.showMenuIcon = false;
-		$state.go("app.login");
+		$state.go("app.login", {cache: false});
         }, 30);
 	}
 })

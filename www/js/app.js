@@ -1,8 +1,8 @@
-angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource'])
+angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource'])
 
- .constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
 
-//.constant('RESTFUL_URL', 'http://localhost:3000/api')
+
+.constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
 
 .run(function($ionicPlatform) {
 	
@@ -10,7 +10,8 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
    Parse.initialize("yMlvcsS2rf3ktzvqMcCJcBP8JHS2I5D5YJYV3KUz", "htSsI0RdkOzBaLOKEjjnQVavjgCXzYN5Jm0opecR");
 
   $ionicPlatform.ready(function() {
-   
+	  
+    
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
@@ -27,7 +28,7 @@ angular.module('starter', ['ionic', 'ionic-material', 'starter.controllers', 'ng
 	          version    : 'v2.3',
 	          xfbml      : true
 	       });
-  	   };
+  	   }
  
   		(function(d, s, id){
   			var js, fjs = d.getElementsByTagName(s)[0];
