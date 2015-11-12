@@ -1,45 +1,41 @@
 /* global angular, document, window */
-angular.module('starter.controllers', []).service('CurrentUser', function($rootScope, $ionicSideMenuDelegate, $state) {
+angular.module('starter.controllers', [])
+
+.service('CurrentUser', function() {
+	this.firstName = "";
 	
-	return {
-		getInfo: function() {
-		Parse.User.current().fetch().then(function(user) {
-			$rootScope.current_first_name = user.get('firstname');
-			$rootScope.current_last_name = user.get('lastname');
-			$rootScope.current_email = user.get('email');
-            $rootScope.current_user_id = user.get('userId');
-            
-            
-        //fetch FB user details
-		if (Parse.FacebookUtils.isLinked(Parse.User.current()) == true) {
+	this.getCurrentUser = function(fieldName) {
+		return Parse.User.current().get(fieldName);
+	}
 
-			FB.api('/me', function(response) {
-				$rootScope.current_first_name = response.name;
-				$rootScope.current_email = response.email;
-			});
-			console.log("logged-in with facebook");
-		} else {
-			console.log("not logged-in with facebook");
-		}
-		
-        //register device token
-        var push = new Ionic.Push({ "debug": true });
-		push.register(function(token) {
+	var push = new Ionic.Push({ "debug": true });
+	push.register(function(token) {
 			
-			if (token.token != user.get('deviceToken')) {
-				var currentUser = Parse.User.current();
-				currentUser.set("deviceToken", token.token);
-				return currentUser.save();
-				$rootScope.current_user_id = token.token;
-			} else {
-				console.log("did not save deviceToken, same");
-			}
-		});
-		
-		
+		if (token.token != user.get('deviceToken')) {
+			var currentUser = Parse.User.current();
+			currentUser.set("deviceToken", token.token);
+			return currentUser.save();
+		} else {
+			console.log("did not save deviceToken, same");
+		}
+	})
 
-		});
-	}};
+	this.getCurrentFirstName = function() {
+		return this.getCurrentUser('firstname');
+	}
+	
+	this.getCurrentLastName = function() {
+		return Parse.User.current().get('lastname');
+	}
+	
+	this.getCurrentEmail = function() {
+		return Parse.User.current().getEmail();
+	}
+	
+	this.getUserId = function() {
+		return Parse.User.current().id;
+	}
+
 })
 
 .controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup) {
@@ -151,8 +147,8 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 					disableBack: true
 				});
 				    
-     			CurrentUser.getInfo(); //get user info
-				$rootScope.showMenuIcon = true; //show hamburger icon
+     			//CurrentUser.getInfo(); //get user info
+				//$rootScope.showMenuIcon = true; //show hamburger icon
 				$state.go("app.dashboard", {cache: false}); 
 				
 			},
@@ -173,32 +169,26 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 		
 		Parse.FacebookUtils.logIn(null, {
 			success: function(user) {
-				
 				if (!user.existed()) {
-					$ionicLoading.hide();
-					//login successful
-					$ionicHistory.nextViewOptions({
-						disableAnimate: true,
-						disableBack: true
-					});
-					CurrentUser.getInfo(); //get user info
-					$rootScope.showMenuIcon = true; //show hamburger icon
-					$state.go("app.dashboard", {cache: false});
-				} else {
-					$ionicLoading.hide();
-					//login successful
-					$ionicHistory.nextViewOptions({
-						disableAnimate: true,
-						disableBack: true
-					});
-					CurrentUser.getInfo();
-					$rootScope.showMenuIcon = true; //show hamburger icon
-					$state.go("app.dashboard", {cache: false});
+						FB.api('/me', {fields: ['last_name', 'first_name', 'email']}, function(response) {
+							var currentUser = Parse.User.current();
+					        currentUser.set("firstname", response.first_name);
+					        currentUser.set("lastname", response.last_name);
+					        currentUser.set("email", response.email);
+					        currentUser.save();
+					        console.log(response);
+					        alert("Profile retrieved from Facebook account");
+						});
 				}
-				
-				//facebook query
+					$ionicLoading.hide();
+					$ionicHistory.nextViewOptions({
+						disableAnimate: true,
+						disableBack: true
+					});
 					
-			},
+					//$rootScope.showMenuIcon = true; //show hamburger icon
+					$state.go("app.dashboard", {cache: false});
+				},
 			error: function(user, error) {
 				alert("User cancelled the Facebook login or did not fully authorize.");
 			}
@@ -247,17 +237,20 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
 })
 
 //Menu Controller
-.controller('MenuCtrl', function($scope, $ionicModal, $ionicLoading, $ionicHistory, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup, $rootScope, CurrentUser) {
+.controller('MenuCtrl', function($scope, $ionicModal, $ionicLoading, $ionicHistory, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup, CurrentUser) {
 		
+	
 	//check if there is a logged-in user
 	if (Parse.User.current() != null) {
-		CurrentUser.getInfo();
-		$rootScope.showMenuIcon = true;
-		$rootScope.toggleDrag = true;		
+		$scope.showMenuIcon = true;
+		$scope.toggleDrag = true;
+		$scope.firstName = CurrentUser.getCurrentFirstName();
+		$scope.lastName = CurrentUser.getCurrentLastName();
+		$scope.email = CurrentUser.getCurrentEmail();		
 	} else {
 		Parse.User.logOut();
-		$rootScope.showMenuIcon = false;
-		$rootScope.toggleDrag = false;
+		//$rootScope.showMenuIcon = false;
+		$scope.toggleDrag = false;
 		console.log("Logged-out");
 	}
 	
@@ -273,7 +266,7 @@ angular.module('starter.controllers', []).service('CurrentUser', function($rootS
         $ionicHistory.clearCache();
         $ionicHistory.clearHistory();
         $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
-        $rootScope.showMenuIcon = false;
+        //$rootScope.showMenuIcon = false;
 		$state.go("app.login", {cache: false});
         }, 30);
 	}

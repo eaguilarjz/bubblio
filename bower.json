@@ -13,6 +13,7 @@
     "angular": ">= 1.0.8"
   },
   "dependencies": {
-    "braintree-web": "~2.15.2"
+    "braintree-web": "~2.15.2",
+    "ionic-timepicker": "~0.4.0"
   }
 }

@@ -1,6 +1,4 @@
-angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource'])
-
-
+angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource', 'ionic-timepicker'])
 
 .constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
 
@@ -46,6 +44,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
     $stateProvider.state('app', {
         url: '/app',
         abstract: true,
+        cache: false,
         templateUrl: 'templates/menu.html',
         controller: 'MenuCtrl'
     })

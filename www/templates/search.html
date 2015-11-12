@@ -1,5 +1,5 @@
 <ion-view view-title="New Bubble">
-  <ion-content>
+  <ion-content ng-class="{expanded:isExpanded}">
     <label class="item item-input item-select">
         <div class="input-label">
           Service
@@ -10,14 +10,38 @@
     </label>
     <label class="item item-input">
         <span class="input-label">Pickup</span>
+         <ionic-timepicker input-obj="timePickerObject">
+		 	<button class="button button-block button-positive overflowShow" ng-model="searchParams.pickupDate">
+		 		<standard-time-meridian etime='timePickerObject.inputEpochTime'></standard-time-meridian>
+		 	</button>
+		 </ionic-timepicker>
+    </label>
+    <label class="item item-input">
+        <span class="input-label">Delovery</span>
+         <ionic-timepicker input-obj="timePickerObject">
+		 	<button class="button button-block button-positive overflowShow" ng-model="searchParams.deliveryDate">
+		 		<standard-time-meridian etime='timePickerObject.inputEpochTime'></standard-time-meridian>
+		 	</button>
+		 </ionic-timepicker>
+    </label>
+
+
+<!--
         <input type="datetime-local" ng-model="searchParams.pickupDate">
     </label>
     <label class="item item-input">
         <span class="input-label">Delivery</span>
         <input type="datetime-local" ng-model="searchParams.deliveryDate">
     </label>
+-->
+    
+    
     <a href="#/app/laundromats/{{searchParams.service}}/{{currentLocation.latitude}}/{{currentLocation.longitude}}/{{searchParams.pickupDate | date:'yyyyMMddHHmmss'}}/{{searchParams.deliveryDate | date:'yyyyMMddHHmmss'}}" class="button button-full button-positive">
         Search
     </a>
+    
+    
+    
+    
   </ion-content>
 </ion-view>
