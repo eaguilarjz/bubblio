@@ -1,5 +1,6 @@
-angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource', 'ionic-timepicker'])
+angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource', 'angularReverseGeocode', 'ionic-timepicker'])
 
+// .constant('RESTFUL_URL', 'http://localhost:3000/api')
 .constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
 
 .run(function($ionicPlatform) {
@@ -70,6 +71,17 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
       }
     })
     
+    .state('app.address', {
+        url: '/addresses/:userId/:addressId/:latitude/:longitude',
+        cache: false,
+        views: {
+          'menuContent': {
+              templateUrl: 'templates/address.html',
+              controller: 'AddressCtrl'
+          }
+        }
+    })
+    
 	.state('app.dashboard', {
       url: '/dashboard',
       cache: false,
@@ -82,7 +94,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
 	})
     
     .state('app.profile', {
-      url: '/profile',
+      url: '/profile/:latitude/:longitude',
       views: {
 	      'menuContent': {
 		      templateUrl: 'templates/profile.html',

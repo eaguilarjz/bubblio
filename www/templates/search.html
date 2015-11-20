@@ -10,6 +10,7 @@
     </label>
     <label class="item item-input">
         <span class="input-label">Pickup</span>
+        <!--
          <ionic-timepicker input-obj="timePickerObject">
 		 	<button class="button button-block button-positive overflowShow" ng-model="searchParams.pickupDate">
 		 		<standard-time-meridian etime='timePickerObject.inputEpochTime'></standard-time-meridian>
@@ -26,15 +27,25 @@
     </label>
 
 
-<!--
+-->
         <input type="datetime-local" ng-model="searchParams.pickupDate">
     </label>
     <label class="item item-input">
         <span class="input-label">Delivery</span>
         <input type="datetime-local" ng-model="searchParams.deliveryDate">
     </label>
--->
-    
+    <b>Address:</b><br> 
+    <div class="list">
+        <label class="item item-radio" ng-repeat="address in addresses">
+            <input type="radio" name="group" ng-model="address_id" value="{{address.address_id}}" ng-checked="$index === 0">
+            <div class="item-content">
+                {{address.address}}<br>
+                {{address.city}}, {{address.state_name}}<br>
+                {{address.zip_code}}, {{address.country_name}}
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
+        </label>
+    </div>
     
     <a href="#/app/laundromats/{{searchParams.service}}/{{currentLocation.latitude}}/{{currentLocation.longitude}}/{{searchParams.pickupDate | date:'yyyyMMddHHmmss'}}/{{searchParams.deliveryDate | date:'yyyyMMddHHmmss'}}" class="button button-full button-positive">
         Search

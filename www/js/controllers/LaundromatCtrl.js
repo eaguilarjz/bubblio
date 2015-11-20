@@ -1,5 +1,5 @@
 angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, $ionicModal, // $http, $window, 
-                                                                 Orders, Laundromats, Rating, Reviews, Datetime, Customers, Addresses) {
+                                                                 Orders, Laundromats, Rating, Reviews, Datetime, Customers, Addresses, CurrentUser) {
     // Get the laundromat list
     Laundromats.get({
         site_id: $stateParams.siteId,
@@ -27,7 +27,7 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
     $scope.quantity = 0;
     
     // TODO: Change this constant value for a function that returns the current user_id
-    $scope.user_id = 5;
+    $scope.user_id = CurrentUser.getUserId();
     
     // Calculate the fair
     $scope.calculateFare= function(qty) {

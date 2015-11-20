@@ -33,7 +33,7 @@ angular.module('starter.controllers', [])
 	}
 	
 	this.getUserId = function() {
-		return Parse.User.current().id;
+		return Parse.User.current().get('userId');
 	}
 
 })
@@ -171,13 +171,21 @@ angular.module('starter.controllers', [])
 			success: function(user) {
 				if (!user.existed()) {
 						FB.api('/me', {fields: ['last_name', 'first_name', 'email']}, function(response) {
-							var currentUser = Parse.User.current();
-					        currentUser.set("firstname", response.first_name);
-					        currentUser.set("lastname", response.last_name);
-					        currentUser.set("email", response.email);
-					        currentUser.save();
-					        console.log(response);
-					        alert("Profile retrieved from Facebook account");
+                            Users.save({
+                                email_address: response.email,
+                                password: '',
+                                first_name: response.first_name,
+                                last_name: response.last_name
+                            }, function(data) {
+                                var currentUser = Parse.User.current();
+                                currentUser.set("firstname", response.first_name);
+                                currentUser.set("lastname", response.last_name);
+                                currentUser.set("email", response.email);
+                                currentUser.set("userId", data.UserId);
+                                currentUser.save();
+                                console.log(response);
+                                alert("Profile retrieved from Facebook account");
+                            });
 						});
 				}
 					$ionicLoading.hide();
@@ -237,9 +245,12 @@ angular.module('starter.controllers', [])
 })
 
 //Menu Controller
-.controller('MenuCtrl', function($scope, $ionicModal, $ionicLoading, $ionicHistory, $ionicPopover, $timeout, $location, $state, $ionicHistory, $ionicPopup, CurrentUser) {
+.controller('MenuCtrl', function($scope, $ionicModal, $ionicLoading, $ionicHistory, $ionicPopover, $timeout, $location, 
+                                  $state, $ionicHistory, $ionicPopup, CurrentUser, Geolocation) {
 		
-	
+	// Obtain latitude and longitude
+    $scope.currentLocation = Geolocation.get();
+    
 	//check if there is a logged-in user
 	if (Parse.User.current() != null) {
 		$scope.showMenuIcon = true;
