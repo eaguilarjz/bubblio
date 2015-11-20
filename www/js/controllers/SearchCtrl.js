@@ -1,4 +1,4 @@
-angular.module('starter').controller('SearchCtrl', function($scope, $stateParams, Geolocation, Services, CurrentUser, Addresses) {
+angular.module('starter').controller('SearchCtrl', function($scope, $stateParams, $ionicPopup, $state, $filter, Geolocation, Services, CurrentUser, Addresses) {
    
     // Get the current location
     $scope.currentLocation = Geolocation.get();
@@ -12,8 +12,33 @@ angular.module('starter').controller('SearchCtrl', function($scope, $stateParams
     // Retrieve the address
     Addresses.get({user_id: $scope.user_id}, function(data) {
         $scope.addresses = data.addresses;
-        $scope.address_id = data.addresses[0].address_id;
+        if (data.addresses.length == 0) {
+            alert(data.addresses.length);
+            var alertPopup = $ionicPopup.alert({
+                title: 'No addresses found',
+                template: 'You will be redirected to your profile page to allow you to add an address!'
+            });
+            alertPopup.then(function(res) {
+                $state.go('app.profile', {latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude})
+            });         
+            return;
+        }
+        $scope.addressId = data.addresses[0].address_id;
     });
+    
+    // Function to change the latitude and longitude, based on the selected address
+    $scope.updateLocation = function(adr) {
+        if (!isNaN(adr)) {
+            for (var i=0; i<$scope.addresses.length; i++) {
+                if ($scope.addresses[i].address_id == adr) {
+                    $scope.addressId = adr;
+                    $scope.currentLocation.latitude = $scope.addresses[i].latitude;
+                    $scope.currentLocation.longitude = $scope.addresses[i].longitude;
+                    break;
+                }
+            }
+        }
+    };
     
     $scope.searchParams = {
         service: $stateParams.serviceId,

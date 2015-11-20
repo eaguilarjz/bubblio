@@ -34,20 +34,15 @@
         <span class="input-label">Delivery</span>
         <input type="datetime-local" ng-model="searchParams.deliveryDate">
     </label>
-    <b>Address:</b><br> 
-    <div class="list">
-        <label class="item item-radio" ng-repeat="address in addresses">
-            <input type="radio" name="group" ng-model="address_id" value="{{address.address_id}}" ng-checked="$index === 0">
-            <div class="item-content">
-                {{address.address}}<br>
-                {{address.city}}, {{address.state_name}}<br>
-                {{address.zip_code}}, {{address.country_name}}
-            </div>
-            <i class="radio-icon ion-checkmark"></i>
-        </label>
-    </div>
-    
-    <a href="#/app/laundromats/{{searchParams.service}}/{{currentLocation.latitude}}/{{currentLocation.longitude}}/{{searchParams.pickupDate | date:'yyyyMMddHHmmss'}}/{{searchParams.deliveryDate | date:'yyyyMMddHHmmss'}}" class="button button-full button-positive">
+    <label class="item item-input item-select">
+        <span class="input-label">Address</span>
+        <select ng-model="address_id" ng-change="updateLocation(address_id)">
+            <option ng-repeat="address in addresses" value="{{address.address_id}}" ng-selected="$index == 0">
+                {{address.alias}}
+            </option>
+        </select>
+    </label>    
+    <a href="#/app/laundromats/{{searchParams.service}}/{{currentLocation.latitude}}/{{currentLocation.longitude}}/{{searchParams.pickupDate | date:'yyyyMMddHHmmss'}}/{{searchParams.deliveryDate | date:'yyyyMMddHHmmss'}}/{{addressId}}" class="button button-full button-positive">
         Search
     </a>
     

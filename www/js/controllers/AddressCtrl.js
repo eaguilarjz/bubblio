@@ -1,4 +1,4 @@
-angular.module('starter').controller('AddressCtrl', function($scope, $stateParams, $ionicPopup, $ionicHistory, $state, $filter, Geolocation, Addresses, Countries, States) {    
+angular.module('starter').controller('AddressCtrl', function($scope, $stateParams, $ionicPopup, $ionicHistory, $state, Geolocation, Addresses, Countries, States) {    
     $scope.address = {
         addressId: $stateParams.addressId,
         zipCode: '',
@@ -112,7 +112,9 @@ angular.module('starter').controller('AddressCtrl', function($scope, $stateParam
         // Confirm if it is needed to call the Google API
         var confirmPopup = $ionicPopup.confirm({
          title: 'Confirm location',
-         template: 'Is this address your current location?'
+         template: 'Is this address your current location?',
+         cancelText: 'No',
+         okText: 'Yes'
         });
         confirmPopup.then(function(res) {
          if(res) {
@@ -124,6 +126,8 @@ angular.module('starter').controller('AddressCtrl', function($scope, $stateParam
             Geolocation.codeAddress($scope.address.addressLine1 + ', ' + $scope.address.addressLine2 + ', ' + $scope.address.city + ' ' 
                                     + $scope.address.state.substring(3) + ', ' + $scope.address.country + ' ' + $scope.address.zipCode).then(function(data) {
                 if (!data.error) {
+                    $scope.address.latitude = data.address.geometry.location.lat();
+                    $scope.address.longitude = data.address.geometry.location.lng();
                     storeAddress($scope.address);
                 }
             }); 

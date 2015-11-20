@@ -1,7 +1,7 @@
 angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource', 'angularReverseGeocode', 'ionic-timepicker'])
 
-// .constant('RESTFUL_URL', 'http://localhost:3000/api')
-.constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
+.constant('RESTFUL_URL', 'http://localhost:3000/api')
+// .constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
 
 .run(function($ionicPlatform) {
 	
@@ -122,7 +122,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
       }
     })
     .state('app.laundromats', {
-      url: '/laundromats/:serviceId/:latitude/:longitude/:pickupDate/:deliveryDate',
+      url: '/laundromats/:serviceId/:latitude/:longitude/:pickupDate/:deliveryDate/:addressId',
       views: {
         'menuContent': {
           templateUrl: 'templates/laundromats.html',
@@ -132,7 +132,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
     })
 
   .state('app.site', {
-    url: '/laundromats/:siteId/:serviceId/:pickupDate/:deliveryDate',
+    url: '/laundromats/:siteId/:serviceId/:pickupDate/:deliveryDate/:addressId',
     views: {
       'menuContent': {
         templateUrl: 'templates/laundromat.html',

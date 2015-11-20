@@ -17,6 +17,7 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
     Services.get({service_id: $stateParams.serviceId}, function(data){
        $scope.service = data.services[0];
     });
+    $scope.addressId = $stateParams.addressId;
 
     $scope.serviceId = $stateParams.serviceId;
     $scope.pickupDate = $stateParams.pickupDate;
