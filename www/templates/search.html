@@ -10,6 +10,7 @@
     </label>
     <label class="item item-input">
         <span class="input-label">Pickup</span>
+        <!--
          <ionic-timepicker input-obj="timePickerObject">
 		 	<button class="button button-block button-positive overflowShow" ng-model="searchParams.pickupDate">
 		 		<standard-time-meridian etime='timePickerObject.inputEpochTime'></standard-time-meridian>
@@ -26,17 +27,22 @@
     </label>
 
 
-<!--
+-->
         <input type="datetime-local" ng-model="searchParams.pickupDate">
     </label>
     <label class="item item-input">
         <span class="input-label">Delivery</span>
         <input type="datetime-local" ng-model="searchParams.deliveryDate">
     </label>
--->
-    
-    
-    <a href="#/app/laundromats/{{searchParams.service}}/{{currentLocation.latitude}}/{{currentLocation.longitude}}/{{searchParams.pickupDate | date:'yyyyMMddHHmmss'}}/{{searchParams.deliveryDate | date:'yyyyMMddHHmmss'}}" class="button button-full button-positive">
+    <label class="item item-input item-select">
+        <span class="input-label">Address</span>
+        <select ng-model="address_id" ng-change="updateLocation(address_id)">
+            <option ng-repeat="address in addresses" value="{{address.address_id}}" ng-selected="$index == 0">
+                {{address.alias}}
+            </option>
+        </select>
+    </label>    
+    <a href="#/app/laundromats/{{searchParams.service}}/{{currentLocation.latitude}}/{{currentLocation.longitude}}/{{searchParams.pickupDate | date:'yyyyMMddHHmmss'}}/{{searchParams.deliveryDate | date:'yyyyMMddHHmmss'}}/{{addressId}}" class="button button-full button-positive">
         Search
     </a>
     

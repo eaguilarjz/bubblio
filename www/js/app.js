@@ -1,5 +1,6 @@
-angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource', 'ionic-timepicker'])
+angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource', 'angularReverseGeocode', 'ionic-timepicker'])
 
+// .constant('RESTFUL_URL', 'http://localhost:3000/api')
 .constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
 
 .run(function($ionicPlatform) {
@@ -70,14 +71,15 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
       }
     })
     
-    .state('app.forgot_password', {
-      url: '/forgot_password',
-      views: {
-	      'menuContent': {
-		      templateUrl: 'templates/forgot_password.html',
-		      controller: 'LoginCtrl'
-	      }
-      }
+    .state('app.address', {
+        url: '/addresses/:userId/:addressId/:latitude/:longitude',
+        cache: false,
+        views: {
+          'menuContent': {
+              templateUrl: 'templates/address.html',
+              controller: 'AddressCtrl'
+          }
+        }
     })
     
 	.state('app.dashboard', {
@@ -91,12 +93,64 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
 	    }
 	})
     
+	.state('app.orders', {
+      url: '/orders',
+      cache: false,
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/orders.html',
+		      controller: 'OrdersCtrl'
+	      }
+	    }
+	})
+    
+	.state('app.review', {
+      url: '/review/:orderId',
+      cache: false,
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/review.html',
+		      controller: 'ReviewCtrl'
+	      }
+	    }
+	})
+    
+	.state('app.help', {
+      url: '/help',
+      cache: false,
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/help.html',
+	      }
+	    }
+	})
+    
+	.state('app.order', {
+      url: '/orders/:userId/:orderId',
+      cache: false,
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/order.html',
+		      controller: 'OrderCtrl'
+	      }
+	    }
+	})
+    
     .state('app.profile', {
-      url: '/profile',
+      url: '/profile/:latitude/:longitude',
       views: {
 	      'menuContent': {
 		      templateUrl: 'templates/profile.html',
 		      controller: 'ProfileCtrl'
+	      }}
+    })
+    
+    .state('app.history', {
+      url: '/history/:orderId',
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/history.html',
+		      controller: 'HistoryCtrl'
 	      }}
     })
 
@@ -120,7 +174,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
       }
     })
     .state('app.laundromats', {
-      url: '/laundromats/:serviceId/:latitude/:longitude/:pickupDate/:deliveryDate',
+      url: '/laundromats/:serviceId/:latitude/:longitude/:pickupDate/:deliveryDate/:addressId',
       views: {
         'menuContent': {
           templateUrl: 'templates/laundromats.html',
@@ -130,7 +184,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
     })
 
   .state('app.site', {
-    url: '/laundromats/:siteId/:serviceId/:pickupDate/:deliveryDate',
+    url: '/laundromats/:siteId/:serviceId/:pickupDate/:deliveryDate/:addressId',
     views: {
       'menuContent': {
         templateUrl: 'templates/laundromat.html',

@@ -7,25 +7,52 @@
                 <h4>{{current_email}}</h4>
             </div>
         </div>
+
+        <div class="card">
+            <div class="item item-divider">
+                Profile
+            </div>
+            <div class="item item-text-wrap">
+                <div class="list">
+                    <label class="item item-input">
+                        <i class="icon ion-person placeholder-icon"></i>
+                        <input type="text" placeholder="First Name" ng-model="data.firstname" required>
+                    </label>
+                    <label class="item item-input">
+                        <i class="icon ion-search placeholder-icon"></i>
+                        <input type="text" placeholder="Last Name" ng-model="data.lastname">
+                    </label>
+                    <button class="button button-full button-positive" ng-click="saveInfo()">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="item item-divider">
+                Addresses
+            </div>
+            <div class="list">
+                <div class="item item-text-wrap" ng-repeat="address in addresses">
+                        <b>{{address.alias}}</b><br>
+                        {{address.address}}<br>
+                        {{address.city}}, {{address.state_name}}<br>
+                        {{address.zip_code}}, {{address.country_name}}<br>
+                        <a ng-href="#/app/addresses/{{user_id}}/{{address.address_id}}/{{latitude}}/{{longitude}}">Edit</a> | <a ng-href="#" ng-click="deleteAddress(address.address_id)">Delete</a>
+                </div>
+                <div class="item">
+                    <button class="button button-full button-positive" ng-click="newAddress()">
+                        New Address
+                    </button>
+                </div>
+                <!--
+                <label class="item item-input">
+                    <i class="icon ion-ios-home placeholder-icon"></i>
+                    <input type="text" placeholder="Address" ng-model="data.address">
+                </label>
+                -->
+            </div>
+        </div>
         
-        <div class="list">
-		  <label class="item item-input">
-		    <i class="icon ion-person placeholder-icon"></i>
-		    <input type="text" placeholder="First Name" ng-model="data.firstname" required>
-		  </label>
-		  <label class="item item-input">
-		    <i class="icon ion-search placeholder-icon"></i>
-		    <input type="text" placeholder="Last Name" ng-model="data.lastname">
-		  </label>
-		  <label class="item item-input">
-		    <i class="icon ion-ios-home placeholder-icon"></i>
-		    <input type="text" placeholder="Address" ng-model="data.address">
-		  </label>
-		</div>
-		
     </ion-content>
 </ion-view>
-
-<div class="bar bar-footer bar-balanced">
-  <div class="title" ng-click="saveInfo()">Save</div>
-</div>

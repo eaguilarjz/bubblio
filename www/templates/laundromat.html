@@ -45,7 +45,7 @@
                         {{review.title}}
                     </div>
                     <div class="item item-text-wrap">
-                        <img ng-repeat="star in review.stars" ng-src="{{star.url}}"> {{review.date | date:'shortDate'}}
+                        <img ng-repeat="star in review.stars" ng-src="{{star.url}}" style="display:inline-block"> {{review.date | date:'shortDate'}}
                         {{review.comments}}
                     </div>
                     <div class="item item-divider">
@@ -89,6 +89,7 @@
                         <label class="item item-radio" ng-repeat="address in addresses">
                             <input type="radio" name="group" ng-model="address_id" value="{{address.address_id}}" ng-checked="$index === 0">
                             <div class="item-content">
+                                <b>{{address.alias}}</b><br>
                                 {{address.address}}<br>
                                 {{address.city}}, {{address.state_name}}<br>
                                 {{address.zip_code}}, {{address.country_name}}
