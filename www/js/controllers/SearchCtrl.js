@@ -28,6 +28,8 @@ angular.module('starter').controller('SearchCtrl', function($scope, $stateParams
             return;
         }
         $scope.addressId = data.addresses[0].address_id;
+        $scope.currentLocation.latitude = data.addresses[0].latitude;
+        $scope.currentLocation.longitude = data.addresses[0].longitude;
     });
     
     // Function to change the latitude and longitude, based on the selected address
