@@ -1,7 +1,7 @@
 angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource', 'angularReverseGeocode', 'ionic-timepicker'])
 
-.constant('RESTFUL_URL', 'http://localhost:3000/api')
-// .constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
+// .constant('RESTFUL_URL', 'http://localhost:3000/api')
+.constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')
 
 .run(function($ionicPlatform) {
 	
@@ -93,12 +93,64 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
 	    }
 	})
     
+	.state('app.orders', {
+      url: '/orders',
+      cache: false,
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/orders.html',
+		      controller: 'OrdersCtrl'
+	      }
+	    }
+	})
+    
+	.state('app.review', {
+      url: '/review/:orderId',
+      cache: false,
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/review.html',
+		      controller: 'ReviewCtrl'
+	      }
+	    }
+	})
+    
+	.state('app.help', {
+      url: '/help',
+      cache: false,
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/help.html',
+	      }
+	    }
+	})
+    
+	.state('app.order', {
+      url: '/orders/:userId/:orderId',
+      cache: false,
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/order.html',
+		      controller: 'OrderCtrl'
+	      }
+	    }
+	})
+    
     .state('app.profile', {
       url: '/profile/:latitude/:longitude',
       views: {
 	      'menuContent': {
 		      templateUrl: 'templates/profile.html',
 		      controller: 'ProfileCtrl'
+	      }}
+    })
+    
+    .state('app.history', {
+      url: '/history/:orderId',
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/history.html',
+		      controller: 'HistoryCtrl'
 	      }}
     })
 

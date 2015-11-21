@@ -1,0 +1,12 @@
+<ion-view view-title="Order # {{orderId}} History">
+    <ion-content>
+        <div class="card" ng-repeat="milestone in history">
+            <div class="item item-divider">
+                {{milestone.date | date:'MMM dd, yyyy'}}: {{milestone.status}}
+            </div>
+            <div class="item item-text-wrap">
+                <b>Comments:</b> {{(milestone.comments == null) ? 'None.' : milestone.comments}}
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

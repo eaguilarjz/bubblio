@@ -45,7 +45,7 @@
                         {{review.title}}
                     </div>
                     <div class="item item-text-wrap">
-                        <img ng-repeat="star in review.stars" ng-src="{{star.url}}"> {{review.date | date:'shortDate'}}
+                        <img ng-repeat="star in review.stars" ng-src="{{star.url}}" style="display:inline-block"> {{review.date | date:'shortDate'}}
                         {{review.comments}}
                     </div>
                     <div class="item item-divider">

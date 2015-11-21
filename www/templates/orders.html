@@ -1,0 +1,12 @@
+<ion-view view-title="Orders">
+  <ion-content>  
+      <ion-list>
+          <ion-item ng-repeat="order in orders" href="#/app/orders/{{userId}}/{{order.order_id}}">
+            <b>{{order.laundromat}}, #{{order.order_id}} ({{order.status}})</b><br>
+            <b>Pickup:</b> {{order.requested_pickup | date:'MMM dd, yyyy hh:mm a'}}<br>
+            <b>Delivery:</b>{{order.requested_delivery | date:'MMM dd, yyyy hh:mm a'}}<br>
+            <b>Order Total: </b>{{order.price | currency}}
+          </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>
