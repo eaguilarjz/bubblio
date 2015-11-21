@@ -6,7 +6,11 @@ angular.module('starter').controller('SearchCtrl', function($scope, $stateParams
     
     // Get the service list
     Services.get({}, function(res) {
-        $scope.services = res.services;
+        for (var i=0; i< res.services.length; i++) {
+            if (res.services[i].service_id == $stateParams.serviceId) {
+                $scope.services = [res.services[i]];
+            }
+        }
     });
     
     // Retrieve the address
