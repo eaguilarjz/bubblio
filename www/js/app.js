@@ -70,6 +70,16 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
       }
     })
     
+    .state('app.forgot_password', {
+      url: '/forgot_password',
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/forgot_password.html',
+		      controller: 'LoginCtrl'
+	      }
+      }
+    })
+    
 	.state('app.dashboard', {
       url: '/dashboard',
       cache: false,
