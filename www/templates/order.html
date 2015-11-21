@@ -1,0 +1,55 @@
+<ion-view view-title="Order # {{orderId}}">
+    <ion-content>
+        <div class="card">
+            <div class="item item-divider">
+                Order Information
+            </div>
+            <div class="item item-text-wrap">
+                <b>Status:</b> {{order.status.toUpperCase()}}<br>
+                <b>Laundry:</b> {{order.laundromat}}<br>                   
+                <b>Pickup Date:</b> {{order.requested_pickup | date:'MMM dd, yyyy hh:mma'}}<br>
+                <b>Delivery Date:</b> {{order.requested_delivery | date:'MMM dd, yyyy hh:mma'}}<br>
+                <b>Fare:</b> {{order.price | currency}}<br>
+            </div>
+        </div>
+        <div class="card">
+            <div class="item item-divider">
+                Items
+            </div>
+            <div class="item item-text-wrap">
+                <div class="row">
+                    <div class="col col-10">
+                        <b>Qt</b>
+                    </div>
+                    <div class="col col-70">
+                        <b>Description</b>
+                    </div>
+                    <div class="col-20">
+                        <b>Total</b>
+                    </div>
+                </div>
+                <div class="row" ng-repeat="detail in order.details">
+                    <div class="col col-10">
+                        {{detail.actual_quantity}}
+                    </div>
+                    <div class="col col-70">
+                        {{detail.service_name}} ({{detail.actual_uom}})
+                    </div>
+                    <div class="col-20">
+                        {{detail.line_total | currency}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="item">
+                <div class="row">
+                    <div class="col"><button class="button button-block button-positive" ng-click="viewHistory(orderId)">View History</button></div>
+                    <div class="col">
+                        <button class="button button-block button-positive" ng-click="review(orderId)">Review</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

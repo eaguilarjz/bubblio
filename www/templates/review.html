@@ -1,0 +1,32 @@
+<ion-view view-title="Review - Order # {{orderId}}">
+    <ion-content>
+        <div class="text-center">
+            <br>
+            <p>How many stars would you give to this order?</p>
+            <img ng-repeat="star in review.stars" ng-src="{{star.url}}" width="40" height="40" ng-click="changeRating($index)">
+        </div>
+        <div class="card">
+            <div class="item item-divider">
+                Your Review
+            </div>
+            <div class="item item-text-wrap">
+                <div class="list">
+                    <form ng-submit="saveReview()">
+                        <label class="item item-input item-stacked-label">
+                            <span class="input-label">Title</span>
+                            <input type="text" placeholder="Title" ng-model="review.title" required>
+                        </label>
+                        <label class="item item-input item-stacked-label">
+                            <span class="input-label">Comments</span>
+                            <textarea placeholder="Comments" ng-model="review.comments"></textarea>
+                        </label>
+                        <ion-toggle ng-model="review.anonymous_flag" toggle-class="toggle-positive" ng-true-value="'Y'" ng-false-value="'N'">Hide my name</ion-toggle>
+                        <button type="submit" class="button button-full button-positive">
+                            Save
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
