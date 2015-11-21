@@ -17,7 +17,6 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
     Services.get({service_id: $stateParams.serviceId}, function(data){
        $scope.service = data.services[0];
     });
-    $scope.addressId = $stateParams.addressId;
 
     $scope.serviceId = $stateParams.serviceId;
     $scope.pickupDate = $stateParams.pickupDate;
@@ -74,7 +73,7 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
 
                 google.maps.event.addListener(markers, 'click', (function(markers, i) {
                     return function() {
-                    info.setContent("<a href='#/app/laundromats/"+ scope.laundromats[i].site_id +"/"+ $stateParams.serviceId +"/"+ $stateParams.pickupDate +"/"+ $stateParams.deliveryDate+"/"+ scope.addressId+ "'>"+
+                    info.setContent("<a href='#/app/laundromats/"+ scope.laundromats[i].site_id +"/"+ $stateParams.serviceId +"/"+ $stateParams.pickupDate +"/"+ $stateParams.deliveryDate+"'>"+
                         scope.laundromats[i].name+"</a><br/>" +"Price: " + scope.laundromats[i].quotation_price +"/lb" + " Score: "+scope.laundromats[i].avg_score);
                     info.open(map, markers);
                     }

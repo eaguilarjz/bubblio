@@ -1,5 +1,5 @@
 angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, $ionicModal, // $http, $window, 
-                                                                 Orders, Laundromats, Rating, Reviews, Datetime, Customers, Addresses, CurrentUser) {
+                                                                 Orders, Laundromats, Rating, Reviews, Datetime, Customers, Addresses) {
     // Get the laundromat list
     Laundromats.get({
         site_id: $stateParams.siteId,
@@ -25,10 +25,9 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
     $scope.pickupDate = Datetime.toDate($stateParams.pickupDate);
     $scope.deliveryDate = Datetime.toDate($stateParams.deliveryDate);
     $scope.quantity = 0;
-    $scope.address_id = $stateParams.addressId;
     
     // TODO: Change this constant value for a function that returns the current user_id
-    $scope.user_id = CurrentUser.getUserId();
+    $scope.user_id = 5;
     
     // Calculate the fair
     $scope.calculateFare= function(qty) {
@@ -49,9 +48,9 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
     });
     
     // Retrieve the address
-    Addresses.get({user_id: $scope.user_id, address_id: $scope.address_id}, function(data) {
+    Addresses.get({user_id: $scope.user_id}, function(data) {
         $scope.addresses = data.addresses;
-        
+        $scope.address_id = data.addresses[0].address_id;
     });
     
     // Create and load the Modal
