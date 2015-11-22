@@ -112,8 +112,8 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
 		   	    'PAYMENTREQUEST_0_PAYMENTACTION': 'SALE',
 		   	    'PAYMENTREQUEST_0_AMT': $scope.laundromat.invoice_price,
 		   	    'PAYMENTREQUEST_0_CURRENCYCODE': 'USD',
-		   	    'cancelUrl': 'http://www.example.com/cancel.html',
-		   	    'returnUrl': 'http://localhost:8100/#/confirmation'
+		   	    'cancelUrl': 'http://localhost:8100/#/app/dashboard',
+		   	    'returnUrl': 'http://localhost:8100/#/app/confirmation'
 		   	     }
 		}).success(function (data, status, headers, config) {
 			var token = data.split("&")[0].split("=")[1];
