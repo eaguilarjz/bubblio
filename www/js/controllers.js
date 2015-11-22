@@ -1,6 +1,22 @@
 /* global angular, document, window */
 angular.module('starter.controllers', [])
 
+.service('DialogBox', function($ionicPopup) {
+
+	this.showDialog = function(type, title, message) {
+		
+		if (type == 'alert') {
+			var alertPopup = $ionicPopup.alert({
+				title: title,
+				template: message
+			});
+				alertPopup.then(function(res) {
+				alertPopup.close();
+			});
+		}
+	}
+})
+
 .service('CurrentUser', function() {
 	this.firstName = "";
 	
@@ -71,8 +87,11 @@ angular.module('starter.controllers', [])
 })
 
 //Login Controller
-.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk, $rootScope, CurrentUser, Users) {
+.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk, $rootScope, CurrentUser, Users, DialogBox) {
+	
 	$scope.data = {};
+	$rootScope.showMenuIcon = false; //show hamburger icon
+
 	$scope.signup = function() {
 		$scope.loading = $ionicLoading.show({
 			content: 'Logging in',
@@ -103,7 +122,7 @@ angular.module('starter.controllers', [])
                         disableAnimate: true,
                         disableBack: true
                     });
-                    $ionicLoading.hide();
+                    
                     $scope.showAlert = function() {
                         var alertPopup = $ionicPopup.alert({
                             title: 'Welcome to bubbl.io!',
@@ -148,7 +167,7 @@ angular.module('starter.controllers', [])
 				});
 				    
      			//CurrentUser.getInfo(); //get user info
-				//$rootScope.showMenuIcon = true; //show hamburger icon
+				$rootScope.showMenuIcon = true; //show hamburger icon
 				$state.go("app.dashboard", {cache: false}); 
 				
 			},
@@ -202,43 +221,33 @@ angular.module('starter.controllers', [])
 			}
 		});
 	}
-	$scope.forgotPassword = function() {
-		$scope.data = {}
-		var forgotPasswordPopup = $ionicPopup.show({
-			template: '<input type="text" ng-model="data.email">',
-			title: 'Forgot Password',
-			subTitle: 'Please enter your e-mail address',
-			scope: $scope,
-			buttons: [{
-				text: 'Cancel'
-			}, {
-				text: '<b>Submit</b>',
-				type: 'button-positive',
-				onTap: function(e) {
-					if ($scope.data.email) {
-						Parse.User.requestPasswordReset($scope.data.email, {
-							success: function() {
-								$ionicPopup.alert({
-									title: 'Password request change',
-									template: 'Please check your e-mail'
-								});
-							},
-							error: function(error) {
-								alert("Error: " + error.code + " " + error.message);
-								e.preventDefault();
-							}
-						});
-						e.preventDefault();
-					} else {
-						$ionicPopup.alert({
-							title: 'Excuse me...',
-							template: 'Please check your e-mail'
-						});
-						e.preventDefault();
-					}
+	
+	$scope.forgot_password = function() {
+	
+    	$rootScope.showMenuIcon = true; //show hamburger icon
+
+		if ($scope.data.email) {
+			Parse.User.requestPasswordReset($scope.data.email, {
+				success: function() {
+					
+					//show dialog box
+					DialogBox.showDialog('alert', 'Successful', "Password change successful. Please check your e-mail."); 
+					
+					//go to login window
+                    $state.go("app.login", {cache: false});
+				},
+					error: function(error) {
+					
+					//show dialog box
+					DialogBox.showDialog('alert', 'Error', error.message); 	
 				}
-			}]
-		});
+			});
+							
+				} else {
+					
+					//show dialog box
+					DialogBox.showDialog('alert', 'Error', "Please try again."); 	
+				}
 	}
 
 	ionicMaterialInk.displayEffect();
@@ -246,21 +255,20 @@ angular.module('starter.controllers', [])
 
 //Menu Controller
 .controller('MenuCtrl', function($scope, $ionicModal, $ionicLoading, $ionicHistory, $ionicPopover, $timeout, $location, 
-                                  $state, $ionicHistory, $ionicPopup, CurrentUser, Geolocation) {
+                                  $state, $ionicHistory, $ionicPopup, $rootScope, CurrentUser, Geolocation) {
 		
 	// Obtain latitude and longitude
     $scope.currentLocation = Geolocation.get();
     
 	//check if there is a logged-in user
 	if (Parse.User.current() != null) {
-		$scope.showMenuIcon = true;
+		$rootScope.showMenuIcon = true; //show hamburger icon
 		$scope.toggleDrag = true;
 		$scope.firstName = CurrentUser.getCurrentFirstName();
 		$scope.lastName = CurrentUser.getCurrentLastName();
 		$scope.email = CurrentUser.getCurrentEmail();		
 	} else {
 		Parse.User.logOut();
-		//$rootScope.showMenuIcon = false;
 		$scope.toggleDrag = false;
 		console.log("Logged-out");
 	}
@@ -271,13 +279,12 @@ angular.module('starter.controllers', [])
 			disableBack: true
 		});
 		Parse.User.logOut();
-		
 		$timeout(function () {
         $ionicLoading.hide();
         $ionicHistory.clearCache();
         $ionicHistory.clearHistory();
         $ionicHistory.nextViewOptions({ disableBack: true, historyRoot: true });
-        //$rootScope.showMenuIcon = false;
+        $rootScope.showMenuIcon = false;
 		$state.go("app.login", {cache: false});
         }, 30);
 	}
@@ -319,64 +326,4 @@ angular.module('starter.controllers', [])
 		});
 	}, 200);
 	ionicMaterialInk.displayEffect()
-}).controller('InkCtrl', function($scope, $stateParams, ionicMaterialInk) {
-	ionicMaterialInk.displayEffect();
-}).controller('ComponentsCtrl', function($scope, $stateParams, ionicMaterialInk) {
-	ionicMaterialInk.displayEffect();
-	// Toggle Code Wrapper
-	var code = document.getElementsByClassName('code-wrapper');
-	for (var i = 0; i < code.length; i++) {
-		code[i].addEventListener('click', function() {
-			this.classList.toggle('active');
-		});
-	}
-}).controller('ListsCtrl', function($scope, $stateParams, ionicMaterialMotion) {
-	var reset = function() {
-			var inClass = document.querySelectorAll('.in');
-			for (var i = 0; i < inClass.length; i++) {
-				inClass[i].classList.remove('in');
-				inClass[i].removeAttribute('style');
-			}
-			var done = document.querySelectorAll('.done');
-			for (var j = 0; j < done.length; j++) {
-				done[j].classList.remove('done');
-				done[j].removeAttribute('style');
-			}
-			var ionList = document.getElementsByTagName('ion-list');
-			for (var k = 0; k < ionList.length; k++) {
-				var toRemove = ionList[k].className;
-				if (/animate-/.test(toRemove)) {
-					ionList[k].className = ionList[k].className.replace(/(?:^|\s)animate-\S*(?:$|\s)/, '');
-				}
-			}
-		};
-	$scope.ripple = function() {
-		reset();
-		document.getElementsByTagName('ion-list')[0].className += ' animate-ripple';
-		setTimeout(function() {
-			ionicMaterialMotion.ripple();
-		}, 500);
-	};
-	$scope.fadeSlideInRight = function() {
-		reset();
-		document.getElementsByTagName('ion-list')[0].className += ' animate-fade-slide-in-right';
-		setTimeout(function() {
-			ionicMaterialMotion.fadeSlideInRight();
-		}, 500);
-	};
-	$scope.fadeSlideIn = function() {
-		reset();
-		document.getElementsByTagName('ion-list')[0].className += ' animate-fade-slide-in';
-		setTimeout(function() {
-			ionicMaterialMotion.fadeSlideIn();
-		}, 500);
-	};
-	$scope.blinds = function() {
-		reset();
-		document.getElementsByTagName('ion-list')[0].className += ' animate-blinds';
-		setTimeout(function() {
-			ionicMaterialMotion.blinds();
-		}, 500);
-	};
-	$scope.blinds();
 })

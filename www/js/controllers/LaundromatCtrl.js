@@ -1,4 +1,4 @@
-angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, $ionicModal, // $http, $window, 
+angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, $ionicModal, $http, $window, 
                                                                  Orders, Laundromats, Rating, Reviews, Datetime, Customers, Addresses, CurrentUser) {
     // Get the laundromat list
     Laundromats.get({
@@ -96,7 +96,33 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
             $ionicHistory.nextViewOptions({
                 disableBack: true
             });
-            $state.go('app.confirmation');
-        });
+       
+        var basicAuthString = 	
+	btoa('AVPYiriMnFyIB83gr855qNIzmlgXME9_JI4Rkk2eY84ahjFTAWe4lgSPWF4Atd3i4X7nJ62awHTtHmIL:EC2QhrYKr2Ux5wEbF3DzD8a3zEZQOYiO1apY5nlIe9FEsH1GvR3lMd3dm1TAiHfkJUYhJWDCxuZesBHf');
+	
+		$http({
+	        url: 'https://api-3t.sandbox.paypal.com/nvp',
+	        method: 'GET',
+	   	    params: {
+		   	    'USER': 'norencet-facilitator_api1.gmail.com',
+		   	    'PWD': 'D8UV67ZPSZ7FTSZ4',
+		   	    'SIGNATURE': 'AZ0lUt4aW8haNRizJJIUKtB-G9qRAw4s9Cj7Ho4kkGmiuDlZShG770ws',
+		   	    'METHOD': 'SetExpressCheckout',
+		   	    'VERSION': "78",
+		   	    'PAYMENTREQUEST_0_PAYMENTACTION': 'SALE',
+		   	    'PAYMENTREQUEST_0_AMT': $scope.laundromat.invoice_price,
+		   	    'PAYMENTREQUEST_0_CURRENCYCODE': 'USD',
+		   	    'cancelUrl': 'http://www.example.com/cancel.html',
+		   	    'returnUrl': 'http://localhost:8100/#/confirmation'
+		   	     }
+		}).success(function (data, status, headers, config) {
+			var token = data.split("&")[0].split("=")[1];
+			$window.location.href = "https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=" + token;
+		}).error(function (data, status, headers, config) {
+			console.log(data)
+		})
+            
+		//$state.go('app.confirmation');
+    });
     };
 });

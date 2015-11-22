@@ -61,6 +61,16 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
       }
     })
     
+    .state('app.forgot_password', {
+      url: '/forgot_password',
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/forgot_password.html',
+		      controller: 'LoginCtrl'
+	      }
+      }
+    })
+
     .state('app.signup', {
       url: '/signup',
       views: {
@@ -191,7 +201,28 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
         controller: 'LaundromatCtrl'
       }
     }
-  });
+  })
+  
+  .state('app.paypal', {
+      url: '/paypal',
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/paypal.html',
+		      controller: 'PaypalCtrl'
+	      }
+      }
+    })
+    
+    .state('app.paypal_success', {
+      url: '/paypal',
+      views: {
+	      'menuContent': {
+		      templateUrl: 'templates/paypal_success.html',
+		      controller: 'PaypalCtrl'
+	      }
+      }
+    });
+
     
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/login');
