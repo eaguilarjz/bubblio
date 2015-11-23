@@ -202,6 +202,18 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
       }
     }
   })
+<<<<<<< Updated upstream
+=======
+
+  .state('app.orders', {
+      url: '/orders',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/orders.html',
+          controller: 'OrdersCtrl'
+        }}
+    });
+>>>>>>> Stashed changes
   
   .state('app.paypal', {
       url: '/paypal',
