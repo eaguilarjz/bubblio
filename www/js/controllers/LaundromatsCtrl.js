@@ -26,21 +26,11 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
     $scope.currentLongitude = $stateParams.longitude;
 
     //add filter
-    //var temp = [];
-
     
     $scope.boxs=[{id:1,name:"distance"},{id:2,name:"rank"},{id:3,name:"price"}];
     $scope.changedValue=function(item){
-        //var selectBox = document.getElementById("selectBox");
-        //var selectedValue = selectBox.options[selectBox,selectedIndex].value;
         var selectedValue  = item.id;
-        //alert(selectedValue);
         if(selectedValue == 1){
-            /*temp = [];
-            document.getElementById('selectid').value == "val1"
-            for(var i = 0; i <scope.laundromats.length;  i++){
-                temp.push(laundromats[i]);
-            }*/
             $scope.laundromats.sort(function(a,b){
                 if(((a.latitude-$stateParams.latitude)*(a.latitude-$stateParams.latitude))+((a.longitude-$stateParams.longitude)*(a.longitude-$stateParams.longitude))
                     > ((b.latitude-$stateParams.latitude)*(b.latitude-$stateParams.latitude))+((b.longitude-$stateParams.longitude)*(b.longitude-$stateParams.longitude))){
@@ -57,10 +47,6 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
             })
         }
         if(selectedValue == 2){
-            /*temp = [];
-            for(var i = 0; i <scope.laundromats.length;  i++){
-                temp.push(laundromats[i]);
-            }*/
             $scope.laundromats.sort(function(a,b){
                 if(a.avg_score > b.avg_score){
                     return -1;
