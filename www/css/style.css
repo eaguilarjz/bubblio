@@ -34,6 +34,15 @@
 	background-image: linear-gradient(to bottom, #B5E4FF 0%, #0671AF 100%);
 }
 
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+	color: #ffffff !important;
+}
+
+.main-icon-placeholder {
+	margin: 50px 0px 0px 0px;
+	text-align: center;
+}
+
 #login_logo {
 	display: block;
     margin: 0 auto;
@@ -45,9 +54,29 @@
 	width: 60%;
 }
 
+#subtitle {
+	text-align: center;
+	color: #FFFFFF;
+}
+
 .forgot-password, .sign-up {
 	text-decoration: none;
 	color: #FFFFFF;
+}
+
+#signup {
+	background-image: -webkit-gradient(
+	linear,
+	left top,
+	left bottom,
+	color-stop(0, #2BC0E4),
+	color-stop(1, #EAECC6)
+	);
+	background-image: -o-linear-gradient(bottom, #2BC0E4 0%, #EAECC6 100%);
+	background-image: -moz-linear-gradient(bottom, #2BC0E4 0%, #EAECC6 100%);
+	background-image: -webkit-linear-gradient(bottom, #2BC0E4 0%, #EAECC6 100%);
+	background-image: -ms-linear-gradient(bottom, #2BC0E4 0%, #EAECC6 100%);
+	background-image: linear-gradient(to bottom, #2BC0E4 0%, #EAECC6 100%);
 }
 
 .sign-up {
@@ -134,4 +163,36 @@
 
 .timePickerColon {
 	padding-top: 40px !important;
+}
+
+#search {
+	background-image: -webkit-gradient(
+	linear,
+	left top,
+	left bottom,
+	color-stop(0, #2BC0E4),
+	color-stop(1, #EAECC6)
+	);
+	background-image: -o-linear-gradient(bottom, #2BC0E4 0%, #EAECC6 100%);
+	background-image: -moz-linear-gradient(bottom, #2BC0E4 0%, #EAECC6 100%);
+	background-image: -webkit-linear-gradient(bottom, #2BC0E4 0%, #EAECC6 100%);
+	background-image: -ms-linear-gradient(bottom, #2BC0E4 0%, #EAECC6 100%);
+	background-image: linear-gradient(to bottom, #2BC0E4 0%, #EAECC6 100%);
+}
+
+#orders .item, #laundromats .item {
+		border-bottom: 1px solid #ccc;
+}
+
+#orders .item-complex .item-content, #laundromats .item-complex .item-content {
+	padding: 0px !important;
+}
+
+.right-indicator-container {
+	text-align: right;
+}
+
+.right-indicator {
+	font-size: 2em;
+	line-height: 48px;
 }

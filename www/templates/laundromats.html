@@ -1,22 +1,26 @@
-<ion-view title="Laundromats">
+<ion-view id="laundromats" title="Laundromats">
     <ion-pane>
         <ion-tabs class="tabs-positive">
             <ion-tab title="List">
                 <ion-view view-title="List">
                     <ion-content>
                       <ion-list>
-                          <ion-item ng-repeat="laundromat in laundromats" href="#/app/laundromats/{{laundromat.site_id}}/{{serviceId}}/{{pickupDate}}/{{deliveryDate}}/{{addressId}}">
+                          <ion-item ng-repeat="laundromat in laundromats"
+                          href="#/app/laundromats/{{laundromat.site_id}}/{{serviceId}}/{{pickupDate}}/{{deliveryDate}}/{{addressId}}">
                             <div class="row">
                                 <div class="col col-20">
                                     <img ng-src="{{laundromat.image_location}}" width="50" height="50">
                                 </div>
-                                <div class="col col-70">
+                                <div class="col col-60">
                                     <b>{{laundromat.name}}</b><br>
                                     {{laundromat.address}}<br>
                                     <img ng-repeat="star in laundromat.stars" ng-src="{{star.url}}">
                                 </div>
-                                <div class="col-10">
+                                <div class="col col-20">
                                     <em>{{laundromat.quotation_price | currency}}/{{laundromat.quotation_uom}}</em>
+                                </div>
+                                <div class="col col-10 right-indicator-container">
+	                                <i class="icon ion-chevron-right right-indicator"></i>
                                 </div>
                             </div>
                           </ion-item>

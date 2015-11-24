@@ -90,16 +90,16 @@ angular.module('starter.controllers', [])
 .controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk, $rootScope, CurrentUser, Users, DialogBox) {
 	
 	$scope.data = {};
-	$rootScope.showMenuIcon = false; //show hamburger icon
-
+	
+	//show hamburger icon only if in app.signup mode
+	if ($ionicHistory.currentView().stateName == "app.signup") {
+		$rootScope.showMenuIcon = true; //show hamburger icon	
+	} else {
+		$rootScope.showMenuIcon = false; //hide hamburger icon
+	}
+	
 	$scope.signup = function() {
-		$scope.loading = $ionicLoading.show({
-			content: 'Logging in',
-			animation: 'fade-in',
-			showBackdrop: true,
-			maxWidth: 200,
-			showDelay: 0
-		});
+
         //Create a new user on MySQL
         Users.save({
             email_address: $scope.data.email,
@@ -123,20 +123,12 @@ angular.module('starter.controllers', [])
                         disableBack: true
                     });
                     
-                    $scope.showAlert = function() {
-                        var alertPopup = $ionicPopup.alert({
-                            title: 'Welcome to bubbl.io!',
-                            template: 'User successfully created'
-                        });
-                        alertPopup.then(function(res) {
-                            console.log('User successfully created' + " " + Parse.User.current());
-                        });
-                    };
+					DialogBox.showDialog("alert", "Welcome to Bubbl.io", "Please login with your username and password.")
                     //go to login window
                     $state.go("app.login", {cache: false});
                 },
                 error: function(user, error) {
-                    $ionicLoading.hide();
+              
                     //show error
                     var alertPopup = $ionicPopup.alert({
                         title: 'Error',
@@ -165,8 +157,7 @@ angular.module('starter.controllers', [])
 					disableAnimate: true,
 					disableBack: true
 				});
-				    
-     			//CurrentUser.getInfo(); //get user info
+				   
 				$rootScope.showMenuIcon = true; //show hamburger icon
 				$state.go("app.dashboard", {cache: false}); 
 				
@@ -203,7 +194,6 @@ angular.module('starter.controllers', [])
                                 currentUser.set("userId", data.UserId);
                                 currentUser.save();
                                 console.log(response);
-                                alert("Profile retrieved from Facebook account");
                             });
 						});
 				}
@@ -213,11 +203,11 @@ angular.module('starter.controllers', [])
 						disableBack: true
 					});
 					
-					//$rootScope.showMenuIcon = true; //show hamburger icon
+					$rootScope.showMenuIcon = true; //show hamburger icon
 					$state.go("app.dashboard", {cache: false});
 				},
 			error: function(user, error) {
-				alert("User cancelled the Facebook login or did not fully authorize.");
+				DialogBox.showDialog('alert', 'Facebook Error', 'The user cancelled the Facebook login or did not fully authorize.');
 			}
 		});
 	}

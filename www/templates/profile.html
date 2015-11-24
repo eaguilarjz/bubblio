@@ -2,32 +2,30 @@
     <ion-content ng-class="{expanded:$scope.isExpanded}">
         <div class="hero" style="background-image: url('img/background.jpg');">
             <div class="content">
-                <div class="avatar" style="background-image: url('img/daenerys.jpg');"></div>
+                <div class="avatar" style="background-image: url('');"></div>
                 <h3><a class="light">{{current_first_name}} {{current_last_name}}</a></h3>
                 <h4>{{current_email}}</h4>
             </div>
         </div>
 
-        <div class="card">
-            <div class="item item-divider">
-                Profile
-            </div>
-            <div class="item item-text-wrap">
-                <div class="list">
-                    <label class="item item-input">
-                        <i class="icon ion-person placeholder-icon"></i>
-                        <input type="text" placeholder="First Name" ng-model="data.firstname" required>
-                    </label>
-                    <label class="item item-input">
-                        <i class="icon ion-search placeholder-icon"></i>
-                        <input type="text" placeholder="Last Name" ng-model="data.lastname">
-                    </label>
-                    <button class="button button-full button-positive" ng-click="saveInfo()">
+          <div class="list">
+	        <div class="padding">
+			    <form>
+				    <label class="item item-input item-floating-label">
+		              <span class="input-label">First Name</span>
+		              <input type="text" placeholder="First Name" ng-model="data.firstname">
+		            </label>
+		            <label class="item item-input item-floating-label">
+		              <span class="input-label">Last Name</span>
+		              <input type="text" placeholder="Last Name" ng-model="data.lastname">
+		            </label>
+					<button class="button button-full button-positive" ng-click="saveInfo()">
                         Save
                     </button>
-                </div>
+			    </form>
             </div>
-        </div>
+          </div>
+        
         <div class="card">
             <div class="item item-divider">
                 Addresses
