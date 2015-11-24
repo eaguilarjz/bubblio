@@ -24,7 +24,56 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
     $scope.deliveryDate = $stateParams.deliveryDate;
     $scope.currentLatitude = $stateParams.latitude;
     $scope.currentLongitude = $stateParams.longitude;
+
+    //add filter
     
+    $scope.boxs=[{id:1,name:"distance"},{id:2,name:"rank"},{id:3,name:"price"}];
+    $scope.changedValue=function(item){
+        var selectedValue  = item.id;
+        if(selectedValue == 1){
+            $scope.laundromats.sort(function(a,b){
+                if(((a.latitude-$stateParams.latitude)*(a.latitude-$stateParams.latitude))+((a.longitude-$stateParams.longitude)*(a.longitude-$stateParams.longitude))
+                    > ((b.latitude-$stateParams.latitude)*(b.latitude-$stateParams.latitude))+((b.longitude-$stateParams.longitude)*(b.longitude-$stateParams.longitude))){
+                    return 1;
+                }
+                if(((a.latitude-$stateParams.latitude)*(a.latitude-$stateParams.latitude))+((a.longitude-$stateParams.longitude)*(a.longitude-$stateParams.longitude))
+                    < ((b.latitude-$stateParams.latitude)*(b.latitude-$stateParams.latitude))+((b.longitude-$stateParams.longitude)*(b.longitude-$stateParams.longitude))){
+                    return -1;
+                }
+                if(((a.latitude-$stateParams.latitude)*(a.latitude-$stateParams.latitude))+((a.longitude-$stateParams.longitude)*(a.longitude-$stateParams.longitude))
+                    == ((b.latitude-$stateParams.latitude)*(b.latitude-$stateParams.latitude))+((b.longitude-$stateParams.longitude)*(b.longitude-$stateParams.longitude))){
+                    return 0;
+                }
+            })
+        }
+        if(selectedValue == 2){
+            $scope.laundromats.sort(function(a,b){
+                if(a.avg_score > b.avg_score){
+                    return -1;
+                }
+                if(a.avg_score < b.avg_score){
+                    return 1;
+                }
+                if(a.avg_score == b.avg_score){
+                    return 0;
+                }
+            })
+        }
+        if(selectedValue == 3){
+             $scope.laundromats.sort(function(a,b){
+                if(a.quotation_price > b.quotation_price){
+                    return 1;
+                }
+                if(a.quotation_price < b.quotation_price){
+                    return -1;
+                }
+                if(a.quotation_price == b.quotation_price){
+                    return 0;
+                }
+            })
+        }
+    }
+
 
 })
     .directive('map', function($stateParams, $ionicLoading, $compile, Laundromats, Rating, Services) {
