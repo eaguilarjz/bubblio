@@ -24,7 +24,70 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
     $scope.deliveryDate = $stateParams.deliveryDate;
     $scope.currentLatitude = $stateParams.latitude;
     $scope.currentLongitude = $stateParams.longitude;
+
+    //add filter
+    //var temp = [];
+
     
+    $scope.boxs=[{id:1,name:"distance"},{id:2,name:"rank"},{id:3,name:"price"}];
+    $scope.changedValue=function(item){
+        //var selectBox = document.getElementById("selectBox");
+        //var selectedValue = selectBox.options[selectBox,selectedIndex].value;
+        var selectedValue  = item.id;
+        //alert(selectedValue);
+        if(selectedValue == 1){
+            /*temp = [];
+            document.getElementById('selectid').value == "val1"
+            for(var i = 0; i <scope.laundromats.length;  i++){
+                temp.push(laundromats[i]);
+            }*/
+            $scope.laundromats.sort(function(a,b){
+                if(((a.latitude-$stateParams.latitude)*(a.latitude-$stateParams.latitude))+((a.longitude-$stateParams.longitude)*(a.longitude-$stateParams.longitude))
+                    > ((b.latitude-$stateParams.latitude)*(b.latitude-$stateParams.latitude))+((b.longitude-$stateParams.longitude)*(b.longitude-$stateParams.longitude))){
+                    return 1;
+                }
+                if(((a.latitude-$stateParams.latitude)*(a.latitude-$stateParams.latitude))+((a.longitude-$stateParams.longitude)*(a.longitude-$stateParams.longitude))
+                    < ((b.latitude-$stateParams.latitude)*(b.latitude-$stateParams.latitude))+((b.longitude-$stateParams.longitude)*(b.longitude-$stateParams.longitude))){
+                    return -1;
+                }
+                if(((a.latitude-$stateParams.latitude)*(a.latitude-$stateParams.latitude))+((a.longitude-$stateParams.longitude)*(a.longitude-$stateParams.longitude))
+                    == ((b.latitude-$stateParams.latitude)*(b.latitude-$stateParams.latitude))+((b.longitude-$stateParams.longitude)*(b.longitude-$stateParams.longitude))){
+                    return 0;
+                }
+            })
+        }
+        if(selectedValue == 2){
+            /*temp = [];
+            for(var i = 0; i <scope.laundromats.length;  i++){
+                temp.push(laundromats[i]);
+            }*/
+            $scope.laundromats.sort(function(a,b){
+                if(a.avg_score > b.avg_score){
+                    return -1;
+                }
+                if(a.avg_score < b.avg_score){
+                    return 1;
+                }
+                if(a.avg_score == b.avg_score){
+                    return 0;
+                }
+            })
+        }
+        if(selectedValue == 3){
+             $scope.laundromats.sort(function(a,b){
+                if(a.quotation_price > b.quotation_price){
+                    return 1;
+                }
+                if(a.quotation_price < b.quotation_price){
+                    return -1;
+                }
+                if(a.quotation_price == b.quotation_price){
+                    return 0;
+                }
+            })
+        }
+    }
+
 
 })
     .directive('map', function($stateParams, $ionicLoading, $compile, Laundromats, Rating, Services) {
