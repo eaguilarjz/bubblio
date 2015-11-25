@@ -1,4 +1,4 @@
-angular.module('starter').controller('SearchCtrl', function($scope, $stateParams, $ionicPopup, $state, $filter, Geolocation, Services, CurrentUser, Addresses) {
+angular.module('starter').controller('SearchCtrl', function($scope, $stateParams, $ionicPopup, $state, $filter, Geolocation, Services, CurrentUser, Addresses, DialogBox) {
    
     // Get the current location
     $scope.currentLocation = Geolocation.get();
@@ -17,15 +17,8 @@ angular.module('starter').controller('SearchCtrl', function($scope, $stateParams
     Addresses.get({user_id: $scope.user_id}, function(data) {
         $scope.addresses = data.addresses;
         if (data.addresses.length == 0) {
-            alert(data.addresses.length);
-            var alertPopup = $ionicPopup.alert({
-                title: 'No addresses found',
-                template: 'You will be redirected to your profile page to allow you to add an address!'
-            });
-            alertPopup.then(function(res) {
-                $state.go('app.profile', {latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude})
-            });         
-            return;
+            DialogBox.showDialog('alert', 'Address', 'Before we proceed, you need to add an address.');
+            $state.go('app.profile', {latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude})    
         }
         $scope.addressId = data.addresses[0].address_id;
         $scope.currentLocation.latitude = data.addresses[0].latitude;
