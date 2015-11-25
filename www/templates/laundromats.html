@@ -5,24 +5,8 @@
                 <ion-view view-title="List">
                     <ion-content>
                       <ion-list>
-<<<<<<< HEAD
                           <ion-item ng-repeat="laundromat in laundromats"
                           href="#/app/laundromats/{{laundromat.site_id}}/{{serviceId}}/{{pickupDate}}/{{deliveryDate}}/{{addressId}}">
-=======
-                        <div class="list">
-                            <label class="item item-input item-select">
-                                <div class="input-label">
-                                list by: 
-                                </div>
-                                <select ng-model= "boxSelected" ng-change="changedValue(boxSelected);" ng-options="box as box.name for box in boxs track by box.id" ng-init="boxSelected = boxs[1]"
-                                >
-                                <option >-- choose filter --</option>
-                                </select>
-                            </label>
-                        </div>
-
-                          <ion-item ng-repeat="laundromat in laundromats" href="#/app/laundromats/{{laundromat.site_id}}/{{serviceId}}/{{pickupDate}}/{{deliveryDate}}/{{addressId}}">
->>>>>>> 3dea22db0953b400f354f17916b44249c0e9f362
                             <div class="row">
                                 <div class="col col-20">
                                     <img ng-src="{{laundromat.image_location}}" width="50" height="50">
