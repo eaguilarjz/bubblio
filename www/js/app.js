@@ -148,6 +148,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
     
     .state('app.profile', {
       url: '/profile/:latitude/:longitude',
+      cache: false,
       views: {
 	      'menuContent': {
 		      templateUrl: 'templates/profile.html',
