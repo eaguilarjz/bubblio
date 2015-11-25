@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource', 'angularReverseGeocode', 'ionic-timepicker'])
+angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'starter.controllers', 'ngOpenFB', 'ngResource', 'angularReverseGeocode', 'ionic-timepicker', 'ngCordova'])
 
 // .constant('RESTFUL_URL', 'http://localhost:3000/api')
 .constant('RESTFUL_URL', 'http://54.68.138.70:3000/api')

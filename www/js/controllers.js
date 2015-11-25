@@ -87,7 +87,7 @@ angular.module('starter.controllers', [])
 })
 
 //Login Controller
-.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk, $rootScope, CurrentUser, Users, DialogBox) {
+.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk, $rootScope, $cordovaFacebook, CurrentUser, Users, DialogBox) {
 	
 	$scope.data = {};
 	
@@ -175,41 +175,59 @@ angular.module('starter.controllers', [])
 			}
 		});
 	};
+	
 	$scope.loginFB = function() {
 		
-		Parse.FacebookUtils.logIn(null, {
-			success: function(user) {
-				if (!user.existed()) {
-						FB.api('/me', {fields: ['last_name', 'first_name', 'email']}, function(response) {
-                            Users.save({
-                                email_address: response.email,
-                                password: '',
-                                first_name: response.first_name,
-                                last_name: response.last_name
-                            }, function(data) {
-                                var currentUser = Parse.User.current();
-                                currentUser.set("firstname", response.first_name);
-                                currentUser.set("lastname", response.last_name);
-                                currentUser.set("email", response.email);
-                                currentUser.set("userId", data.UserId);
-                                currentUser.save();
-                                console.log(response);
-                            });
-						});
-				}
-					$ionicLoading.hide();
-					$ionicHistory.nextViewOptions({
-						disableAnimate: true,
-						disableBack: true
-					});
-					
-					$rootScope.showMenuIcon = true; //show hamburger icon
-					$state.go("app.dashboard", {cache: false});
-				},
-			error: function(user, error) {
-				DialogBox.showDialog('alert', 'Facebook Error', 'The user cancelled the Facebook login or did not fully authorize.');
-			}
-		});
+		$cordovaFacebook.login(["public_profile", "email"]).then(function(success){
+	 
+		    console.log(success);
+		 
+		    //Need to convert expiresIn format from FB to date
+		    var expiration_date = new Date();
+		    expiration_date.setSeconds(expiration_date.getSeconds() + success.authResponse.expiresIn);
+		    expiration_date = expiration_date.toISOString();
+		 
+		    var facebookAuthData = {
+		      "id": success.authResponse.userID,
+		      "access_token": success.authResponse.accessToken,
+		      "expiration_date": expiration_date
+		    };
+		    
+		   
+			Parse.FacebookUtils.logIn(facebookAuthData, {
+					success: function(user) {
+						if (!user.existed()) {
+								FB.api('/me', {fields: ['last_name', 'first_name', 'email']}, function(response) {
+		                            Users.save({
+		                                email_address: response.email,
+		                                password: '',
+		                                first_name: response.first_name,
+		                                last_name: response.last_name
+		                            }, function(data) {
+		                                var currentUser = Parse.User.current();
+		                                currentUser.set("firstname", response.first_name);
+		                                currentUser.set("lastname", response.last_name);
+		                                currentUser.set("email", response.email);
+		                                currentUser.set("userId", data.UserId);
+		                                currentUser.save();
+		                                console.log(response);
+		                            });
+								});
+						}
+							$ionicLoading.hide();
+							$ionicHistory.nextViewOptions({
+								disableAnimate: true,
+								disableBack: true
+							});
+							
+							$rootScope.showMenuIcon = true; //show hamburger icon
+							$state.go("app.dashboard", {cache: false});
+						},
+					error: function(user, error) {
+						DialogBox.showDialog('alert', 'Facebook Error', 'The user cancelled the Facebook login or did not fully authorize.');
+					}
+				});
+	    });
 	}
 	
 	$scope.forgot_password = function() {
