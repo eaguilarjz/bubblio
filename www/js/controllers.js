@@ -87,7 +87,8 @@ angular.module('starter.controllers', [])
 })
 
 //Login Controller
-.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk, $rootScope, $cordovaFacebook, CurrentUser, Users, DialogBox) {
+.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk, $rootScope, $cordovaFacebook, $cordovaInAppBrowser, $http, CurrentUser, Users, DialogBox) {
+	
 	
 	$scope.data = {};
 	
@@ -231,8 +232,8 @@ angular.module('starter.controllers', [])
 	}
 	
 	$scope.forgot_password = function() {
-	
-    	$rootScope.showMenuIcon = true; //show hamburger icon
+		
+	$rootScope.showMenuIcon = true; //show hamburger icon
 
 		if ($scope.data.email) {
 			Parse.User.requestPasswordReset($scope.data.email, {
@@ -251,11 +252,10 @@ angular.module('starter.controllers', [])
 				}
 			});
 							
-				} else {
-					
-					//show dialog box
-					DialogBox.showDialog('alert', 'Error', "Please try again."); 	
-				}
+		} else {
+			//show dialog box
+			DialogBox.showDialog('alert', 'Error', "Please try again."); 	
+		}
 	}
 
 	ionicMaterialInk.displayEffect();

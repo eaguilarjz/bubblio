@@ -1,5 +1,4 @@
-angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, $ionicModal, $http, $window, 
-                                                                 Orders, Laundromats, Rating, Reviews, Datetime, Customers, Addresses, CurrentUser) {
+angular.module('starter').controller('LaundromatCtrl', function($scope, $state, $ionicHistory, $stateParams, $ionicModal, $rootScope, $http, $window, $cordovaInAppBrowser, Orders, Laundromats, Rating, Reviews, Datetime, Customers, Addresses, CurrentUser) {
     // Get the laundromat list
     Laundromats.get({
         site_id: $stateParams.siteId,
@@ -113,16 +112,30 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
 		   	    'PAYMENTREQUEST_0_AMT': $scope.laundromat.invoice_price,
 		   	    'PAYMENTREQUEST_0_CURRENCYCODE': 'USD',
 		   	    'cancelUrl': 'http://localhost:8100/#/app/dashboard',
-		   	    'returnUrl': 'http://localhost:8100/#/app/confirmation'
+		   	    'returnUrl': 'mobile/close'
 		   	     }
 		}).success(function (data, status, headers, config) {
 			var token = data.split("&")[0].split("=")[1];
-			$window.location.href = "https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=" + token;
+			
+			var options = { location: 'yes', clearcache: 'yes', toolbar: 'no' };
+			$cordovaInAppBrowser.open("https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=" + token, '_blank', options)
+		      .then(function(event) {
+		        // success
+		      })
+		      .catch(function(event) {
+		        // error
+		      });
+		      
+		      $rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event) {
+			      
+		      });
+    		
+			
+		
 		}).error(function (data, status, headers, config) {
 			console.log(data)
-		})
-            
-		//$state.go('app.confirmation');
+		});
+           
     });
     };
 });
