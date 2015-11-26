@@ -23,7 +23,7 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
     $scope.serviceId = $stateParams.serviceId;
     $scope.pickupDate = Datetime.toDate($stateParams.pickupDate);
     $scope.deliveryDate = Datetime.toDate($stateParams.deliveryDate);
-    $scope.quantity = 0;
+    $scope.quantity = 5;
     $scope.address_id = $stateParams.addressId;
     
     // TODO: Change this constant value for a function that returns the current user_id

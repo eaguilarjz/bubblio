@@ -167,6 +167,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
 
   .state('app.search', {
     url: '/search/:serviceId',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/search.html',

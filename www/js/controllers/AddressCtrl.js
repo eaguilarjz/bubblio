@@ -26,6 +26,7 @@ angular.module('starter').controller('AddressCtrl', function($scope, $stateParam
                 $ionicHistory.nextViewOptions({
                     disableBack: true
                 });
+                $ionicHistory
                 $state.go('app.profile', {latitude: $stateParams.latitude, longitude: $stateParams.longitude});
             });
         // if this is just an update

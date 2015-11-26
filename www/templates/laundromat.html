@@ -22,19 +22,22 @@
             <div class="col col-100">
                 <h4>Request {{laundromat.service_name}}</h4>
                 <div class="list">
-                    <label class="item item-input">
-                        <span class="input-label">Quantity ({{laundromat.quotation_uom}})</span>
-                        <input type="tel" ng-model="quantity"><br>
-                    </label>
-                    <label class="item">
-                        <p>Estimated Fare: <span>&nbsp;&nbsp;&nbsp;{{ calculateFare(quantity) | currency}}</span></p>
-                    </label>
-                    <label class="item">
-                        <pre style="color: red">{{((laundromat.invoice_uid != laundromat.quotation_uid) && (laundromat.whole_flag == 'Y')) ? '*This laundromat bills exact multiples of: ' + laundromat.invoice_uom_name : ''}}</pre>
-                    </label>
-                    <label class="item">
-                        <button class="button button-block button-positive" ng-click="newOrder(quantity)">Hire</button>
-                    </label>
+                    <form name="orderForm" novalidate>
+                        <label class="item item-input">
+                            <span class="input-label">Quantity ({{laundromat.quotation_uom}})</span>
+                            <input type="tel" name="quantity" ng-model="quantity" required><br>
+                        </label>
+                        <p ng-show="orderForm.quantity.$invalid" class="help-block">Enter a quantity.</p>
+                        <label class="item">
+                            <p>Estimated Fare: <span>&nbsp;&nbsp;&nbsp;{{ calculateFare(quantity) | currency}}</span></p>
+                        </label>
+                        <label class="item">
+                            <pre style="color: red">{{((laundromat.invoice_uid != laundromat.quotation_uid) && (laundromat.whole_flag == 'Y')) ? '*This laundromat bills exact multiples of: ' + laundromat.invoice_uom_name : ''}}</pre>
+                        </label>
+                        <label class="item">
+                            <button class="button button-block button-positive" ng-disabled="orderForm.$invalid" ng-click="newOrder(quantity)">Hire</button>
+                        </label>
+                    </form>
                 </div>
             </div>  
         </div>

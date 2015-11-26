@@ -8,23 +8,24 @@
           
            <div class="padding">
 	          
-
+          <form name="loginForm" novalidate>
           <div class="list">
-	        <form>
+	        
 	            <label class="item item-input item-floating-label">
 	              <span class="input-label">E-mail</span>
-	              <input type="email" placeholder="E-mail" ng-model="data.username">
+	              <input type="email" name="email" placeholder="E-mail" ng-model="data.username" required>
+                  <p ng-show="loginForm.email.$invalid && !loginForm.email.$pristine" class="help-block">Enter a valid e-mail.</p>
 	            </label>
 	            <label class="item item-input item-floating-label">
 	              <span class="input-label">Password</span>
-	              <input type="password" placeholder="Password" ng-model="data.password">
+	              <input type="password" name="password" placeholder="Password" ng-model="data.password" required>
+                  <p ng-show="loginForm.password.$invalid && !loginForm.password.$pristine" class="help-block">Enter your password.</p>
 	            </label>
-	        </form>
           </div>
     
 	          
 	      <div class="row">
-		      <button class="button button-block button-balanced ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="login()">
+		      <button name="loginBtn" ng-disabled="loginForm.$invalid" class="button button-block button-balanced ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="login()">
 			  Login
 			  </button>
 	      </div>
@@ -38,9 +39,10 @@
 			  </div>
           </div>
           
-          <button class="button button-block button-positive ink" button-balanced="-900" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="loginFB()">
+          <button name="loginFBBtn" ng-disabled="loginForm.$valid" class="button button-block button-positive ink" button-balanced="-900" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="loginFB()">
 		  	Login via Facebook
 		  </button>
+           </form>
            </div>
           
          

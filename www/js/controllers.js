@@ -99,7 +99,11 @@ angular.module('starter.controllers', [])
 		$rootScope.showMenuIcon = false; //hide hamburger icon
 	}
 	
-	$scope.signup = function() {
+	$scope.signup = function(isValid) {
+        // Validate fields
+        if (!isValid) {
+            return;
+        }
 
         //Create a new user on MySQL
         Users.save({
