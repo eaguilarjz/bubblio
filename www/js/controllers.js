@@ -87,9 +87,8 @@ angular.module('starter.controllers', [])
 })
 
 //Login Controller
-.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk, $rootScope, $cordovaFacebook, $cordovaInAppBrowser, $http, CurrentUser, Users, DialogBox) {
-	
-	
+.controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk, $rootScope, $cordovaFacebook, $http, CurrentUser, Users, DialogBox) {
+
 	$scope.data = {};
 	
 	//show hamburger icon only if in app.signup mode

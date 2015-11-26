@@ -95,9 +95,6 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
             $ionicHistory.nextViewOptions({
                 disableBack: true
             });
-       
-        var basicAuthString = 	
-	btoa('AVPYiriMnFyIB83gr855qNIzmlgXME9_JI4Rkk2eY84ahjFTAWe4lgSPWF4Atd3i4X7nJ62awHTtHmIL:EC2QhrYKr2Ux5wEbF3DzD8a3zEZQOYiO1apY5nlIe9FEsH1GvR3lMd3dm1TAiHfkJUYhJWDCxuZesBHf');
 	
 		$http({
 	        url: 'https://api-3t.sandbox.paypal.com/nvp',
@@ -111,14 +108,14 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
 		   	    'PAYMENTREQUEST_0_PAYMENTACTION': 'SALE',
 		   	    'PAYMENTREQUEST_0_AMT': $scope.laundromat.invoice_price,
 		   	    'PAYMENTREQUEST_0_CURRENCYCODE': 'USD',
-		   	    'cancelUrl': 'http://localhost:8100/#/app/dashboard',
-		   	    'returnUrl': 'mobile/close'
+		   	    'cancelUrl': 'http://localhost/#/app/login',
+		   	    'returnUrl': 'http://localhost/#/app/confirmation'
 		   	     }
 		}).success(function (data, status, headers, config) {
+		
 			var token = data.split("&")[0].split("=")[1];
-			
-			var options = { location: 'yes', clearcache: 'yes', toolbar: 'no' };
-			$cordovaInAppBrowser.open("https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=" + token, '_blank', options)
+			var options = { location: 'no', clearcache: 'no', toolbar: 'yes', closebuttoncaption: 'Cancel' };
+			$cordovaInAppBrowser.open("https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&useraction=commit&token=" + token, 					'_blank', options)
 		      .then(function(event) {
 		        // success
 		      })
@@ -126,14 +123,16 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
 		        // error
 		      });
 		      
-		      $rootScope.$on('$cordovaInAppBrowser:loadstop', function(e, event) {
-			      
+		      $rootScope.$on('$cordovaInAppBrowser:loaderror', function(e, event) {
+			    
+			      if (event.url.search('confirmation') > -1) {
+				    $cordovaInAppBrowser.close();
+				  	$state.go("app.confirmation", {cache: false}); 
+				  }
 		      });
-    		
-			
-		
+
 		}).error(function (data, status, headers, config) {
-			console.log(data)
+			alert("error: " + data + status + headers + config);
 		});
            
     });
