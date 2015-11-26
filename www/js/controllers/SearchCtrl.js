@@ -3,6 +3,7 @@ angular.module('starter').controller('SearchCtrl', function($scope, $stateParams
     // Get the current location
     $scope.currentLocation = Geolocation.get();
     $scope.user_id = CurrentUser.getUserId();
+    $scope.currentDate = new Date();
     
     // Get the service list
     Services.get({}, function(res) {
@@ -39,11 +40,30 @@ angular.module('starter').controller('SearchCtrl', function($scope, $stateParams
         }
     };
     
+    // Get default date
+    var getDateTime = function(hourOfDay) {
+        var currentDate = new Date();
+        var proposedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1, hourOfDay, 0)
+        console.log(proposedDate);
+        return proposedDate;
+    };
+    
     $scope.searchParams = {
         service: $stateParams.serviceId,
-        pickupDate: new Date(),
-        deliveryDate: new Date()
+        pickupDate: getDateTime(8),
+        deliveryDate: getDateTime(17)
     };
+    
+    $scope.search = function(isValid) {
+        $state.go('app.laundromats', {
+           serviceId: $scope.searchParams.service,
+           latitude: $scope.currentLocation.latitude,
+           longitude: $scope.currentLocation.longitude,
+           pickupDate: $filter('date')($scope.searchParams.pickupDate, 'yyyyMMddHHmmss'),
+           deliveryDate: $filter('date')($scope.searchParams.deliveryDate, 'yyyyMMddHHmmss'),
+           addressId: $scope.addressId,
+        });
+    }
     
     /*
     $scope.timePickerObject = {

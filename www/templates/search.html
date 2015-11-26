@@ -1,45 +1,28 @@
 <ion-view id="search" view-title="New Bubble">
-  <ion-content ng-class="{expanded:isExpanded}">
-  
-     <div class="padding">
-	         
-          <div class="list">
-	        <form>
-    <label class="item item-input item-floating-label">
-        <div class="input-label">
-          Service
+    <ion-content>
+        <h4 class="text-center">{{services[0].name}}</h4>
+        <div class="list">
+            <form name="searchForm" ng-submit="search(searchForm.$valid)" novalidate>
+                <label class="item item-input">
+                    <span class="input-label">Pickup</span>
+                    <input type="datetime-local" name="pickupDate" ng-model="searchParams.pickupDate" ng-required="true" min="{{currentDate | date:'yyyy-MM-ddTHH:mm:ss'}}">
+                </label>
+                <p ng-show="searchForm.pickupDate.$invalid" class="help-block">Enter a future pickup date.</p>
+                <label class="item item-input">
+                    <span class="input-label">Delivery</span>
+                    <input type="datetime-local" name="deliveryDate" ng-model="searchParams.deliveryDate" ng-required="true" min="{{searchParams.pickupDate | date:'yyyy-MM-ddTHH:mm:ss'}}">
+                </label>
+                <p ng-show="searchForm.deliveryDate.$invalid" class="help-block">Enter a future delivery date, greater than pickup date</p>
+                <label class="item item-input">
+                    <span class="input-label">Address</span>
+                    <select name="address" ng-model="addressId" ng-change="updateLocation(addressId)" ng-required="true">
+                        <option ng-repeat="address in addresses" value="{{address.address_id}}" ng-selected="$index == 0">
+                        {{address.alias}}
+                        </option>
+                    </select>
+                </label>
+                <button type="submit" class="button button-full button-positive" ng-disabled="searchForm.pickupDate.$invalid || searchForm.deliveryDate.$invalid">Search</button>
+            </form>
         </div>
-        <input type="text" value="{{services[0].name}}" ng-disabled="true">
-        <!--
-        <select ng-model="searchParams.service">
-          <option ng-repeat="service in services" ng-selected="service.service_id == searchParams.service" value="{{service.service_id}}">{{service.name}}</option>
-        </select>
-        -->
-    </label>
-    <label class="item item-input item-floating-label">
-        <span class="input-label">Pickup</span>
-        <input type="datetime-local" ng-model="searchParams.pickupDate">
-    </label>
-    <label class="item item-input item-floating-label">
-        <span class="input-label">Delivery</span>
-        <input type="datetime-local" ng-model="searchParams.deliveryDate">
-    </label>
-    <label class="item item-input item-floating-label">
-        <span class="input-label">Address</span>
-        <select ng-model="address_id" ng-change="updateLocation(address_id)">
-            <option ng-repeat="address in addresses" value="{{address.address_id}}" ng-selected="$index == 0">
-                {{address.alias}}
-            </option>
-        </select>
-    </label>    
-    <a href="#/app/laundromats/{{searchParams.service}}/{{currentLocation.latitude}}/{{currentLocation.longitude}}/{{searchParams.pickupDate | date:'yyyyMMddHHmmss'}}/{{searchParams.deliveryDate | date:'yyyyMMddHHmmss'}}/{{addressId}}" class="button button-full button-positive">
-        Search
-    </a>
-    
-    
-	        </form>
-          </div> <!-- list -->
-     </div> <!-- paddding -->
-    
-  </ion-content>
+    </ion-content>
 </ion-view>

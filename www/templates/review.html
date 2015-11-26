@@ -11,17 +11,19 @@
             </div>
             <div class="item item-text-wrap">
                 <div class="list">
-                    <form ng-submit="saveReview()">
+                    <form name="reviewForm" ng-submit="saveReview()" novalidate>
                         <label class="item item-input item-stacked-label">
                             <span class="input-label">Title</span>
-                            <input type="text" placeholder="Title" ng-model="review.title" required>
+                            <input type="text" name="title" placeholder="Title" ng-model="review.title" ng-required="true">
+                            <p ng-show="reviewForm.title.$invalid && !reviewForm.title.$pristine" class="help-block">Enter a title.</p>
                         </label>
                         <label class="item item-input item-stacked-label">
                             <span class="input-label">Comments</span>
-                            <textarea placeholder="Comments" ng-model="review.comments"></textarea>
+                            <textarea name="comments" placeholder="Comments" ng-model="review.comments" ng-required="true"></textarea>
+                            <p ng-show="reviewForm.comments.$invalid && !reviewForm.comments.$pristine" class="help-block">Enter your comments.</p>
                         </label>
-                        <ion-toggle ng-model="review.anonymous_flag" toggle-class="toggle-positive" ng-true-value="'Y'" ng-false-value="'N'">Hide my name</ion-toggle>
-                        <button type="submit" class="button button-full button-positive">
+                        <ion-toggle name="anonymous_flag" ng-model="review.anonymous_flag" toggle-class="toggle-positive" ng-true-value="'Y'" ng-false-value="'N'">Hide my name</ion-toggle>
+                        <button type="submit" ng-disabled="reviewForm.title.$invalid || reviewForm.comments.$invalid" class="button button-full button-positive">
                             Save
                         </button>
                     </form>

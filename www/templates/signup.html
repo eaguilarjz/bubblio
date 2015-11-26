@@ -5,26 +5,30 @@
         
           <div class="list">
 	        <div class="padding">
-			    <form>
+			    <form name="signupForm" ng-submit="signup(signupForm.$valid)" novalidate>
 				    <label class="item item-input item-floating-label">
 		              <span class="input-label">First Name</span>
-		              <input type="text" placeholder="First Name" ng-model="data.firstname">
+		              <input type="text" name="firstname" placeholder="First Name" ng-model="data.firstname" required>
+                      <p ng-show="signupForm.firstname.$invalid && !signupForm.firstname.$pristine" class="help-block">Your first name is required.</p>
 		            </label>
 		            <label class="item item-input item-floating-label">
 		              <span class="input-label">Last Name</span>
-		              <input type="text" placeholder="Last Name" ng-model="data.lastname">
+		              <input type="text" name="lastname" placeholder="Last Name" ng-model="data.lastname" required>
+                      <p ng-show="signupForm.lastname.$invalid && !signupForm.lastname.$pristine" class="help-block">Your last name is required.</p>
 		            </label>
 				    <label class="item item-input item-floating-label">
 		              <span class="input-label">E-mail</span>
-		              <input type="text" placeholder="E-mail" ng-model="data.email">
+		              <input type="email" name="email" placeholder="E-mail" ng-model="data.email" required>
+                      <p ng-show="signupForm.email.$invalid && !signupForm.email.$pristine" class="help-block">Enter a valid e-mail.</p>
 		            </label>
 		            <label class="item item-input item-floating-label">
 		              <span class="input-label">Password</span>
-		              <input type="password" placeholder="Password" ng-model="data.password">
+		              <input type="password" name="password" placeholder="Password" ng-model="data.password" ng-minlength="3" required>
+                      <p ng-show="signupForm.password.$invalid && !signupForm.password.$pristine" class="help-block">Password is too short.</p>
 		            </label>
-		            <input type="hidden" ng-model="data.username" value="#">
+		            <input type="hidden" name="username" ng-model="data.username" value="#">
 		           		            
-		             <button class="button button-block button-balanced ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="signup()">
+		             <button type="submit" class="button button-block button-balanced ink" ng-disabled="signupForm.$invalid" data-ink-color="#9DEAFF" data-ink-opacity="1">
 					 	Submit
 					 </button>
           
