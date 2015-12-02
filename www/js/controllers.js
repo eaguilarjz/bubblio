@@ -163,9 +163,10 @@ angular.module('starter.controllers', [])
 				});
 				
 				$rootScope.showMenuIcon = true; //show hamburger icon
-				$scope.firstName = CurrentUser.getCurrentFirstName();
-				$scope.lastName = CurrentUser.getCurrentLastName();
-				$scope.email = CurrentUser.getCurrentEmail();	
+				$rootScope.firstName = CurrentUser.getCurrentFirstName();
+				$rootScope.lastName = CurrentUser.getCurrentLastName();
+				$rootScope.email = CurrentUser.getCurrentEmail();	
+				alert($rootScope.firstName);
 				$state.go("app.dashboard", {cache: false}); 
 				
 			},
@@ -228,9 +229,9 @@ angular.module('starter.controllers', [])
 							});
 							
 							$rootScope.showMenuIcon = true; //show hamburger icon
-							$scope.firstName = CurrentUser.getCurrentFirstName();
-							$scope.lastName = CurrentUser.getCurrentLastName();
-							$scope.email = CurrentUser.getCurrentEmail();		
+							$rootScope.firstName = CurrentUser.getCurrentFirstName();
+							$rootScope.lastName = CurrentUser.getCurrentLastName();
+							$rootScope.email = CurrentUser.getCurrentEmail();	
 							$state.go("app.dashboard", {cache: false});
 						},
 					error: function(user, error) {
@@ -281,9 +282,9 @@ angular.module('starter.controllers', [])
 	if (Parse.User.current() != null) {
 		$rootScope.showMenuIcon = true; //show hamburger icon
 		$scope.toggleDrag = true;
-		$scope.firstName = CurrentUser.getCurrentFirstName();
-		$scope.lastName = CurrentUser.getCurrentLastName();
-		$scope.email = CurrentUser.getCurrentEmail();		
+		$rootScope.firstName = CurrentUser.getCurrentFirstName();
+		$rootScope.lastName = CurrentUser.getCurrentLastName();
+		$rootScope.email = CurrentUser.getCurrentEmail();		
 	} else {
 		Parse.User.logOut();
 		$scope.toggleDrag = false;
