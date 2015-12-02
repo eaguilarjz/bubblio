@@ -161,8 +161,11 @@ angular.module('starter.controllers', [])
 					disableAnimate: true,
 					disableBack: true
 				});
-				   
+				
 				$rootScope.showMenuIcon = true; //show hamburger icon
+				$scope.firstName = CurrentUser.getCurrentFirstName();
+				$scope.lastName = CurrentUser.getCurrentLastName();
+				$scope.email = CurrentUser.getCurrentEmail();	
 				$state.go("app.dashboard", {cache: false}); 
 				
 			},
@@ -225,6 +228,9 @@ angular.module('starter.controllers', [])
 							});
 							
 							$rootScope.showMenuIcon = true; //show hamburger icon
+							$scope.firstName = CurrentUser.getCurrentFirstName();
+							$scope.lastName = CurrentUser.getCurrentLastName();
+							$scope.email = CurrentUser.getCurrentEmail();		
 							$state.go("app.dashboard", {cache: false});
 						},
 					error: function(user, error) {

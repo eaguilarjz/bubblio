@@ -127,6 +127,7 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
 			    
 			      if (event.url.search('confirmation') > -1) {
 				    $cordovaInAppBrowser.close();
+				    //insert order save here
 				  	$state.go("app.confirmation", {cache: false}); 
 				  }
 		      });
