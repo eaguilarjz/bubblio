@@ -1,4 +1,4 @@
-angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateParams, Laundromats, Rating, Services) {
+angular.module('starter').controller('LaundromatsCtrl', function($scope, $state, DialogBox, $stateParams, Laundromats, Rating, Services) {
     // Get the laundromat list
     Laundromats.get({
         service_id: $stateParams.serviceId,
@@ -8,6 +8,13 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $stateP
         delivery_date: $stateParams.deliveryDate
     }, function(data) {
         $scope.laundromats = data.laundromats;
+        
+        // Redirects to the search screen if no laundromats are found
+        if ($scope.laundromats.length == 0) {
+            DialogBox.showDialog('alert', 'No laundromats found', 'Sorry, we couldn\'t found any laundromats nearby for these parameters.');
+            $state.go('app.search', {serviceId: $stateParams.serviceId})                
+        }
+        
         // Add ratings
         for (var i=0; i<$scope.laundromats.length; i++) {
             $scope.laundromats[i].stars = Rating.getImages($scope.laundromats[i].avg_score);
