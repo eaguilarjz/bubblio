@@ -2,10 +2,20 @@
   <ion-content>  
       <ion-list>
           <ion-item ng-repeat="order in orders" href="#/app/orders/{{userId}}/{{order.order_id}}">
-            <b>{{order.laundromat}}, #{{order.order_id}} ({{order.status}})</b><br>
-            <b>Pickup:</b> {{order.requested_pickup | date:'MMM dd, yyyy hh:mm a'}}<br>
-            <b>Delivery:</b>{{order.requested_delivery | date:'MMM dd, yyyy hh:mm a'}}<br>
-            <b>Order Total: </b>{{order.price | currency}}
+          
+           <div class="row">
+           	
+           		<div class="col col-30">
+		   			<b>{{order.laundromat}}, #{{order.order_id}} ({{order.status}})</b><br>
+		   			<b>Pickup:</b> {{order.requested_pickup | date:'MMM dd, yyyy hh:mm a'}}<br>
+		   			<b>Delivery:</b>{{order.requested_delivery | date:'MMM dd, yyyy hh:mm a'}}<br>
+		   			<b>Order Total: </b>{{order.price | currency}}
+           		</div>
+            <div class="col col-10 right-indicator-container">
+	        	<i class="icon ion-chevron-right right-indicator"></i>
+           	</div>
+           
+           		</div>
           </ion-item>
       </ion-list>
   </ion-content>

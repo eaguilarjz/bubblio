@@ -166,7 +166,6 @@ angular.module('starter.controllers', [])
 				$rootScope.firstName = CurrentUser.getCurrentFirstName();
 				$rootScope.lastName = CurrentUser.getCurrentLastName();
 				$rootScope.email = CurrentUser.getCurrentEmail();	
-				alert($rootScope.firstName);
 				$state.go("app.dashboard", {cache: false}); 
 				
 			},
