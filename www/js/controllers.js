@@ -26,7 +26,7 @@ angular.module('starter.controllers', [])
 
 	var push = new Ionic.Push({ "debug": true });
 	push.register(function(token) {
-			
+		
 		if (token.token != user.get('deviceToken')) {
 			var currentUser = Parse.User.current();
 			currentUser.set("deviceToken", token.token);
@@ -204,41 +204,44 @@ angular.module('starter.controllers', [])
 	};
 	
 	$scope.loginFB = function() {
-		
+								    
 		$cordovaFacebook.login(["public_profile", "email"]).then(function(success){
-	 
-		    console.log(success);
-		 
+	
+			
 		    //Need to convert expiresIn format from FB to date
 		    var expiration_date = new Date();
 		    expiration_date.setSeconds(expiration_date.getSeconds() + success.authResponse.expiresIn);
 		    expiration_date = expiration_date.toISOString();
 		 
+			
 		    var facebookAuthData = {
 		      "id": success.authResponse.userID,
 		      "access_token": success.authResponse.accessToken,
 		      "expiration_date": expiration_date
 		    };
 		    
-		   
 			Parse.FacebookUtils.logIn(facebookAuthData, {
 					success: function(user) {
+					
 						if (!user.existed()) {
-								FB.api('/me', {fields: ['last_name', 'first_name', 'email']}, function(response) {
+							    $cordovaFacebook.api('/me?fields=last_name,first_name,email', ["public_profile"]).then(function(success) {
+
 		                            Users.save({
-		                                email_address: response.email,
+		                                email_address: success.email,
 		                                password: '',
-		                                first_name: response.first_name,
-		                                last_name: response.last_name
+		                                first_name: success.first_name,
+		                                last_name: success.last_name
 		                            }, function(data) {
 		                                var currentUser = Parse.User.current();
-		                                currentUser.set("firstname", response.first_name);
-		                                currentUser.set("lastname", response.last_name);
-		                                currentUser.set("email", response.email);
+		                                currentUser.set("firstname", success.first_name);
+		                                currentUser.set("lastname", success.last_name);
+		                                currentUser.set("email", success.email);
 		                                currentUser.set("userId", data.UserId);
 		                                currentUser.save();
-		                                console.log(response);
 		                            });
+		                      
+								}, function(error) {
+									alert(error.Message);
 								});
 						}
 							$ionicLoading.hide();
