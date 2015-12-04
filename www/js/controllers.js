@@ -90,6 +90,26 @@ angular.module('starter.controllers', [])
 .controller('LoginCtrl', function($scope, $stateParams, $location, $state, $ionicHistory, $ionicLoading, $ionicPopup, ionicMaterialInk, $rootScope, $cordovaFacebook, $http, CurrentUser, Users, DialogBox) {
 
 	$scope.data = {};
+    
+    // Retrieve rememberFlag from local storage
+    if (typeof window.localStorage.getItem("remember") != 'undefined') {
+        $scope.data.remember = window.localStorage.getItem("remember");
+        if ($scope.data.remember == 'Y') {
+            $scope.data.username = window.localStorage.getItem("email");
+        }
+    } else {
+        $scope.data.remember = 'N';
+        $scope.data.username = ''
+    }
+    
+    $scope.rememberEmail = function(rememberFlag) {
+        window.localStorage.setItem("remember", rememberFlag);
+        if (rememberFlag == 'Y') {
+            window.localStorage.setItem("email", $scope.data.username);
+        } else {
+            window.localStorage.setItem("email", "");
+        }
+    }
 	
 	//show hamburger icon only if in app.signup mode
 	if ($ionicHistory.currentView().stateName == "app.signup") {

@@ -16,14 +16,13 @@
 	              <input type="email" name="email" placeholder="E-mail" ng-model="data.username" required>
                   <p ng-show="loginForm.email.$invalid && !loginForm.email.$pristine" class="help-block">Enter a valid e-mail.</p>
 	            </label>
+                <ion-toggle name="remember" ng-change="rememberEmail(data.remember)" ng-disabled="loginForm.email.$invalid" ng-model="data.remember" toggle-class="toggle-positive" ng-true-value="'Y'" ng-false-value="'N'">Remember my-email</ion-toggle>
 	            <label class="item item-input item-floating-label">
 	              <span class="input-label">Password</span>
 	              <input type="password" name="password" placeholder="Password" ng-model="data.password" required>
                   <p ng-show="loginForm.password.$invalid && !loginForm.password.$pristine" class="help-block">Enter your password.</p>
 	            </label>
-          </div>
-    
-	          
+          </div>	          
 	      <div class="row">
 		      <button name="loginBtn" ng-disabled="loginForm.$invalid" class="button button-block button-balanced ink" data-ink-color="#9DEAFF" data-ink-opacity="1" ng-click="login()">
 			  Login
