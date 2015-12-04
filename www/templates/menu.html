@@ -25,21 +25,21 @@
         <ion-content class="stable-bg has-expanded-header">
             <ion-list>
                 </ion-item>
-                <ion-item nav-clear menu-close href="#/app/dashboard">
+                <ion-item nav-clear menu-toggle href="#/app/dashboard">
                     Dashboard 
                 </ion-item>
                 <!--
-                <ion-item nav-clear menu-close href="#/app/search">
+                <ion-item nav-clear menu-toggle href="#/app/search">
                     New Bubble
                 </ion-item>
                 -->
-                <ion-item nav-clear menu-close href="#/app/orders">
+                <ion-item nav-clear menu-toggle href="#/app/orders">
                     View Orders
                 </ion-item>
-                 <ion-item nav-clear menu-close href="#/app/profile/{{currentLocation.latitude}}/{{currentLocation.longitude}}">
+                 <ion-item nav-clear menu-toggle href="#/app/profile/{{currentLocation.latitude}}/{{currentLocation.longitude}}">
                     Profile
                 </ion-item>
-                 <ion-item nav-clear menu-close href="#/app/help">
+                 <ion-item nav-clear menu-toggle href="#/app/help">
                     Help
                 </ion-item>
                 <ion-item nav-clear menu-close ng-click="logout()">
