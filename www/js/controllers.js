@@ -24,18 +24,6 @@ angular.module('starter.controllers', [])
 		return Parse.User.current().get(fieldName);
 	}
 
-	var push = new Ionic.Push({ "debug": true });
-	push.register(function(token) {
-		
-		if (token.token != user.get('deviceToken')) {
-			var currentUser = Parse.User.current();
-			currentUser.set("deviceToken", token.token);
-			return currentUser.save();
-		} else {
-			console.log("did not save deviceToken, same");
-		}
-	})
-
 	this.getCurrentFirstName = function() {
 		return this.getCurrentUser('firstname');
 	}
@@ -182,6 +170,20 @@ angular.module('starter.controllers', [])
 					disableBack: true
 				});
 				
+				var push = new Ionic.Push({ "debug": true });
+							push.register(function(token) {
+								
+								if (token.token != user.get('deviceToken')) {
+									var currentUser = Parse.User.current();
+									currentUser.set("deviceToken", token.token);
+									return currentUser.save();
+								} else {
+									console.log("did not save deviceToken, same");
+								}
+							});
+	
+
+				
 				$rootScope.showMenuIcon = true; //show hamburger icon
 				$rootScope.firstName = CurrentUser.getCurrentFirstName();
 				$rootScope.lastName = CurrentUser.getCurrentLastName();
@@ -250,6 +252,18 @@ angular.module('starter.controllers', [])
 								disableBack: true
 							});
 							
+							var push = new Ionic.Push({ "debug": true });
+							push.register(function(token) {
+								
+								if (token.token != user.get('deviceToken')) {
+									var currentUser = Parse.User.current();
+									currentUser.set("deviceToken", token.token);
+									return currentUser.save();
+								} else {
+									console.log("did not save deviceToken, same");
+								}
+							});
+	
 							$rootScope.showMenuIcon = true; //show hamburger icon
 							$rootScope.firstName = CurrentUser.getCurrentFirstName();
 							$rootScope.lastName = CurrentUser.getCurrentLastName();
