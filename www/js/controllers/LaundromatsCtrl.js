@@ -9,12 +9,6 @@ angular.module('starter').controller('LaundromatsCtrl', function($scope, $state,
     }, function(data) {
         $scope.laundromats = data.laundromats;
         
-        // Redirects to the search screen if no laundromats are found
-        if ($scope.laundromats.length == 0) {
-            DialogBox.showDialog('alert', 'No laundromats found', 'Sorry, we couldn\'t found any laundromats nearby for these parameters.');
-            $state.go('app.search', {serviceId: $stateParams.serviceId})                
-        }
-        
         // Add ratings
         for (var i=0; i<$scope.laundromats.length; i++) {
             $scope.laundromats[i].stars = Rating.getImages($scope.laundromats[i].avg_score);

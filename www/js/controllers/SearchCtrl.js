@@ -1,4 +1,4 @@
-angular.module('starter').controller('SearchCtrl', function($scope, $stateParams, $ionicPopup, $state, $filter, Geolocation, Services, CurrentUser, Addresses, DialogBox) {
+angular.module('starter').controller('SearchCtrl', function($scope, $stateParams, $ionicPopup, $state, $filter, Geolocation, Services, CurrentUser, Addresses, DialogBox, Laundromats) {
    
     // Get the current location
     $scope.currentLocation = Geolocation.get();
@@ -60,14 +60,28 @@ angular.module('starter').controller('SearchCtrl', function($scope, $stateParams
     };
     
     $scope.search = function(isValid) {
-        $state.go('app.laundromats', {
-           serviceId: $scope.searchParams.service,
+        Laundromats.get({
+           service_id: $scope.searchParams.service,
            latitude: $scope.currentLocation.latitude,
            longitude: $scope.currentLocation.longitude,
-           pickupDate: $filter('date')($scope.searchParams.pickupDate, 'yyyyMMddHHmmss'),
-           deliveryDate: $filter('date')($scope.searchParams.deliveryDate, 'yyyyMMddHHmmss'),
-           addressId: $scope.addressId,
+           pickup_date: $filter('date')($scope.searchParams.pickupDate, 'yyyyMMddHHmmss'),
+           delivery_date: $filter('date')($scope.searchParams.deliveryDate, 'yyyyMMddHHmmss'),
+        }, function(data) {
+            // Redirects to the search screen if no laundromats are found
+            if (data.laundromats.length == 0) {
+                DialogBox.showDialog('alert', 'No laundromats found', 'Sorry, we couldn\'t found any laundromats nearby for these parameters.');
+            } else {
+                $state.go('app.laundromats', {
+                   serviceId: $scope.searchParams.service,
+                   latitude: $scope.currentLocation.latitude,
+                   longitude: $scope.currentLocation.longitude,
+                   pickupDate: $filter('date')($scope.searchParams.pickupDate, 'yyyyMMddHHmmss'),
+                   deliveryDate: $filter('date')($scope.searchParams.deliveryDate, 'yyyyMMddHHmmss'),
+                   addressId: $scope.addressId,
+                });                
+            }
         });
+
     }
     
     /*
