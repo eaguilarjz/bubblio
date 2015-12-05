@@ -19,7 +19,7 @@ angular.module('starter').controller('SearchCtrl', function($scope, $stateParams
         $scope.addresses = data.addresses;
         if (data.addresses.length == 0) {
             DialogBox.showDialog('alert', 'Address', 'Before we proceed, you need to add an address.');
-            $state.go('app.profile', {latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude})    
+            $state.go('app.address', {userId: $scope.user_id, latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude})    
         }
         $scope.addressId = data.addresses[0].address_id;
         $scope.currentLocation.latitude = data.addresses[0].latitude;
@@ -27,7 +27,7 @@ angular.module('starter').controller('SearchCtrl', function($scope, $stateParams
     }, function(error) {
         if (typeof $scope.user_id == 'undefined') {
             DialogBox.showDialog('alert', 'Address', 'Before we proceed, you need to add an address.');
-            $state.go('app.profile', {latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude})    
+            $state.go('app.address', {userId: $scope.user_id, latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude})    
         }
     });
     

@@ -26,8 +26,8 @@ angular.module('starter').controller('AddressCtrl', function($scope, $stateParam
                 $ionicHistory.nextViewOptions({
                     disableBack: true
                 });
-                $ionicHistory
-                $state.go('app.profile', {latitude: $stateParams.latitude, longitude: $stateParams.longitude});
+                $ionicHistory.goBack(-1);
+                // $state.go('app.profile', {latitude: $stateParams.latitude, longitude: $stateParams.longitude});
             });
         // if this is just an update
         } else {
@@ -47,7 +47,8 @@ angular.module('starter').controller('AddressCtrl', function($scope, $stateParam
                 $ionicHistory.nextViewOptions({
                     disableBack: true
                 });
-                $state.go('app.profile', {latitude: $stateParams.latitude, longitude: $stateParams.longitude});
+                $ionicHistory.goBack(-1);
+                // $state.go('app.profile', {latitude: $stateParams.latitude, longitude: $stateParams.longitude});
             });
         }
     };
@@ -71,6 +72,7 @@ angular.module('starter').controller('AddressCtrl', function($scope, $stateParam
     
     // If this is a new address, I complete the filed with the current location
     if ($stateParams.addressId == 0) {
+        alert($stateParams.latitude, $stateParams.longitude);
         Geolocation.getAddress($stateParams.latitude,$stateParams.longitude).then(function(data) {
            $scope.address.alias = '';
            $scope.address.addressLine1 = '';
@@ -140,7 +142,8 @@ angular.module('starter').controller('AddressCtrl', function($scope, $stateParam
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
-        $state.go('app.profile', {latitude: $stateParams.latitude, longitude: $stateParams.longitude});
+        $ionicHistory.goBack(-1);
+        // $state.go('app.profile', {latitude: $stateParams.latitude, longitude: $stateParams.longitude});
     }
     
     $scope.$watch(function(scope) {return scope.address.zipCode}, function() {
