@@ -2,7 +2,7 @@
     <ion-content>
         <div class="card" ng-repeat="milestone in history">
             <div class="item item-divider">
-                {{milestone.date | date:'MMM dd, yyyy'}}: {{milestone.status}}
+                {{milestone.date | date:'MMM dd, yyyy hh:mm a'}}. {{milestone.status}}
             </div>
             <div class="item item-text-wrap">
                 <b>Comments:</b> {{(milestone.comments == null) ? 'None.' : milestone.comments}}
