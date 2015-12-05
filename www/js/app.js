@@ -187,6 +187,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
     })
     .state('app.laundromats', {
       url: '/laundromats/:serviceId/:latitude/:longitude/:pickupDate/:deliveryDate/:addressId',
+      cache: false,
       views: {
         'menuContent': {
           templateUrl: 'templates/laundromats.html',
@@ -197,6 +198,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'ionic-material', 'star
 
   .state('app.site', {
     url: '/laundromats/:siteId/:serviceId/:pickupDate/:deliveryDate/:addressId',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/laundromat.html',

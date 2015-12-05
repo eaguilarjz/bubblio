@@ -24,6 +24,11 @@ angular.module('starter').controller('SearchCtrl', function($scope, $stateParams
         $scope.addressId = data.addresses[0].address_id;
         $scope.currentLocation.latitude = data.addresses[0].latitude;
         $scope.currentLocation.longitude = data.addresses[0].longitude;
+    }, function(error) {
+        if (typeof $scope.user_id == 'undefined') {
+            DialogBox.showDialog('alert', 'Address', 'Before we proceed, you need to add an address.');
+            $state.go('app.profile', {latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude})    
+        }
     });
     
     // Function to change the latitude and longitude, based on the selected address

@@ -10,16 +10,18 @@
 
           <div class="list">
 	        <div class="padding">
-			    <form>
+			    <form name="profileForm" novalidate>
 				    <label class="item item-input item-floating-label">
 		              <span class="input-label">First Name</span>
-		              <input type="text" placeholder="First Name" ng-model="data.firstname">
+		              <input name="firstname" type="text" placeholder="First Name" ng-model="data.firstname" required>
+                      <p ng-show="profileForm.firstname.$invalid" class="help-block">Your first name is required.</p>
 		            </label>
 		            <label class="item item-input item-floating-label">
 		              <span class="input-label">Last Name</span>
-		              <input type="text" placeholder="Last Name" ng-model="data.lastname">
+		              <input name="lastname" type="text" placeholder="Last Name" ng-model="data.lastname" required>
+                      <p ng-show="profileForm.lastname.$invalid" class="help-block">Your last name is required.</p>
 		            </label>
-					<button class="button button-full button-positive" ng-click="saveInfo()">
+					<button class="button button-full button-positive" ng-disabled="profileForm.$invalid" ng-click="saveInfo()">
                         Save
                     </button>
 			    </form>

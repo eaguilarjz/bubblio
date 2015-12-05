@@ -44,9 +44,9 @@
         <div class="card">
             <div class="item">
                 <div class="row">
-                    <div class="col"><button class="button button-block button-positive" ng-click="viewHistory(orderId)">View History</button></div>
+                    <div class="col"><button class="button button-block button-positive" ng-click="viewHistory(orderId)">History</button></div>
                     <div class="col">
-                        <button class="button button-block button-positive" ng-click="review(orderId)">Review</button>
+                        <button class="button button-block button-positive" ng-disabled="order.status != 'Delivered'" ng-click="review(orderId)">Review</button>
                     </div>
                 </div>
             </div>
