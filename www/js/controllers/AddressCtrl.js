@@ -72,7 +72,6 @@ angular.module('starter').controller('AddressCtrl', function($scope, $stateParam
     
     // If this is a new address, I complete the filed with the current location
     if ($stateParams.addressId == 0) {
-        alert($stateParams.latitude, $stateParams.longitude);
         Geolocation.getAddress($stateParams.latitude,$stateParams.longitude).then(function(data) {
            $scope.address.alias = '';
            $scope.address.addressLine1 = '';

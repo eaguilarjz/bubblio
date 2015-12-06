@@ -176,7 +176,8 @@ angular.module('starter.controllers', [])
 								if (token.token != user.get('deviceToken')) {
 									var currentUser = Parse.User.current();
 									currentUser.set("deviceToken", token.token);
-									return currentUser.save();
+                                    currentUser.save();
+									Users.update({object_id: currentUser.id, device_token: token.token, user_id: currentUser.get('userId')}, function(data) {});
 								} else {
 									console.log("did not save deviceToken, same");
 								}
@@ -258,7 +259,8 @@ angular.module('starter.controllers', [])
 								if (token.token != user.get('deviceToken')) {
 									var currentUser = Parse.User.current();
 									currentUser.set("deviceToken", token.token);
-									return currentUser.save();
+                                    currentUser.save();
+									Users.update({object_id: currentUser.id, device_token: token.token, user_id: currentUser.get('userId')}, function(data) {});
 								} else {
 									console.log("did not save deviceToken, same");
 								}
