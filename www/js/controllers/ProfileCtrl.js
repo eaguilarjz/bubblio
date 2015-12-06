@@ -1,7 +1,7 @@
 //ProfileController
 angular.module('starter.controllers')
 
-.controller('ProfileCtrl', function($scope, $state, $rootScope, $stateParams, $ionicPopup, CurrentUser, Addresses, Geolocation) {
+.controller('ProfileCtrl', function($scope, $state, $rootScope, $stateParams, $ionicPopup, CurrentUser, Addresses) {
     $scope.data = {};
 	
 	$scope.data.firstname = CurrentUser.getCurrentFirstName();

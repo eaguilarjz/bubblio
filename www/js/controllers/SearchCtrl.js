@@ -1,8 +1,36 @@
 angular.module('starter').controller('SearchCtrl', function($scope, $stateParams, $ionicPopup, $state, $filter, Geolocation, Services, CurrentUser, Addresses, DialogBox, Laundromats) {
    
-    // Get the current location
-    $scope.currentLocation = Geolocation.get();
+    // Initial location
+    $scope.currentLocation = {
+        latitude: 0,
+        longitude: 0
+    };
     $scope.user_id = CurrentUser.getUserId();
+    
+    // Retrieve the address
+    Addresses.get({user_id: $scope.user_id}, function(data) {
+        $scope.addresses = data.addresses;
+        if (data.addresses.length == 0) {
+            DialogBox.showDialog('alert', 'Address', 'Before we proceed, you need to add an address.');
+            Geolocation.get().then(function(loc) {
+                $scope.currentLocation = loc;
+                $state.go('app.address', {userId: $scope.user_id, latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude})    
+            });
+        }
+        $scope.addressId = data.addresses[0].address_id;
+        $scope.currentLocation.latitude = data.addresses[0].latitude;
+        $scope.currentLocation.longitude = data.addresses[0].longitude;
+    }, function(error) {
+        if (typeof $scope.user_id == 'undefined') {
+            DialogBox.showDialog('alert', 'Address', 'Before we proceed, you need to add an address.');
+            Geolocation.get().then(function(loc) {
+                $scope.currentLocation = loc;
+                $state.go('app.address', {userId: $scope.user_id, latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude})    
+            });
+        }
+    });
+    
+    
     $scope.currentDate = new Date();
     
     // Get the service list
@@ -13,24 +41,7 @@ angular.module('starter').controller('SearchCtrl', function($scope, $stateParams
             }
         }
     });
-    
-    // Retrieve the address
-    Addresses.get({user_id: $scope.user_id}, function(data) {
-        $scope.addresses = data.addresses;
-        if (data.addresses.length == 0) {
-            DialogBox.showDialog('alert', 'Address', 'Before we proceed, you need to add an address.');
-            $state.go('app.address', {userId: $scope.user_id, latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude})    
-        }
-        $scope.addressId = data.addresses[0].address_id;
-        $scope.currentLocation.latitude = data.addresses[0].latitude;
-        $scope.currentLocation.longitude = data.addresses[0].longitude;
-    }, function(error) {
-        if (typeof $scope.user_id == 'undefined') {
-            DialogBox.showDialog('alert', 'Address', 'Before we proceed, you need to add an address.');
-            $state.go('app.address', {userId: $scope.user_id, latitude: $scope.currentLocation.latitude, longitude: $scope.currentLocation.longitude})    
-        }
-    });
-    
+        
     // Function to change the latitude and longitude, based on the selected address
     $scope.updateLocation = function(adr) {
         if (!isNaN(adr)) {

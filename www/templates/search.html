@@ -21,7 +21,7 @@
                         </option>
                     </select>
                 </label>
-                <button type="submit" class="button button-full button-positive" ng-disabled="searchForm.pickupDate.$invalid || searchForm.deliveryDate.$invalid">Search</button>
+                <button type="submit" class="button button-full button-positive" ng-disabled="searchForm.pickupDate.$invalid || searchForm.deliveryDate.$invalid || (typeof addressId == 'undefined')">Search</button>
             </form>
         </div>
     </ion-content>

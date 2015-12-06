@@ -1,33 +1,26 @@
 angular.module('starter').factory('Geolocation', function($q, $resource) {
     return {
         get: function() {
-            var currentPosition = {
-                error: false,
-                errorMessage: "",
-                latitude: 0,
-                longitude: 0
-            };
-
-            // onSuccess Callback
-            // This method accepts a Position object, which contains the
-            // current GPS coordinates
-            //
-            var onSuccess = function(position) {
-                currentPosition.error = false;
-                currentPosition.latitude = position.coords.latitude;
-                currentPosition.longitude = position.coords.longitude;
-            };  
-
-            // onError Callback receives a PositionError object
-            //
-            var onError = function (error) {
-                currentPosition.error = true;
-                currentPosition.errorMessage = error.message;
-            }
-
             // Get the location
-            navigator.geolocation.getCurrentPosition(onSuccess, onError);
-            return currentPosition;
+            return $q(function(resolve,reject) {
+               var currentPosition = {
+                    error: false,
+                    errorMessage: "",
+                    latitude: 0,
+                    longitude: 0
+               };
+                
+               navigator.geolocation.getCurrentPosition(function(position) {
+                    currentPosition.error = false;
+                    currentPosition.latitude = position.coords.latitude;
+                    currentPosition.longitude = position.coords.longitude;
+                    resolve(currentPosition);
+               }, function (error) {
+                    currentPosition.error = true;
+                    currentPosition.errorMessage = error.message;
+                    reject(currentPosition);
+               });
+            });
         },
         
         getAddress: function(lat, lng) {

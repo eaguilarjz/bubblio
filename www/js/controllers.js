@@ -314,7 +314,9 @@ angular.module('starter.controllers', [])
                                   $state, $ionicHistory, $ionicPopup, $rootScope, CurrentUser, Geolocation) {
 		
 	// Obtain latitude and longitude
-    $scope.currentLocation = Geolocation.get();
+    Geolocation.get().then(function(loc) {
+        $scope.currentLocation = loc;
+    });
     
 	//check if there is a logged-in user
 	if (Parse.User.current() != null) {
