@@ -106,7 +106,7 @@ angular.module('starter').controller('LaundromatCtrl', function($scope, $state, 
 		   	    'METHOD': 'SetExpressCheckout',
 		   	    'VERSION': "78",
 		   	    'PAYMENTREQUEST_0_PAYMENTACTION': 'SALE',
-		   	    'PAYMENTREQUEST_0_AMT': $scope.laundromat.invoice_price,
+		   	    'PAYMENTREQUEST_0_AMT': ($scope.invoicedQuantity * $scope.laundromat.invoice_price),
 		   	    'PAYMENTREQUEST_0_CURRENCYCODE': 'USD',
 		   	    'cancelUrl': 'http://localhost/#/app/login',
 		   	    'returnUrl': 'http://localhost/#/app/confirmation'
