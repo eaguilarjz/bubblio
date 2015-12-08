@@ -2,30 +2,34 @@
   <ion-content ng-class="{expanded:isExpanded}">
       <div class="card">
         <div class="item item-text-wrap">
-            <form ng-submit="saveAddress()">
+            <form name="addressForm" ng-submit="saveAddress()" novalidate>
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Alias:</span>
-                  <input type="text" placeholder="Home, Office, etc." ng-model="address.alias">
+                  <input name="alias" type="text" placeholder="Home, Office, etc." ng-model="address.alias" required>
+                  <p ng-show="addressForm.alias.$invalid && !addressForm.alias.$pristine" class="help-block">An alias is required.</p>
                 </label>
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Address Line 1</span>
-                  <input type="text" placeholder="Street address, P.O. box, company, c/o" ng-model="address.addressLine1">
+                  <input name="addressLine1" type="text" placeholder="Street address, P.O. box, company, c/o" ng-model="address.addressLine1" required>
+                  <p ng-show="addressForm.addressLine1.$invalid && !addressForm.addressLine1.$pristine" class="help-block">The address is required.</p>
                 </label>
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Address Line 2</span>
-                  <input type="text" placeholder="Apartment, suite, unit, building, block, etc." ng-model="address.addressLine2">
+                  <input name="addressLine2" type="text" placeholder="Apartment, suite, unit, building, block, etc." ng-model="address.addressLine2">
                 </label>
                 <label class="item item-input">
                   <span class="input-label">Zip Code</span>
-                  <input type="tel" placeholder="5 digit zip code" ng-model="address.zipCode">
+                  <input name="zipCode" type="tel" ng-minlength="5" ng-maxlength="5" placeholder="5 digit zip code" ng-model="address.zipCode" required>
+                  <p ng-show="addressForm.zipCode.$invalid && !addressForm.zipCode.$pristine" class="help-block">Required.</p>
                 </label>
                 <label class="item item-input">
                   <span class="input-label">City</span>
-                  <input type="text" placeholder="City" ng-model="address.city">
+                  <input name="city" type="text" placeholder="City" ng-model="address.city" required>
+                  <p ng-show="addressForm.city.$invalid && !addressForm.city.$pristine" class="help-block">The city is required.</p>
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Country</span>
-                    <select ng-model="address.country" ng-change="getStates(address.country)">
+                    <select name="country" ng-model="address.country" ng-change="getStates(address.country)" ng-required="true">
                         <option ng-repeat="country in countries" value="{{country.country_code}}" ng-selected="country.country_code == address.country">
                             {{country.country_name}}
                         </option>
@@ -33,14 +37,14 @@
                 </label>
                 <label class="item item-input">
                     <span class="input-label">State</span>
-                    <select ng-model="address.state">
+                    <select name="state" ng-model="address.state" ng-required="true">
                         <option ng-repeat="state in states" value="{{state.state_code}}" ng-selected="state.state_code == address.state">
                             {{state.state_name}}
                         </option>
                     </select>
                 </label>
                 <div class="text-right">
-                    <button type="submit" class="button button-positive">
+                    <button ng-disabled="addressForm.$invalid" type="submit" class="button button-positive">
                         Save
                     </button>
                     <button type="button" class="button button-positive" ng-click="cancel()">
